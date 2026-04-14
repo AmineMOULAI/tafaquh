@@ -106,7 +106,7 @@ export default function Hero({ lng }: { lng: string }) {
             style={{ scale: scaleTitle }}
             className="relative mb-8"
           >
-            <h1 className={`font-bold text-primary tracking-tight leading-[0.85] select-none ${lng === 'ar' ? 'text-8xl md:text-[14rem] lg:text-[18rem] font-calligraphy' : 'text-5xl md:text-[8rem] lg:text-[10rem] font-display uppercase'}`}>
+            <h1 className={`font-bold text-primary tracking-tight select-none ${lng === 'ar' ? 'text-8xl md:text-[14rem] lg:text-[18rem] font-calligraphy leading-[1.2] pt-12 pb-8' : 'text-5xl md:text-[8rem] lg:text-[10rem] font-display uppercase leading-[0.85]'}`}>
               <span className="bg-clip-text text-transparent bg-gradient-to-b from-primary via-primary to-gold/40 drop-shadow-2xl">
                 {t('project_name')}
               </span>
