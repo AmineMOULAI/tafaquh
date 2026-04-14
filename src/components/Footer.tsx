@@ -37,14 +37,28 @@ export default function Footer({ lng }: { lng: string }) {
               whileHover={{ scale: 1.02 }}
               className="text-5xl font-bold text-gold flex items-center gap-6"
             >
-              <div className="relative w-16 h-16 border-2 border-gold/40 rounded-2xl flex items-center justify-center p-3 bg-white/5 shadow-[0_0_20px_rgba(212,175,55,0.1)]">
-                 <Image
-                    src="/images/logo-tafaquh.png"
-                    alt="Logo"
-                    width={48}
-                    height={48}
-                    className="object-contain"
-                 />
+              <div className="relative w-20 h-20 flex items-center justify-center group/logo">
+                {/* Outer Rotating Geometric Frame */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-0 bg-gold/5 border border-gold/20"
+                  style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }}
+                />
+                {/* Inner Solid Gold-tinted Background */}
+                <div 
+                  className="absolute inset-2 bg-gradient-to-br from-gold/20 via-gold/10 to-transparent border border-gold/30 shadow-[0_0_15px_rgba(212,175,55,0.1)]"
+                  style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }}
+                />
+                <div className="relative w-12 h-12 transition-transform duration-500 group-hover/logo:scale-110">
+                   <Image
+                      src="/images/logo-tafaquh.png"
+                      alt="Logo"
+                      fill
+                      sizes="48px"
+                      className="object-contain drop-shadow-md"
+                   />
+                </div>
               </div>
               <span className={lng === 'ar' ? 'font-calligraphy' : 'font-display uppercase'}>
                 {t('project_name')}
