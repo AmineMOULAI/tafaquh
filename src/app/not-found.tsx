@@ -10,7 +10,7 @@ export default function NotFound() {
         href={`/${fallbackLng}`}
         className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
       >
-        Retour à l'accueil / Back to Home
+        Retour à l&apos;accueil / Back to Home
       </Link>
     </div>
   )

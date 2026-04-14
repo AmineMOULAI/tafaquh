@@ -9,7 +9,14 @@
     "religion": "La religion\nRéférence et valeurs",
     "research": "La recherche\nMéthodologie et rigueur",
     "writing": "L’écriture\nExpression et documentation",
-    "impact": "Impact & expansion\nDiffusion et rayonnement"
+    "impact": "Impact & expansion\nDiffusion et rayonnement",
+    "details": {
+      "foundations": "Les Fondements représentent la base intellectuelle et méthodologique du projet TAFAQUH. Ils définissent notre vision, nos valeurs, et notre manière d’apprendre : lire avec profondeur, chercher avec rigueur, écrire avec clarté. Cet axe pose les principes qui guident toute la démarche du projet.",
+      "religion": "L’axe de la Religion vise à offrir une compréhension authentique, équilibrée et méthodique du Dîn. Il repose sur la lecture guidée, la compréhension des textes (versets, hadiths, paroles des savants) et leur application dans la vie quotidienne. Son objectif : construire une relation saine, éclairée et vivante avec la religion.",
+      "research": "L’axe de la Recherche développe la capacité à vérifier, analyser et comprendre les sources. Il apprend à formuler une problématique, comparer les preuves, et produire une mini‑recherche fiable. Cet axe forme l’esprit critique et la rigueur intellectuelle.",
+      "writing": "L’axe de l’Écriture transforme la compréhension en expression. Il enseigne comment structurer un texte, clarifier une idée, éviter les erreurs courantes et produire des écrits utiles : paragraphes, articles, guides. Cet axe donne une voix à la pensée.",
+      "impact": "L’axe de l’Impact et de l’Expansion vise à diffuser le bien, servir la communauté et développer le projet. Il inclut les partenariats, les initiatives éducatives, l’expansion géographique et un modèle de financement halal. Cet axe transforme le savoir en action."
+    }
   },
   "contact_title": "Contactez-nous",
   "name_label": "Nom",
@@ -32,5 +39,19 @@
     "ar": "Arabe",
     "fr": "Français",
     "en": "Anglais"
+  },
+  "preparation": {
+    "title": "TAFAQUH",
+    "subtitle": "Bâtir des ponts entre savoir et foi",
+    "status": "Établissement des fondations...",
+    "message": "Nous travaillons avec passion pour vous offrir une expérience profonde"
+  },
+  "footer": {
+    "tradition": "Tradition",
+    "innovation": "Innovation",
+    "impact": "Impact",
+    "spirituality": "Spiritualité",
+    "privacy_policy": "Politique de confidentialité",
+    "all_rights_reserved": "Tous droits réservés"
   }
 }

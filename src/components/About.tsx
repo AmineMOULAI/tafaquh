@@ -76,7 +76,7 @@ export default function About({ lng }: { lng: string }) {
               className="flex items-center gap-4 text-gold"
             >
                <div className="h-px w-16 bg-gold" />
-               <span className="font-bold tracking-widest text-sm uppercase">Savoir & Sagesse</span>
+               <span className="font-bold tracking-widest text-sm uppercase">{t('slogan_short')}</span>
             </motion.div>
           </motion.div>
 

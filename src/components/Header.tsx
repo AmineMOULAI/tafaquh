@@ -31,38 +31,53 @@ export default function Header({ lng }: { lng: string }) {
       <div className="container mx-auto max-w-6xl">
         <motion.div 
           animate={{ 
-            backgroundColor: isScrolled ? "rgba(15, 41, 30, 0.98)" : "rgba(15, 41, 30, 0.92)",
-            paddingTop: isScrolled ? "8px" : "14px",
-            paddingBottom: isScrolled ? "8px" : "14px",
-            borderColor: isScrolled ? "rgba(212, 175, 55, 0.5)" : "rgba(212, 175, 55, 0.3)"
+            backgroundColor: isScrolled ? "rgba(10, 20, 15, 0.98)" : "rgba(15, 30, 25, 0.94)",
+            paddingTop: isScrolled ? "4px" : "8px",
+            paddingBottom: isScrolled ? "4px" : "8px",
+            borderColor: "rgba(212, 175, 55, 0.6)"
           }}
-          className="backdrop-blur-3xl px-6 md:px-10 rounded-[30px] md:rounded-[50px] flex justify-between items-center border border-gold/30 shadow-[0_20px_50px_rgba(0,0,0,0.4)] relative overflow-hidden group transition-all duration-500"
+          style={{
+            clipPath: 'polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px)'
+          }}
+          className="backdrop-blur-3xl px-8 md:px-12 flex justify-between items-center border border-gold/40 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative z-10 group transition-all duration-500"
         >
           {/* Subtle Inner Glow */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-black/30 pointer-events-none" />
+          
+          {/* Islamic Geometric Pattern Overlay */}
+          <div className="absolute inset-0 opacity-[0.05] pointer-events-none" 
+               style={{ 
+                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l5 25 25 5-25 5-5 25-5-25-25-5 25-5z' fill='%23D4AF37' fill-opacity='1'/%3E%3C/svg%3E")`,
+                 backgroundSize: '30px 30px'
+               }} 
+          />
           
           <Link href={`/${lng}`} className="flex items-center gap-4 md:gap-6 group/logo relative z-10">
+            {/* Logo Container with Islamic Geometric background to show green logo */}
+            {/* Using large dimensions and negative margin to not affect the menu height while looking very big */}
             <motion.div 
-              whileHover={{ rotate: 10, scale: 1.1 }}
-              animate={{ 
-                boxShadow: isScrolled ? "0_0_15px_rgba(212,175,55,0.2)" : "0_0_25px_rgba(212,175,55,0.3)"
-              }}
-              className="relative w-12 h-12 md:w-16 md:h-16 overflow-hidden rounded-xl md:rounded-2xl bg-white/10 flex items-center justify-center p-2.5 md:p-3.5 border border-gold/40 transition-all group-hover/logo:border-gold group-hover/logo:bg-white/20"
+              whileHover={{ scale: 1.15, rotate: 5 }}
+              className="relative w-24 h-24 md:w-44 md:h-44 flex items-center justify-center p-3 md:p-6 -my-10 md:-my-16"
             >
-              <Image
+               <div className="absolute inset-0 bg-gold shadow-[0_0_30px_rgba(212,175,55,0.6)]"
+                    style={{ 
+                      clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' 
+                    }} 
+               />
+               <Image
                 src="/images/logo-tafaquh.png"
                 alt="TAFAQUH Logo"
-                width={48}
-                height={48}
-                className="object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]"
+                width={160}
+                height={160}
+                className="object-contain relative z-10"
               />
             </motion.div>
             
             <div className="flex flex-col">
-              <span className={`font-bold text-2xl md:text-3xl text-gold tracking-tight leading-none ${lng === 'ar' ? 'font-calligraphy' : 'font-display uppercase'}`}>
+              <span className={`font-bold text-gold tracking-tight leading-none ${lng === 'ar' ? 'text-2xl md:text-4xl font-calligraphy' : 'text-xl md:text-2xl font-display uppercase'}`}>
                 {t('project_name')}
               </span>
-              <span className="text-[9px] md:text-[11px] text-gold/60 font-display uppercase tracking-[0.3em] mt-1 hidden sm:block">
+              <span className="text-[8px] md:text-[10px] text-gold/60 font-display uppercase tracking-[0.3em] mt-1 hidden sm:block">
                 {t('slogan_short')}
               </span>
             </div>
@@ -77,7 +92,9 @@ export default function Header({ lng }: { lng: string }) {
                 >
                   {t(`menu.${item}`)}
                   <motion.div 
-                    className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold group-hover/nav:w-full transition-all duration-300" 
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileHover={{ scale: 1, opacity: 1 }}
+                    className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-gold rotate-45 shadow-[0_0_8px_rgba(212,175,55,0.8)]"
                   />
                 </Link>
              ))}
@@ -88,12 +105,14 @@ export default function Header({ lng }: { lng: string }) {
             <LanguageSelector lng={lng} />
           </div>
 
-          {/* Decorative Corner Elements */}
-          <div className="absolute top-0 right-0 w-16 h-16 opacity-20 pointer-events-none">
-             <div className="absolute top-4 right-4 w-8 h-8 border-t border-r border-gold" />
+          {/* Decorative Corner Elements - Pillar Style */}
+          <div className="absolute top-0 right-0 w-8 h-full opacity-60 pointer-events-none flex flex-col justify-between p-1">
+             <div className="w-full h-8 border-t-2 border-r-2 border-gold" />
+             <div className="w-full h-8 border-b-2 border-r-2 border-gold" />
           </div>
-          <div className="absolute bottom-0 left-0 w-16 h-16 opacity-20 pointer-events-none">
-             <div className="absolute bottom-4 left-4 w-8 h-8 border-b border-l border-gold" />
+          <div className="absolute top-0 left-0 w-8 h-full opacity-60 pointer-events-none flex flex-col justify-between p-1">
+             <div className="w-full h-8 border-t-2 border-l-2 border-gold" />
+             <div className="w-full h-8 border-b-2 border-l-2 border-gold" />
           </div>
         </motion.div>
       </div>

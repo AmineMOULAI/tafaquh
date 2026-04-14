@@ -34,7 +34,7 @@ export default function Hero({ lng }: { lng: string }) {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 0.08, scale: 1 }}
           transition={{ duration: 2, ease: "easeOut" }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[600px] md:h-[600px] pointer-events-none"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] md:w-[1200px] md:h-[1200px] pointer-events-none"
         >
           <motion.div
             animate={{ 
@@ -106,8 +106,8 @@ export default function Hero({ lng }: { lng: string }) {
             style={{ scale: scaleTitle }}
             className="relative mb-8"
           >
-            <h1 className={`text-7xl md:text-[10rem] lg:text-[13rem] font-bold text-primary tracking-tight leading-[0.9] select-none ${lng === 'ar' ? 'font-calligraphy' : 'font-display uppercase'}`}>
-              <span className="bg-clip-text text-transparent bg-gradient-to-b from-primary via-primary to-gold/40 drop-shadow-xl">
+            <h1 className={`font-bold text-primary tracking-tight leading-[0.85] select-none ${lng === 'ar' ? 'text-8xl md:text-[14rem] lg:text-[18rem] font-calligraphy' : 'text-5xl md:text-[8rem] lg:text-[10rem] font-display uppercase'}`}>
+              <span className="bg-clip-text text-transparent bg-gradient-to-b from-primary via-primary to-gold/40 drop-shadow-2xl">
                 {t('project_name')}
               </span>
             </h1>

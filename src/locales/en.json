@@ -9,7 +9,14 @@
     "religion": "Religion\nReference and values",
     "research": "Research\nMethodology and rigor",
     "writing": "Writing\nExpression and documentation",
-    "impact": "Impact & expansion\nDiffusion and outreach"
+    "impact": "Impact & expansion\nDiffusion and outreach",
+    "details": {
+      "foundations": "Foundations represent the intellectual and methodological base of the TAFAQUH project. They define our vision, our values, and our learning approach: reading deeply, researching rigorously, and writing clearly. This axis establishes the principles that guide the entire project.",
+      "religion": "The Dîn axis aims to provide an authentic, balanced, and methodical understanding of Islam. It is based on guided reading, understanding of texts (verses, hadiths, scholars’ statements), and applying them in daily life. Its goal: building a healthy, enlightened, and living relationship with the religion.",
+      "research": "The Research axis develops the ability to verify, analyze, and understand sources. It teaches how to formulate a research question, compare evidences, and produce a reliable mini‑research. This axis builds critical thinking and intellectual discipline.",
+      "writing": "The Writing axis transforms understanding into expression. It teaches how to structure a text, clarify an idea, avoid common mistakes, and produce useful writings: paragraphs, articles, guides. This axis gives a voice to thought.",
+      "impact": "The Impact & Expansion axis aims to spread benefit, serve the community, and grow the project. It includes partnerships, educational initiatives, geographic expansion, and a halal funding model. This axis transforms knowledge into action."
+    }
   },
   "contact_title": "Contact us",
   "name_label": "Name",
@@ -32,5 +39,19 @@
     "ar": "Arabic",
     "fr": "French",
     "en": "English"
+  },
+  "preparation": {
+    "title": "TAFAQUH",
+    "subtitle": "Building bridges of knowledge and faith",
+    "status": "Laying the foundations...",
+    "message": "Working with passion to bring you a profound experience"
+  },
+  "footer": {
+    "tradition": "Tradition",
+    "innovation": "Innovation",
+    "impact": "Impact",
+    "spirituality": "Spirituality",
+    "privacy_policy": "Privacy Policy",
+    "all_rights_reserved": "All rights reserved"
   }
 }

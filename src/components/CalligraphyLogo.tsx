@@ -1,11 +1,11 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 
 export default function CalligraphyLogo({ className = "" }: { className?: string }) {
   // SVG path for "تفقه" in a stylized modern calligraphy style.
   // This is a simplified, elegant vector representation for demonstration.
-  const pathVariants: any = {
+  const pathVariants: Variants = {
     hidden: { pathLength: 0, opacity: 0 },
     visible: {
       pathLength: 1,
@@ -31,7 +31,7 @@ export default function CalligraphyLogo({ className = "" }: { className?: string
         strokeWidth="3"
         strokeLinecap="round"
         strokeLinejoin="round"
-        variants={pathVariants as any}
+        variants={pathVariants}
         initial="hidden"
         animate="visible"
       />

@@ -1,75 +1,193 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useTranslation } from '@/i18n/client'
+import Image from 'next/image'
 
 export default function LoadingAnimation({ lng }: { lng?: string }) {
   const { t } = useTranslation(lng || 'ar')
   const [isVisible, setIsVisible] = useState(true)
+  const [showStatus, setShowStatus] = useState(false)
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(false), 3500)
-    return () => clearTimeout(timer)
+    // Longer reveal for "preparation" feel
+    const timer = setTimeout(() => setIsVisible(false), 6000)
+    const statusTimer = setTimeout(() => setShowStatus(true), 1500)
+
+    return () => {
+      clearTimeout(timer)
+      clearTimeout(statusTimer)
+    }
   }, [])
 
   if (!isVisible) return null
 
   return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-primary flex flex-col items-center justify-center p-6"
-    >
-      <div className="relative w-48 h-48 mb-12">
-        {[...Array(2)].map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0 border-4 border-gold opacity-40 rounded-xl"
-            style={{ transform: `rotate(${i * 45}deg)` }}
-          />
-        ))}
-        
-        <motion.div
-          animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.8, 0.3] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute inset-4 flex items-center justify-center"
-        >
-          <svg viewBox="0 0 100 100" className="w-full h-full text-gold fill-current">
-            <path d="M50 0 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z" />
-          </svg>
-        </motion.div>
-      </div>
-
+    <AnimatePresence>
       <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="text-center space-y-4"
+        initial={{ opacity: 1 }}
+        exit={{ 
+          opacity: 0,
+          scale: 1.05,
+          filter: "blur(20px)",
+          transition: { duration: 1.5, ease: "easeInOut" }
+        }}
+        className="fixed inset-0 z-[100] bg-[#0F291E] flex flex-col items-center justify-center p-6 overflow-hidden"
       >
-        <h2 className={`text-4xl md:text-5xl font-bold text-gold tracking-widest ${lng === 'ar' ? 'font-calligraphy' : 'font-display uppercase'}`}>
-          {t('project_name')}
-        </h2>
-        <div className="flex flex-col items-center gap-2">
-          <p className="text-gold/60 font-body tracking-[0.2em] uppercase text-xs">
-            {lng === 'ar' ? 'المشروع قيد التطوير' : 'Project is under development'}
-          </p>
-          <p className="text-gold/40 font-body text-sm italic">
-            {lng === 'ar' ? 'نعمل على توفير أفضل تجربة لكم...' : 'Working on providing the best experience...'}
-          </p>
+        {/* Animated Islamic Background Pattern - Subtle Gold on Green */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.05 }}
+          className="absolute inset-0 pointer-events-none"
+          style={{ 
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0l8 32 32 8-32 8-8 32-8-32-32-8 32-8z' fill='%23D4AF37' fill-opacity='1'/%3E%3C/svg%3E")`,
+            backgroundSize: '80px 80px'
+          }}
+        />
+
+        {/* Architectural "Blueprint" Lines Animation - Gold on Green */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+           {[...Array(4)].map((_, i) => (
+             <motion.div
+                key={i}
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 1 }}
+                transition={{ duration: 4, delay: i * 0.5, ease: "easeInOut" }}
+                className="absolute inset-0 flex items-center justify-center"
+             >
+                <svg width="100%" height="100%" viewBox="0 0 100 100">
+                   <motion.rect 
+                     x="10" y="10" width="80" height="80" 
+                     stroke="#D4AF37" strokeWidth="0.05" fill="none"
+                     transform={`rotate(${i * 22.5} 50 50)`}
+                   />
+                </svg>
+             </motion.div>
+           ))}
+        </div>
+
+        {/* Central "Construction" Animation */}
+        <div className="relative w-80 h-80 md:w-96 md:h-96 mb-16 flex items-center justify-center">
+          {/* Building the geometric layers */}
+          {[...Array(4)].map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ scale: 0, rotate: -180, opacity: 0 }}
+              animate={{ scale: 1 - i * 0.15, rotate: 0, opacity: 0.2 + (4-i) * 0.1 }}
+              transition={{ duration: 2, delay: i * 0.4, ease: "easeOut" }}
+              className="absolute inset-0 border-[2px] border-gold"
+              style={{ 
+                clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)'
+              }}
+            />
+          ))}
+
+          {/* Logo Assembly Reveal */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0, y: 10 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, delay: 2, ease: "easeOut" }}
+            className="relative w-56 h-56 md:w-72 md:h-72 flex items-center justify-center z-10"
+          >
+            {/* Glowing Aura from behind logo */}
+            <motion.div
+              animate={{ 
+                scale: [1, 1.2, 1],
+                opacity: [0.2, 0.4, 0.2]
+              }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="absolute inset-4 bg-gold/20 rounded-full blur-[80px]"
+            />
+            
+            {/* White/Gold Geometric Shield for the logo to ensure visibility on green bg */}
+            <div className="absolute inset-0 bg-[#FDFBF7] shadow-[0_0_50px_rgba(255,255,255,0.2)]"
+                 style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }} />
+            
+            <div className="absolute inset-[4px] bg-gold/10 border-2 border-gold/30"
+                 style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }} />
+
+            <Image
+              src="/images/logo-tafaquh.png"
+              alt="Logo"
+              width={180}
+              height={180}
+              className="object-contain relative z-10"
+            />
+          </motion.div>
+        </div>
+
+        {/* Narrative Text Animation */}
+        <div className="text-center space-y-10 z-10 max-w-2xl">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="space-y-4"
+          >
+            <h2 className={`text-6xl md:text-[6.5rem] font-bold text-gold leading-tight ${lng === 'ar' ? 'font-calligraphy' : 'font-display uppercase'}`}>
+              {t('preparation.title')}
+            </h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 2.5, duration: 1 }}
+              className="text-gold/80 font-body text-xl md:text-2xl italic tracking-wide"
+            >
+              {t('preparation.subtitle')}
+            </motion.p>
+          </motion.div>
+
+          <div className="h-px w-32 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto opacity-50" />
+
+          {/* Status Message */}
+          <AnimatePresence mode="wait">
+            {showStatus && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="space-y-4"
+              >
+                <p className="text-white font-body tracking-[0.5em] uppercase text-[10px] md:text-xs font-bold">
+                  {t('preparation.status')}
+                </p>
+                <p className="text-gold/60 font-body text-sm md:text-base max-w-md mx-auto leading-relaxed px-4">
+                  {t('preparation.message')}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Construction Particles / Islamic Motif pulsars */}
+        <div className="absolute inset-0 pointer-events-none">
+           {[...Array(12)].map((_, i) => (
+             <motion.div 
+               key={i}
+               initial={{ 
+                 x: "50%", 
+                 y: "50%", 
+                 scale: 0, 
+                 opacity: 0 
+               }}
+               animate={{ 
+                 x: `${10 + (i * 7)}%`, 
+                 y: `${20 + (Math.sin(i) * 30 + 30)}%`,
+                 scale: [0, 1, 0.5],
+                 opacity: [0, 0.3, 0]
+               }}
+               transition={{ 
+                 duration: 10, 
+                 repeat: Infinity, 
+                 delay: i * 0.8,
+                 ease: "easeInOut"
+               }}
+               className="absolute w-1.5 h-1.5 bg-gold rotate-45" 
+             />
+           ))}
         </div>
       </motion.div>
-
-      <div className="absolute bottom-20 w-64 h-px bg-white/10 overflow-hidden">
-        <motion.div
-          initial={{ x: "-100%" }}
-          animate={{ x: "100%" }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="w-full h-full bg-gradient-to-r from-transparent via-gold to-transparent"
-        />
-      </div>
-    </motion.div>
+    </AnimatePresence>
   )
 }

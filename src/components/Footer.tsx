@@ -63,12 +63,12 @@ export default function Footer({ lng }: { lng: string }) {
           <div className="space-y-10 md:text-right">
              <div className="space-y-4">
                 <h4 className="text-gold font-bold text-sm tracking-[0.4em] uppercase border-b border-gold/20 pb-4 inline-block md:ml-auto">
-                  Spirituality
+                  {t('footer.spirituality')}
                 </h4>
                 <motion.p 
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
-                  className="italic text-gold font-display text-2xl leading-relaxed"
+                  className={`text-gold text-2xl leading-relaxed ${lng === 'ar' ? 'font-calligraphy' : 'font-display italic'}`}
                 >
                   {t('sincerity_msg')}
                 </motion.p>
@@ -77,7 +77,7 @@ export default function Footer({ lng }: { lng: string }) {
              <div className="space-y-4 mt-12">
                 <p className="text-sm text-white/40 font-body">
                   © {new Date().getFullYear()} TAFAQUH.<br/>
-                  All rights reserved.
+                  {t('footer.all_rights_reserved')}.
                 </p>
                 <div className="flex gap-4 md:justify-end">
                    <a href="#" className="text-xs text-gold/40 hover:text-gold transition-colors underline decoration-gold/20">
@@ -85,7 +85,7 @@ export default function Footer({ lng }: { lng: string }) {
                    </a>
                    <span className="text-white/10">|</span>
                    <a href="#" className="text-xs text-gold/40 hover:text-gold transition-colors underline decoration-gold/20">
-                     Privacy Policy
+                     {t('footer.privacy_policy')}
                    </a>
                 </div>
              </div>
@@ -100,12 +100,12 @@ export default function Footer({ lng }: { lng: string }) {
               ))}
            </div>
            
-           <div className="flex flex-wrap justify-center gap-8 text-[11px] tracking-[0.6em] uppercase text-white/30 font-bold">
-              <span className="hover:text-gold/50 cursor-default">Tradition</span>
+           <div className={`flex flex-wrap justify-center gap-8 uppercase text-white/30 font-bold ${lng === 'ar' ? 'font-calligraphy text-2xl tracking-[0.4em]' : 'text-[11px] tracking-[0.6em]'}`}>
+              <span className="hover:text-gold/50 cursor-default">{t('footer.tradition')}</span>
               <span className="text-gold/20">•</span>
-              <span className="hover:text-gold/50 cursor-default">Innovation</span>
+              <span className="hover:text-gold/50 cursor-default">{t('footer.innovation')}</span>
               <span className="text-gold/20">•</span>
-              <span className="hover:text-gold/50 cursor-default">Impact</span>
+              <span className="hover:text-gold/50 cursor-default">{t('footer.impact')}</span>
            </div>
 
            <div className="flex gap-4 opacity-20">
