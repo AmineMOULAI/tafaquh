@@ -1,0 +1,36 @@
+{
+  "project_name": "TAFAQUH",
+  "slogan": "Vers une compréhension profonde du savoir et de la religion",
+  "to_be_continued": "...à suivre",
+  "about_title": "À propos du projet",
+  "about_text": "TAFAQUH est une plateforme qui relie science, religion, recherche, écriture, et vise l’impact et l’expansion.",
+  "axes": {
+    "foundations": "Les fondements\nLes bases du projet",
+    "religion": "La religion\nRéférence et valeurs",
+    "research": "La recherche\nMéthodologie et rigueur",
+    "writing": "L’écriture\nExpression et documentation",
+    "impact": "Impact & expansion\nDiffusion et rayonnement"
+  },
+  "contact_title": "Contactez-nous",
+  "name_label": "Nom",
+  "email_label": "Email",
+  "message_label": "Message",
+  "submit_button": "Envoyer",
+  "success_msg": "Votre message a été envoyé avec succès. Nous vous répondrons bientôt.",
+  "error_msg": "Une erreur est survenue. Veuillez réessayer.",
+  "legal_mentions": "Mentions légales",
+  "sincerity_msg": "Nous demandons à Dieu sincérité et acceptation",
+  "follow_us": "Suivez-nous sur les réseaux sociaux",
+  "footer_description": "Une plateforme dédiée à la compréhension profonde du savoir et de la spiritualité.",
+  "menu": {
+    "about": "À propos",
+    "axes": "Les Axes",
+    "contact": "Contact"
+  },
+  "slogan_short": "Savoir & Sagesse",
+  "languages": {
+    "ar": "Arabe",
+    "fr": "Français",
+    "en": "Anglais"
+  }
+}

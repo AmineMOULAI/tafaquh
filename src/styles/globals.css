@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0F291E;
+  --color-gold: #D4AF37;
+  --color-gold-muted: #B8860B;
+  --color-bg-paper: #FDFBF7;
+  --color-text-main: #0F291E;
+  --color-text-soft: #4A5D54;
+}
+
+:root {
+  --background: #FDFBF7;
+  --foreground: #0F291E;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0F291E;
+    --foreground: #FDFBF7;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-body), sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+[lang="ar"] {
+  font-family: var(--font-body), serif;
+}
+
+.font-display {
+  font-family: var(--font-display), serif;
+}
+
+.font-body {
+  font-family: var(--font-body), sans-serif;
+}
+
+.font-calligraphy {
+  font-family: var(--font-calligraphy), serif;
+}
+
+/* Custom Glassmorphism */
+.glass {
+  @apply backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-white/20 dark:border-white/10 shadow-sm;
+}
+
+/* Premium Gradient Text */
+.text-gradient-gold {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-gold to-gold-muted;
+}
+
+/* Smooth Transitions */
+* {
+  @apply transition-all duration-300 ease-in-out;
+}
