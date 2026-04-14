@@ -43,20 +43,20 @@ export default function Footer({ lng }: { lng: string }) {
 
           <div className="space-y-10">
              <h4 className="text-gold font-bold text-sm tracking-[0.4em] uppercase border-b border-gold/20 pb-4 inline-block">
-               {t('follow_us')}
+               {t('footer.responsible')}
              </h4>
-             <div className="flex flex-col gap-6">
-                {['Twitter', 'Instagram', 'YouTube', 'Facebook'].map((social) => (
-                  <motion.a 
-                    key={social}
-                    href="#" 
-                    whileHover={{ x: 10, color: '#D4AF37' }}
-                    className="text-white/50 font-bold hover:text-gold transition-all duration-300 flex items-center gap-3"
-                  >
-                    <div className="w-1.5 h-1.5 bg-gold/40 rounded-full" />
-                    {social}
-                  </motion.a>
-                ))}
+             <div className="flex flex-col gap-4">
+                <p className={`text-gold text-lg font-bold ${lng === 'ar' ? 'font-calligraphy' : ''}`}>{t('footer.responsible_name')}</p>
+                <div className="flex flex-col gap-2">
+                   <a href={`mailto:${t('footer.email')}`} className="text-white/50 hover:text-gold transition-colors text-sm flex items-center gap-3">
+                      <div className="w-1.5 h-1.5 bg-gold/40 rounded-full" />
+                      {t('footer.email')}
+                   </a>
+                   <a href={`tel:${t('footer.phone').replace(/\s/g, '')}`} className="text-white/50 hover:text-gold transition-colors text-sm flex items-center gap-3">
+                      <div className="w-1.5 h-1.5 bg-gold/40 rounded-full" />
+                      {t('footer.phone')}
+                   </a>
+                </div>
              </div>
           </div>
 
