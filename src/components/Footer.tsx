@@ -5,6 +5,20 @@ import { motion } from 'framer-motion'
 import { StarPattern } from './Motifs'
 import Image from 'next/image'
 
+const IslamicStarIcon = ({ className = "" }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="M12 3l2.8 2.8H18.2V8.6L21 11.4v2.8l-2.8 2.8v2.8h-2.8l-2.8 2.8-2.8-2.8H5.8v-2.8L3 14.2v-2.8l2.8-2.8V5.8h2.8z" />
+  </svg>
+);
+
 export default function Footer({ lng }: { lng: string }) {
   const { t } = useTranslation(lng)
 
@@ -42,18 +56,21 @@ export default function Footer({ lng }: { lng: string }) {
           </div>
 
           <div className="space-y-10">
-             <h4 className="text-gold font-bold text-sm tracking-[0.4em] uppercase border-b border-gold/20 pb-4 inline-block">
-               {t('footer.responsible')}
-             </h4>
+             <div className="flex items-center gap-4 border-b border-gold/20 pb-4">
+                <IslamicStarIcon className="w-5 h-5 text-gold/60" />
+                <h4 className="text-gold font-bold text-sm tracking-[0.4em] uppercase">
+                  {t('footer.responsible')}
+                </h4>
+             </div>
              <div className="flex flex-col gap-4">
                 <p className={`text-gold text-lg font-bold ${lng === 'ar' ? 'font-calligraphy' : ''}`}>{t('footer.responsible_name')}</p>
                 <div className="flex flex-col gap-2">
                    <a href={`mailto:${t('footer.email')}`} className="text-white/50 hover:text-gold transition-colors text-sm flex items-center gap-3">
-                      <div className="w-1.5 h-1.5 bg-gold/40 rounded-full" />
+                      <IslamicStarIcon className="w-3 h-3 text-gold/40" />
                       {t('footer.email')}
                    </a>
                    <a href={`tel:${t('footer.phone').replace(/\s/g, '')}`} className="text-white/50 hover:text-gold transition-colors text-sm flex items-center gap-3">
-                      <div className="w-1.5 h-1.5 bg-gold/40 rounded-full" />
+                      <IslamicStarIcon className="w-3 h-3 text-gold/40" />
                       {t('footer.phone')}
                    </a>
                 </div>
