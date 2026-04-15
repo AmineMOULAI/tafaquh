@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #0F291E;
-  --color-gold: #D4AF37;
-  --color-gold-muted: #B8860B;
+  --color-primary: #1F4D36;
+  --color-gold: #C5A96A;
+  --color-gold-muted: #A38B57;
   --color-bg-paper: #FDFBF7;
-  --color-text-main: #0F291E;
+  --color-text-main: #1F4D36;
   --color-text-soft: #4A5D54;
 }
 
 :root {
   --background: #FDFBF7;
-  --foreground: #0F291E;
+  --foreground: #1F4D36;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0F291E;
+    --background: #1F4D36;
     --foreground: #FDFBF7;
   }
 }
@@ -42,6 +42,14 @@ body {
 
 .font-calligraphy {
   font-family: var(--font-calligraphy), serif;
+}
+
+.font-amiri {
+  font-family: var(--font-amiri), serif;
+}
+
+.font-garamond {
+  font-family: var(--font-garamond), serif;
 }
 
 /* Custom Glassmorphism */
