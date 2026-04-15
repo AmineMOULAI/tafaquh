@@ -70,6 +70,14 @@ body {
 .text-gold-radiant {
   @apply bg-clip-text text-transparent bg-gradient-to-b from-gold-light via-gold to-gold-muted;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  background-size: 200% auto;
+  animation: gold-shimmer 4s linear infinite;
+}
+
+@keyframes gold-shimmer {
+  0% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+  100% { background-position: 0% center; }
 }
 
 /* Smooth Transitions */
