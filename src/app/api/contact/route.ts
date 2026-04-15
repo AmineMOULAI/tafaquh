@@ -5,26 +5,28 @@ export async function POST(req: Request) {
   try {
     const { name, email, message } = await req.json()
 
-    // Diagnostic check for the environment variable (Safe: only logs presence, not value)
-    if (!process.env.GMAIL_APP_PASSWORD) {
-      console.error('CRITICAL: GMAIL_APP_PASSWORD is not defined in environment variables.')
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Server configuration error: Missing credentials.' 
-      }, { status: 500 })
+    const gmailUser = process.env.GMAIL_USER || 'moulaiamine@gmail.com'
+    const gmailPass = process.env.GMAIL_APP_PASSWORD
+
+    if (!gmailPass) {
+      console.error('CRITICAL: GMAIL_APP_PASSWORD is not defined.')
+      return NextResponse.json({ success: false, error: 'Server configuration error.' }, { status: 500 })
     }
 
+    // Using explicit SMTP settings for better reliability
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, // use SSL
       auth: {
-        user: 'moulaiamine@gmail.com',
-        pass: process.env.GMAIL_APP_PASSWORD,
+        user: gmailUser,
+        pass: gmailPass,
       },
     })
 
     const mailOptions = {
-      from: `"TAFAQUH Contact" <moulaiamine@gmail.com>`,
-      to: 'moulaiamine@gmail.com',
+      from: `"TAFAQUH Contact" <${gmailUser}>`,
+      to: gmailUser,
       replyTo: email,
       subject: `New Message from ${name} (via TAFAQUH)`,
       text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
