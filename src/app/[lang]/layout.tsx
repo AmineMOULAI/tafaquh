@@ -6,10 +6,8 @@ export async function generateStaticParams() {
 
 export default async function Layout({
   children,
-  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ lang: string }>;
 }>) {
   return (
     <>

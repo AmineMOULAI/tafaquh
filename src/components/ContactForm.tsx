@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslation } from '@/i18n/client'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { StarPattern } from './Motifs'
 import Image from 'next/image'
 

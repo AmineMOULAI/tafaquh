@@ -5,7 +5,6 @@ import { useParams } from 'next/navigation'
 
 export default function LanguageHandler() {
   const params = useParams()
-  const lang = (params?.lang as string) || 'ar'
 
   useEffect(() => {
     if (!params?.lang) return;
