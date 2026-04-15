@@ -5,12 +5,19 @@ export async function POST(req: Request) {
   try {
     const { name, email, message } = await req.json()
 
-    // Configuration for nodemailer
+    // Diagnostic check for the environment variable (Safe: only logs presence, not value)
+    if (!process.env.GMAIL_APP_PASSWORD) {
+      console.error('CRITICAL: GMAIL_APP_PASSWORD is not defined in environment variables.')
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Server configuration error: Missing credentials.' 
+      }, { status: 500 })
+    }
+
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: 'moulaiamine@gmail.com',
-        // This should be an App Password, NOT your regular password
         pass: process.env.GMAIL_APP_PASSWORD,
       },
     })
@@ -39,7 +46,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Contact error:', error)
+    console.error('Nodemailer Error:', error)
     return NextResponse.json({ success: false, error: 'Failed to send email' }, { status: 500 })
   }
 }
