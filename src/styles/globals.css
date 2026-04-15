@@ -2,8 +2,9 @@
 
 @theme {
   --color-primary: #1F4D36;
-  --color-gold: #C5A96A;
-  --color-gold-muted: #A38B57;
+  --color-gold: #D4AF37;
+  --color-gold-muted: #B8860B;
+  --color-gold-light: #F9E498;
   --color-bg-paper: #FDFBF7;
   --color-text-main: #1F4D36;
   --color-text-soft: #4A5D54;
@@ -64,6 +65,11 @@ body {
 /* Premium Gradient Text */
 .text-gradient-gold {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-gold to-gold-muted;
+}
+
+.text-gold-radiant {
+  @apply bg-clip-text text-transparent bg-gradient-to-b from-gold-light via-gold to-gold-muted;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
 /* Smooth Transitions */

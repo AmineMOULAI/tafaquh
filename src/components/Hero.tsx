@@ -34,11 +34,11 @@ export default function Hero({ lng }: { lng: string }) {
   return (
     <section ref={containerRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-bg-paper py-24 px-4">
       
-      {/* RESTORED: Layered Islamic Background Animations */}
+      {/* Background Layered Islamic Background Animations */}
       <div className="absolute inset-0 z-0">
         <HexPattern speed={100} />
         
-        {/* RESTORED: Large Subtle Background Logo */}
+        {/* Large Subtle Background Logo */}
         <motion.div
           style={{ y: logoY }}
           initial={{ opacity: 0, scale: 0.8 }}
@@ -63,10 +63,10 @@ export default function Hero({ lng }: { lng: string }) {
           </motion.div>
         </motion.div>
 
-        {/* RESTORED: Animated Large Geometric Shapes */}
+        {/* Animated Large Geometric Shapes */}
         <motion.div 
           style={{ y: y1 }}
-          className="absolute top-[-5%] right-[-5%] w-[600px] h-[600px] opacity-[0.03] text-gold pointer-events-none"
+          className="absolute top-[-5%] right-[-5%] w-[600px] h-[600px] opacity-[0.04] text-gold pointer-events-none"
         >
           <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
             <motion.path 
@@ -81,7 +81,7 @@ export default function Hero({ lng }: { lng: string }) {
 
         <motion.div 
           style={{ y: y2 }}
-          className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] opacity-[0.02] text-primary pointer-events-none"
+          className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] opacity-[0.03] text-primary pointer-events-none"
         >
           <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.3">
             {[...Array(12)].map((_, i) => (
@@ -101,15 +101,15 @@ export default function Hero({ lng }: { lng: string }) {
       >
         <div className="flex flex-col items-center">
           
-          {/* RESTORED: Calligraphy Title */}
+          {/* Calligraphy Title with Radiant Gold */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.5, ease: "easeOut" }}
             className="relative mb-12"
           >
-            <h1 className={`font-bold text-primary tracking-tight select-none ${isAr ? 'text-8xl md:text-[14rem] lg:text-[18rem] font-calligraphy leading-[1.2] pt-12 pb-8' : 'text-5xl md:text-[8rem] lg:text-[10rem] font-display uppercase leading-[0.85]'}`}>
-              <span className="bg-clip-text text-transparent bg-gradient-to-b from-primary via-primary to-gold/40 drop-shadow-2xl">
+            <h1 className={`font-bold tracking-tight select-none ${isAr ? 'text-8xl md:text-[14rem] lg:text-[18rem] font-calligraphy leading-[1.2] pt-12 pb-8' : 'text-5xl md:text-[8rem] lg:text-[10rem] font-display uppercase leading-[0.85]'}`}>
+              <span className="text-gold-radiant drop-shadow-2xl">
                 {t('project_name')}
               </span>
             </h1>
@@ -118,11 +118,11 @@ export default function Hero({ lng }: { lng: string }) {
               initial={{ width: 0, opacity: 0 }}
               animate={{ width: "100%", opacity: 1 }}
               transition={{ delay: 0.8, duration: 1.5 }}
-              className="h-[2px] bg-gradient-to-r from-transparent via-gold to-transparent absolute -bottom-2 left-0"
+              className="h-[2px] bg-gradient-to-r from-transparent via-gold-light to-transparent absolute -bottom-2 left-0"
             />
           </motion.div>
 
-          {/* Action Button to Open Letter */}
+          {/* Premium Gold Action Button to Open Letter */}
           {!isOpen && (
             <motion.button
               initial={{ opacity: 0, y: 20 }}
@@ -131,19 +131,30 @@ export default function Hero({ lng }: { lng: string }) {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsOpen(true)}
-              className="relative group mb-12 px-10 py-4 overflow-hidden rounded-full border border-gold/50 shadow-lg bg-primary"
+              className="relative group mb-12 px-12 py-5 overflow-hidden rounded-full border-2 border-gold-light/40 shadow-[0_0_30px_rgba(212,175,55,0.25)] bg-primary"
             >
-              {/* Shimmer Effect */}
+              {/* Gold Radiant Background Animation */}
               <motion.div 
-                animate={{ x: ['-100%', '200%'] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/20 to-transparent skew-x-12"
+                animate={{ 
+                  background: [
+                    "linear-gradient(45deg, #1F4D36 0%, #1F4D36 100%)",
+                    "linear-gradient(45deg, #1F4D36 0%, #1F4D36 100%)"
+                  ]
+                }}
+                className="absolute inset-0 z-0"
+              />
+              
+              {/* Metallic Shimmer Effect */}
+              <motion.div 
+                animate={{ x: ['-100%', '300%'] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-gold-light/40 to-transparent skew-x-25 z-1"
               />
 
-              <span className={`relative z-10 text-gold font-bold tracking-widest uppercase flex items-center gap-3 ${isAr ? 'font-amiri text-xl' : 'text-sm'}`}>
-                {t('hero.open_letter')}
+              <span className={`relative z-10 text-gold-light font-black tracking-widest uppercase flex items-center gap-4 ${isAr ? 'font-amiri text-2xl' : 'text-sm'}`}>
+                <span className="drop-shadow-md">{t('hero.open_letter')}</span>
                 <motion.span
-                  animate={{ x: isAr ? [-4, 4, -4] : [4, -4, 4] }}
+                  animate={{ x: isAr ? [-5, 5, -5] : [5, -5, 5] }}
                   transition={{ repeat: Infinity, duration: 1.5 }}
                 >
                   {isAr ? '←' : '→'}
@@ -158,14 +169,17 @@ export default function Hero({ lng }: { lng: string }) {
               {isOpen && (
                 <div className="relative w-full flex flex-col items-center">
                   
-                  {/* Top Cylinder of the scroll */}
+                  {/* Top Cylinder of the scroll - Radiant Gold Ends */}
                   <motion.div
-                    initial={{ y: 0 }}
-                    animate={{ y: 0 }}
-                    className="relative z-20 w-full max-w-[95%] h-8 bg-gradient-to-b from-[#8B6B40] via-[#C5A96A] to-[#8B6B40] rounded-full shadow-lg border-b border-black/10 flex items-center justify-center overflow-hidden"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 1 }}
+                    className="relative z-20 w-full max-w-[98%] h-10 bg-gradient-to-b from-gold-muted via-gold-light to-gold-muted rounded-full shadow-2xl border-b border-black/20 flex items-center justify-between px-4 overflow-hidden"
                   >
-                     {/* Wood/Gold texture */}
-                     <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')]" />
+                     {/* Polished wood/metal texture */}
+                     <div className="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')]" />
+                     <div className="w-6 h-6 rounded-full bg-gold-light shadow-inner border border-gold-muted flex-shrink-0" />
+                     <div className="w-6 h-6 rounded-full bg-gold-light shadow-inner border border-gold-muted flex-shrink-0" />
                   </motion.div>
 
                   {/* Parchment that unrolls */}
@@ -173,24 +187,24 @@ export default function Hero({ lng }: { lng: string }) {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 1.8, ease: [0.45, 0.05, 0.55, 0.95] }}
-                    className="relative w-full overflow-hidden bg-[#FDFBF7] shadow-2xl border-x-[1px] border-gold/20"
+                    transition={{ duration: 2, ease: [0.45, 0.05, 0.55, 0.95] }}
+                    className="relative w-full overflow-hidden bg-[#FDFBF7] shadow-2xl border-x-4 border-gold-muted/30"
                   >
                     {/* Parchment texture & content */}
-                    <div className="relative z-10 p-8 md:p-20 flex flex-col items-center min-h-[300px]">
+                    <div className="relative z-10 p-10 md:p-24 flex flex-col items-center min-h-[400px]">
                       {/* Natural paper texture */}
-                      <div className="absolute inset-0 opacity-[0.06] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
+                      <div className="absolute inset-0 opacity-[0.08] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
                       
-                      {/* Subtle watermark in the letter */}
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 opacity-[0.03] pointer-events-none">
+                      {/* Gold watermark in the letter */}
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 opacity-[0.05] pointer-events-none">
                         <Image src="/images/logo-tafaquh.png" alt="" fill className="object-contain" />
                       </div>
 
                       <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1, duration: 1 }}
-                        className={`w-full max-w-3xl text-center leading-[1.8] ${isAr ? 'font-calligraphy text-2xl md:text-3xl' : 'font-handwriting text-xl md:text-2xl'} text-primary/90 drop-shadow-sm`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.2, duration: 1.2 }}
+                        className={`w-full max-w-3xl text-center leading-[1.8] ${isAr ? 'font-calligraphy text-2xl md:text-4xl' : 'font-handwriting text-2xl md:text-3xl'} text-primary/95 drop-shadow-sm`}
                       >
                         <p className="whitespace-pre-line">
                           {t('hero.content')}
@@ -199,20 +213,22 @@ export default function Hero({ lng }: { lng: string }) {
                     </div>
 
                     {/* Gold illumination accents on the parchment */}
-                    <div className="absolute top-4 left-4 w-12 h-12 border-t border-l border-gold/30" />
-                    <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-gold/30" />
-                    <div className="absolute bottom-4 left-4 w-12 h-12 border-b border-l border-gold/30" />
-                    <div className="absolute bottom-4 right-4 w-12 h-12 border-b border-r border-gold/30" />
+                    <div className="absolute top-8 left-8 w-16 h-16 border-t-2 border-l-2 border-gold/40" />
+                    <div className="absolute top-8 right-8 w-16 h-16 border-t-2 border-r-2 border-gold/40" />
+                    <div className="absolute bottom-8 left-8 w-16 h-16 border-b-2 border-l-2 border-gold/40" />
+                    <div className="absolute bottom-8 right-8 w-16 h-16 border-b-2 border-r-2 border-gold/40" />
                   </motion.div>
 
                   {/* Bottom Cylinder of the scroll */}
                   <motion.div
-                    initial={{ y: -32 }} // Start right under top cylinder
-                    animate={{ y: 0 }}
-                    transition={{ duration: 1.8, ease: [0.45, 0.05, 0.55, 0.95] }}
-                    className="relative z-20 w-full max-w-[95%] h-8 bg-gradient-to-b from-[#8B6B40] via-[#C5A96A] to-[#8B6B40] rounded-full shadow-lg border-t border-black/10 flex items-center justify-center overflow-hidden"
+                    initial={{ y: -40, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 2, ease: [0.45, 0.05, 0.55, 0.95] }}
+                    className="relative z-20 w-full max-w-[98%] h-10 bg-gradient-to-b from-gold-muted via-gold-light to-gold-muted rounded-full shadow-2xl border-t border-black/20 flex items-center justify-between px-4 overflow-hidden"
                   >
-                     <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')]" />
+                     <div className="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')]" />
+                     <div className="w-6 h-6 rounded-full bg-gold-light shadow-inner border border-gold-muted flex-shrink-0" />
+                     <div className="w-6 h-6 rounded-full bg-gold-light shadow-inner border border-gold-muted flex-shrink-0" />
                   </motion.div>
 
                 </div>
@@ -220,21 +236,21 @@ export default function Hero({ lng }: { lng: string }) {
             </AnimatePresence>
           </div>
 
-          {/* Scroll Hint */}
+          {/* Premium Scroll Hint */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 2, duration: 1 }}
-            className="mt-16 flex flex-col items-center gap-4"
+            transition={{ delay: 2.5, duration: 1.5 }}
+            className="mt-20 flex flex-col items-center gap-6"
           >
-            <div className="relative w-px h-24 bg-gold/20 overflow-hidden">
+            <div className="relative w-px h-32 bg-gold/30 overflow-hidden">
               <motion.div 
                 animate={{ y: ["-100%", "100%"] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 bg-gradient-to-b from-transparent via-gold to-transparent"
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 bg-gradient-to-b from-transparent via-gold-light to-transparent"
               />
             </div>
-            <span className="text-gold font-body text-xs tracking-[0.4em] uppercase opacity-50">
+            <span className="text-gold-light font-body text-xs tracking-[0.5em] uppercase opacity-70 font-black">
               {t('to_be_continued')}
             </span>
           </motion.div>
