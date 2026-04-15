@@ -146,7 +146,7 @@ export default function ContactForm({ lng }: { lng: string }) {
                       type="text" 
                       required
                       placeholder={lng === 'ar' ? 'اسمك الكامل' : 'Your full name'}
-                      className="w-full px-0 py-4 bg-transparent border-b-2 border-primary/10 focus:border-gold outline-none transition-all placeholder:text-text-soft/20 font-body text-lg"
+                      className="w-full px-0 py-4 bg-transparent border-b-2 border-primary/10 focus:border-gold outline-none transition-all placeholder:text-text-soft/20 font-body text-lg text-primary"
                     />
                     <motion.div className="absolute bottom-0 left-0 h-0.5 bg-gold w-0 group-focus-within:w-full transition-all duration-500" />
                   </div>
@@ -162,7 +162,7 @@ export default function ContactForm({ lng }: { lng: string }) {
                       type="email" 
                       required
                       placeholder="name@example.com"
-                      className="w-full px-0 py-4 bg-transparent border-b-2 border-primary/10 focus:border-gold outline-none transition-all placeholder:text-text-soft/20 font-body text-lg"
+                      className="w-full px-0 py-4 bg-transparent border-b-2 border-primary/10 focus:border-gold outline-none transition-all placeholder:text-text-soft/20 font-body text-lg text-primary"
                     />
                     <motion.div className="absolute bottom-0 left-0 h-0.5 bg-gold w-0 group-focus-within:w-full transition-all duration-500" />
                   </div>
@@ -179,7 +179,7 @@ export default function ContactForm({ lng }: { lng: string }) {
                     rows={4} 
                     required
                     placeholder={lng === 'ar' ? 'كيف يمكننا مساعدتك؟' : 'How can we help you?'}
-                    className="w-full px-0 py-4 bg-transparent border-b-2 border-primary/10 focus:border-gold outline-none transition-all placeholder:text-text-soft/20 font-body text-lg resize-none"
+                    className="w-full px-0 py-4 bg-transparent border-b-2 border-primary/10 focus:border-gold outline-none transition-all placeholder:text-text-soft/20 font-body text-lg resize-none text-primary"
                   ></textarea>
                   <motion.div className="absolute bottom-0 left-0 h-0.5 bg-gold w-0 group-focus-within:w-full transition-all duration-500" />
                 </div>
