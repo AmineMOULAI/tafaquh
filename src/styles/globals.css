@@ -52,6 +52,10 @@ body {
   font-family: var(--font-garamond), serif;
 }
 
+.font-handwriting {
+  font-family: var(--font-handwriting), cursive;
+}
+
 /* Custom Glassmorphism */
 .glass {
   @apply backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-white/20 dark:border-white/10 shadow-sm;
