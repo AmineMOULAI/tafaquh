@@ -131,8 +131,10 @@ export default function Hero({ lng }: { lng: string }) {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsOpen(true)}
-              className="relative group mb-12 px-12 py-5 overflow-hidden rounded-full border-2 border-gold-light/40 shadow-[0_0_30px_rgba(212,175,55,0.25)] bg-primary"
-            >
+              className="relative z-20 group mb-12 px-12 py-5 overflow-hidden border-2 border-gold-light/40 shadow-[0_0_30px_rgba(212,175,55,0.25)] bg-primary"
+              style={{ clipPath: 'polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px)' }}
+              >
+
               {/* Gold Radiant Background Animation */}
               <motion.div 
                 animate={{ 
