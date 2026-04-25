@@ -118,7 +118,7 @@ export default function ContactForm({ lng }: { lng: string }) {
                                   </svg>
                                </div>
                             </div>
-                            <span className="text-lg font-body tracking-wide">Telegram</span>
+                            <span className="text-sm font-body tracking-wide">Telegram</span>
                          </a>
                          <a href={`mailto:${t('footer.email')}`}
                             className="flex items-center gap-4 text-white/60 hover:text-gold transition-colors group">
@@ -130,7 +130,7 @@ export default function ContactForm({ lng }: { lng: string }) {
                                   </svg>
                                </div>
                             </div>
-                            <span className="text-lg font-body tracking-wide">{t('footer.email')}</span>
+                            <span className="text-sm font-body tracking-wide">{t('footer.email')}</span>
                          </a>
                       </div>
                    </div>
