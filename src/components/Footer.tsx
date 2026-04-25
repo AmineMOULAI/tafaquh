@@ -19,6 +19,16 @@ const IslamicStarIcon = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
+const TelegramIcon = ({ className = "" }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    fill="currentColor" 
+    className={className}
+  >
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.45-.42-1.39-.88.03-.24.36-.48.99-.73 3.84-1.67 6.4-2.77 7.67-3.3 3.64-1.51.4-.21.9-.21.11 0 .35.02.5.07.13.04.22.11.26.21.04.09.05.21.02.32z"/>
+  </svg>
+);
+
 export default function Footer({ lng }: { lng: string }) {
   const { t } = useTranslation(lng)
 
@@ -78,7 +88,7 @@ export default function Footer({ lng }: { lng: string }) {
              </div>
              <div className="flex flex-col gap-4">
                 <p className={`text-gold text-lg font-bold ${lng === 'ar' ? 'font-calligraphy' : ''}`}>{t('footer.responsible_name')}</p>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                    <a href={`mailto:${t('footer.email')}`} className="text-white/50 hover:text-gold transition-colors text-sm flex items-center gap-3">
                       <IslamicStarIcon className="w-3 h-3 text-gold/40" />
                       {t('footer.email')}
@@ -86,6 +96,10 @@ export default function Footer({ lng }: { lng: string }) {
                    <a href={`tel:${t('footer.phone').replace(/\s/g, '')}`} className="text-white/50 hover:text-gold transition-colors text-sm flex items-center gap-3">
                       <IslamicStarIcon className="w-3 h-3 text-gold/40" />
                       {t('footer.phone')}
+                   </a>
+                   <a href="https://t.me/center_tafaquh" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-gold transition-colors text-sm flex items-center gap-3">
+                      <TelegramIcon className="w-3 h-3 text-gold/40" />
+                      Telegram
                    </a>
                 </div>
              </div>

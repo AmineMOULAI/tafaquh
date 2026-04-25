@@ -106,12 +106,32 @@ export default function ContactForm({ lng }: { lng: string }) {
                    <p className="text-white/60 font-body text-lg leading-relaxed">
                       {t('footer_description')}
                    </p>
-                   <div className="pt-8 border-t border-white/10 space-y-4">
+                   <div className="pt-8 border-t border-white/10 space-y-6">
                       <p className="text-gold font-bold text-sm tracking-widest uppercase">{t('follow_us')}</p>
-                      <div className="flex gap-4">
-                         {[...Array(4)].map((_, i) => (
-                           <div key={i} className="w-8 h-8 border border-white/20 hover:border-gold transition-colors flex items-center justify-center rotate-45" />
-                         ))}
+                      <div className="flex flex-col gap-6">
+                         <a href="https://t.me/center_tafaquh" target="_blank" rel="noopener noreferrer" 
+                            className="flex items-center gap-4 text-white/60 hover:text-gold transition-colors group">
+                            <div className="w-10 h-10 border border-white/20 group-hover:border-gold flex items-center justify-center rotate-45 transition-colors">
+                               <div className="-rotate-45">
+                                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.45-.42-1.39-.88.03-.24.36-.48.99-.73 3.84-1.67 6.4-2.77 7.67-3.3 3.64-1.51.4-.21.9-.21.11 0 .35.02.5.07.13.04.22.11.26.21.04.09.05.21.02.32z"/>
+                                  </svg>
+                               </div>
+                            </div>
+                            <span className="text-lg font-body tracking-wide">Telegram</span>
+                         </a>
+                         <a href={`mailto:${t('footer.email')}`}
+                            className="flex items-center gap-4 text-white/60 hover:text-gold transition-colors group">
+                            <div className="w-10 h-10 border border-white/20 group-hover:border-gold flex items-center justify-center rotate-45 transition-colors">
+                               <div className="-rotate-45">
+                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                     <polyline points="22,6 12,13 2,6" />
+                                  </svg>
+                               </div>
+                            </div>
+                            <span className="text-lg font-body tracking-wide">{t('footer.email')}</span>
+                         </a>
                       </div>
                    </div>
                 </div>

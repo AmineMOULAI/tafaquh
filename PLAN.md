@@ -239,7 +239,7 @@ Chaque fichier contient les clés/valeurs pour tous les textes affichés sur la 
 
 | Clé             | Arabe                                      | Français                                 | Anglais                           |
 |-----------------|--------------------------------------------|------------------------------------------|-----------------------------------|
-| follow_us       | تابعنا على الشبكات الاجتماعية               | Suivez-nous sur les réseaux sociaux      | Follow us on social media         |
+| follow_us       | تيليجرام والبريد الإلكتروني               | Telegram & Email                         | Telegram & Email                  |
 
 ---
 
