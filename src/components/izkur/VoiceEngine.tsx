@@ -27,9 +27,8 @@ export default function VoiceEngine({
   const audioCtxRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const micStreamRef = useRef<MediaStream | null>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const animFrameRef = useRef<number | null>(null);
-  const lastPeakTimeRef = useRef<number>(0);
+  const lastMatchTimeRef = useRef<number>(0);
 
   const recognitionRef = useRef<any>(null);
   const isListeningRef = useRef<boolean>(isListening);
@@ -46,7 +45,7 @@ export default function VoiceEngine({
     }
   };
 
-  // 1. Web Speech API Setup
+  // 1. Web Speech API Setup (Only increments when actual phrase text is recognized)
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -66,14 +65,21 @@ export default function VoiceEngine({
     rec.onresult = (event: any) => {
       let currentTranscript = "";
       for (let i = event.resultIndex; i < event.results.length; i++) {
-        currentTranscript += event.results[i][0].transcript;
+        currentTranscript += event.results[i][0].transcript + " ";
       }
 
-      setLatestTranscript(currentTranscript);
+      const trimmed = currentTranscript.trim();
+      setLatestTranscript(trimmed);
 
-      const { matchedId, count } = detectDhikrInText(currentTranscript, activePhraseId);
+      // Match recognized spoken text against Dhikr dictionary
+      const { matchedId, count } = detectDhikrInText(trimmed, activePhraseId);
       if (matchedId && count > 0) {
-        onRecognizedMatch(matchedId, count);
+        const now = Date.now();
+        // Debounce 1.2s between phrase increments
+        if (now - lastMatchTimeRef.current > 1200) {
+          lastMatchTimeRef.current = now;
+          onRecognizedMatch(matchedId, count);
+        }
       }
     };
 
@@ -81,10 +87,10 @@ export default function VoiceEngine({
       if (event.error === "network") {
         setModeNotice(
           lng === "ar"
-            ? "وضع الصوت المحلي نشط (يعمل بالميكروفون المباشر)"
+            ? "خدمة الصوت تتطلب شبكة متصلة. يمكنك التجربة عبر النقر المباشر أو الأزرار أدناه."
             : lng === "fr"
-            ? "Mode vocal local actif (fonctionne avec le micro)"
-            : "Local mic audio mode active"
+            ? "Le service vocal nécessite une connexion réseau."
+            : "Voice service requires a network connection."
         );
       }
     };
@@ -108,7 +114,7 @@ export default function VoiceEngine({
     };
   }, [lng, activePhraseId]);
 
-  // 2. Audio Meter & Local Mic Recorder
+  // 2. Microphone Level Meter ONLY (Visual indicator, NO automatic noise incrementing)
   useEffect(() => {
     if (!isListening) {
       stopLocalMic();
@@ -160,15 +166,8 @@ export default function VoiceEngine({
           sum += dataArray[i];
         }
         const average = sum / bufferLength;
+        // Update visual equalizer level ONLY (no incrementing on background volume)
         setAudioLevel(Math.min(100, Math.round(average * 2.5)));
-
-        // Voice peak threshold detection
-        const now = Date.now();
-        if (average > 8 && now - lastPeakTimeRef.current > 500) {
-          lastPeakTimeRef.current = now;
-          onRecognizedMatch(activePhraseId, 1);
-          setLatestTranscript(DHIKR_PHRASES[activePhraseId].arabic);
-        }
 
         animFrameRef.current = requestAnimationFrame(checkVolume);
       };
@@ -208,7 +207,7 @@ export default function VoiceEngine({
 
   const buttonLabel = isListening
     ? lng === "ar"
-      ? "إيقاف المستمع الصوتي"
+      ? "إيقاف التعرف الصوتي"
       : lng === "fr"
       ? "Mettre en Pause"
       : "Pause Voice Counter"
@@ -219,10 +218,10 @@ export default function VoiceEngine({
     : "Start Smart Voice Counter";
 
   const listeningStatus = lng === "ar"
-    ? "جاري الاستماع لصوتك بالميكروفون..."
+    ? "جاري الاستماع للذكر..."
     : lng === "fr"
-    ? "Écoute de votre voix au microphone..."
-    : "Listening to your microphone...";
+    ? "Écoute de votre récitation..."
+    : "Listening for recitation...";
 
   return (
     <div className="flex flex-col items-center justify-center my-4 w-full">
@@ -238,14 +237,14 @@ export default function VoiceEngine({
         <span>{buttonLabel}</span>
       </button>
 
-      {/* Live Mic Volume Level Meter & Feed */}
+      {/* Live Mic Volume Level Meter & Spoken Text Feed */}
       {isListening && (
         <div className="mt-3 w-full max-w-xs flex flex-col items-center gap-2">
           <div className="w-full px-4 py-2 rounded-lg bg-black/40 border border-[#D4AF37]/20 text-xs font-amiri text-emerald-200/90 text-center">
             {latestTranscript ? `"${latestTranscript}"` : listeningStatus}
           </div>
 
-          {/* Visual Equalizer / Mic Meter Bar */}
+          {/* Visual Equalizer / Mic Volume Level */}
           <div className="w-full bg-black/50 h-2 rounded-full overflow-hidden border border-[#D4AF37]/30">
             <div
               className="bg-gradient-to-r from-emerald-500 via-[#D4AF37] to-amber-400 h-full transition-all duration-75"
@@ -255,7 +254,7 @@ export default function VoiceEngine({
         </div>
       )}
 
-      {/* Voice Test & Simulation Buttons */}
+      {/* Voice Recitation Test Buttons */}
       <div className="mt-4 p-4 rounded-2xl bg-[#0B3B2C]/40 border border-[#D4AF37]/30 text-center max-w-sm shadow-lg">
         <span className="text-xs font-amiri text-[#D4AF37] font-bold block mb-2">
           {lng === "ar"
