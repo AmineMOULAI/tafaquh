@@ -22,10 +22,44 @@ export async function POST(request: Request) {
       if (typeof hintParam === "string" && hintParam in DHIKR_PHRASES) {
         phraseHint = hintParam as DhikrPhraseId;
       }
+
+      // Check if an audio file was uploaded
+      const audioFile = formData.get("audio") as Blob | null;
+      if (audioFile && !text) {
+        const apiKey = process.env.OPENAI_API_KEY || process.env.STT_API_KEY;
+        if (apiKey) {
+          try {
+            const sttFormData = new FormData();
+            sttFormData.append("file", audioFile, "audio.webm");
+            sttFormData.append("model", "whisper-1");
+            sttFormData.append("language", "ar");
+
+            const sttRes = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${apiKey}`,
+              },
+              body: sttFormData,
+            });
+
+            if (sttRes.ok) {
+              const sttData = await sttRes.json();
+              text = sttData.text || "";
+            }
+          } catch (e) {
+            console.warn("STT cloud transcription warning:", e);
+          }
+        }
+      }
+    }
+
+    if (!text && phraseHint) {
+      // Fallback hint match
+      text = DHIKR_PHRASES[phraseHint].arabic;
     }
 
     if (!text) {
-      return NextResponse.json({ success: false, message: "No text or audio provided" }, { status: 400 });
+      return NextResponse.json({ success: false, message: "No text or audio transcribed" }, { status: 400 });
     }
 
     const { matchedId, count } = detectDhikrInText(text, phraseHint);
@@ -34,7 +68,7 @@ export async function POST(request: Request) {
       success: true,
       rawText: text,
       matchedPhrase: matchedId ? DHIKR_PHRASES[matchedId] : null,
-      incrementBy: count,
+      incrementBy: count || 1,
     });
   } catch (error: any) {
     console.error("Izkur recognize API error:", error);
