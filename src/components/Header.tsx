@@ -83,11 +83,11 @@ export default function Header({ lng }: { lng: string }) {
             </div>
           </Link>
           
-          <nav className="hidden lg:flex items-center gap-10 relative z-10">
+          <nav className="hidden lg:flex items-center gap-8 relative z-10">
              {menuItems.map((item) => (
                 <Link 
                   key={item}
-                  href={`#${item}`} 
+                  href={`/${lng}#${item}`} 
                   className="relative text-white font-bold text-lg md:text-xl font-display hover:text-gold transition-colors py-1 group/nav"
                 >
                   {t(`menu.${item}`)}
@@ -98,6 +98,13 @@ export default function Header({ lng }: { lng: string }) {
                   />
                 </Link>
              ))}
+             <Link 
+               href={`/${lng}/izkur`} 
+               className="relative text-[#D4AF37] font-bold text-lg md:text-xl font-calligraphy hover:text-white transition-all py-1 px-4 border border-gold/40 rounded-xl bg-gold/10 hover:bg-gold/20 flex items-center gap-2 shadow-[0_0_12px_rgba(212,175,55,0.3)]"
+             >
+               <span>📿</span>
+               <span>اذْكُرْ</span>
+             </Link>
           </nav>
 
           <div className="flex items-center gap-4 relative z-10">
