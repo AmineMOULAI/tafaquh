@@ -63,5 +63,31 @@
     "responsible_name": "أمين مولاي",
     "phone": "+33 7 45 94 37 35",
     "email": "moulaiamine@gmail.com"
+  },
+  "izkur": {
+    "app_name": "اذْكُرْ",
+    "subtitle": "العداد الصوتي الرقمي للذكـر والتسبيح",
+    "tagline": "أصالة • تجديد • أثر",
+    "voice_mode": "الوضع الصوتي الذكي",
+    "manual_mode": "الوضع اليدوي",
+    "listening": "جاري الاستماع للذكر...",
+    "paused": "الاستماع متوقف",
+    "start_listening": "تشغيل التعرف الصوتي",
+    "stop_listening": "إيقاف التعرف الصوتي",
+    "tap_to_count": "اضغط للتسبيح",
+    "target_goal": "الهدف",
+    "completed": "تم بحمد الله!",
+    "reset": "إعادة الضبط",
+    "total_today": "إجمالي الذكر اليوم",
+    "streak": "الأيام المتتالية",
+    "phrases": {
+      "subhanallah": "سُبْحَانَ اللَّهِ",
+      "alhamdulillah": "الْحَمْدُ لِلَّهِ",
+      "allahuakbar": "اللَّهُ أَكْبَرُ",
+      "lailahaillallah": "لَا إِلَهَ إِلَّا اللَّهُ",
+      "astaghfirullah": "أَسْتَغْفِرُ اللَّهَ"
+    },
+    "telegram_bot_banner": "انضم لبوت تفقه على تيليجرام لحساب الذكر الجماعي عبر الرسائل الصوتية",
+    "bot_link": "افتح البوت @izkur_tafaqquh_bot"
   }
 }

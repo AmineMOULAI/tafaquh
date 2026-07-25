@@ -63,5 +63,31 @@
     "responsible_name": "Amine MOULAY",
     "phone": "+33 7 45 94 37 35",
     "email": "moulaiamine@gmail.com"
+  },
+  "izkur": {
+    "app_name": "Izkur (اذْكُرْ)",
+    "subtitle": "Voice-Activated Digital Dhikr & Tasbih Companion",
+    "tagline": "Authenticity • Innovation • Impact",
+    "voice_mode": "Smart Voice Mode",
+    "manual_mode": "Manual Tap Mode",
+    "listening": "Listening for recitation...",
+    "paused": "Voice recognition paused",
+    "start_listening": "Start Voice Counter",
+    "stop_listening": "Pause Voice Counter",
+    "tap_to_count": "Tap to count",
+    "target_goal": "Goal",
+    "completed": "Goal Completed! All Praise to Allah",
+    "reset": "Reset Counter",
+    "total_today": "Total Dhikr Today",
+    "streak": "Day Streak",
+    "phrases": {
+      "subhanallah": "SubhanAllah",
+      "alhamdulillah": "Alhamdulillah",
+      "allahuakbar": "Allahu Akbar",
+      "lailahaillallah": "La ilaha illallah",
+      "astaghfirullah": "Astaghfirullah"
+    },
+    "telegram_bot_banner": "Join the Tafaqquh Telegram Bot to track group Dhikr via voice notes",
+    "bot_link": "Open Bot @izkur_tafaqquh_bot"
   }
 }

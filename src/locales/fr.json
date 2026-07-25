@@ -63,5 +63,31 @@
     "responsible_name": "Amine MOULAI",
     "phone": "+33 7 45 94 37 35",
     "email": "moulaiamine@gmail.com"
+  },
+  "izkur": {
+    "app_name": "Izkur (اذْكُرْ)",
+    "subtitle": "Compagnon Numérique Vocal pour le Dhikr & le Tasbih",
+    "tagline": "Authenticité • Innovation • Impact",
+    "voice_mode": "Mode Vocal Intelligent",
+    "manual_mode": "Mode Manuel",
+    "listening": "Écoute de la récitation en cours...",
+    "paused": "Reconnaissance vocale en pause",
+    "start_listening": "Activer le Compteur Vocal",
+    "stop_listening": "Mettre en Pause",
+    "tap_to_count": "Appuyer pour compter",
+    "target_goal": "Objectif",
+    "completed": "Objectif atteint ! Louange à Allah",
+    "reset": "Réinitialiser",
+    "total_today": "Total Dhikr Aujourd'hui",
+    "streak": "Jours Consécutifs",
+    "phrases": {
+      "subhanallah": "SubhanAllah",
+      "alhamdulillah": "Alhamdulillah",
+      "allahuakbar": "Allahu Akbar",
+      "lailahaillallah": "La ilaha illallah",
+      "astaghfirullah": "Astaghfirullah"
+    },
+    "telegram_bot_banner": "Rejoignez le Bot Telegram Tafaqquh pour le comptage de Dhikr collectif par notes vocales",
+    "bot_link": "Ouvrir le Bot @izkur_tafaqquh_bot"
   }
 }
