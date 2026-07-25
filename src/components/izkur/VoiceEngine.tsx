@@ -19,9 +19,11 @@ export default function VoiceEngine({
   onRecognizedMatch,
 }: VoiceEngineProps) {
   const [supported, setSupported] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [latestTranscript, setLatestTranscript] = useState<string>("");
   const recognitionRef = useRef<any>(null);
-  const lastProcessedIndexRef = useRef<number>(0);
+  const isListeningRef = useRef<boolean>(isListening);
+  isListeningRef.current = isListening;
 
   const getLanguageCode = (l: string) => {
     switch (l) {
@@ -57,6 +59,7 @@ export default function VoiceEngine({
       }
 
       setLatestTranscript(currentTranscript);
+      setErrorMessage(null);
 
       const { matchedId, count } = detectDhikrInText(currentTranscript, activePhraseId);
       if (matchedId && count > 0) {
@@ -66,12 +69,31 @@ export default function VoiceEngine({
 
     rec.onerror = (event: any) => {
       console.warn("Speech recognition error:", event.error);
+      if (event.error === "network") {
+        setErrorMessage(
+          lng === "ar"
+            ? "تعذر الاتصال بمركز التقدير الصوتي لـ Google. تحقق من الاتصال بالإنترنت أو استخدم اللمس المباشر."
+            : lng === "fr"
+            ? "Impossible de contacter le service vocal Google. Vérifiez votre connexion ou utilisez le mode manuel."
+            : "Could not reach Google Speech service. Check internet connection or tap manually."
+        );
+        onToggleListening(false);
+      } else if (event.error === "not-allowed") {
+        setErrorMessage(
+          lng === "ar"
+            ? "يرجى منح إذن استخدام الميكروفون لتشغيل التعرف الصوتي."
+            : lng === "fr"
+            ? "Veuillez autoriser l'accès au microphone."
+            : "Please allow microphone access to use voice recognition."
+        );
+        onToggleListening(false);
+      }
     };
 
     rec.onend = () => {
-      if (isListening && recognitionRef.current) {
+      if (isListeningRef.current && recognitionRef.current) {
         try {
-          recognitionRef.current.start();
+          rec.start();
         } catch (e) {}
       }
     };
@@ -91,6 +113,7 @@ export default function VoiceEngine({
     if (!recognitionRef.current) return;
 
     if (isListening) {
+      setErrorMessage(null);
       try {
         recognitionRef.current.start();
       } catch (e) {}
@@ -136,6 +159,12 @@ export default function VoiceEngine({
       {isListening && (
         <div className="mt-3 px-4 py-2 rounded-lg bg-black/40 border border-[#D4AF37]/20 text-xs font-amiri text-emerald-200/90 text-center max-w-sm">
           {latestTranscript ? `"${latestTranscript}"` : listeningStatus}
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="mt-3 px-4 py-2 rounded-lg bg-amber-950/60 border border-amber-500/40 text-xs font-amiri text-amber-200 text-center max-w-sm">
+          ⚠️ {errorMessage}
         </div>
       )}
 
