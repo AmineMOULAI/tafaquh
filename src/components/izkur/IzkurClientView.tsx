@@ -67,7 +67,6 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
     setTotalToday(updatedTotal);
     saveStats(updatedCounts, updatedTotal);
 
-    // Audio & Haptic Feedback
     if (typeof window !== "undefined" && window.navigator && window.navigator.vibrate) {
       window.navigator.vibrate(40);
     }
@@ -89,23 +88,51 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
   const currentCount = counts[selectedPhraseId] || 0;
   const isCompleted = currentCount >= targetGoal;
 
+  // Language Texts
+  const titleText = lng === "ar" ? "اذْكُرْ" : "Izkur (اذْكُرْ)";
+  const subtitleText = lng === "ar"
+    ? "العداد الصوتي الرقمي للذكـر والتسبيح المدمج في منصة تفقه"
+    : lng === "fr"
+    ? "Compagnon vocal numérique pour le Dhikr & le Tasbih dans l'écosystème Tafaqquh"
+    : "Voice-activated digital Dhikr & Tasbih companion integrated in Tafaqquh";
+
+  const sloganText = lng === "ar"
+    ? "أصالة • تجديد • أثر"
+    : lng === "fr"
+    ? "Authenticité • Innovation • Impact"
+    : "Authenticity • Innovation • Impact";
+
+  const botTitle = lng === "ar"
+    ? "بوت الذكر الجماعي على تيليجرام"
+    : lng === "fr"
+    ? "Bot Telegram de Dhikr Collectif"
+    : "Group Dhikr Telegram Bot";
+
+  const botDesc = lng === "ar"
+    ? "احسب ذكرك عبر الرسائل الصوتية في مجموعة @center_tafaquh"
+    : lng === "fr"
+    ? "Comptabilisez votre Dhikr via notes vocales dans le groupe @center_tafaquh"
+    : "Track your Dhikr via voice notes in @center_tafaquh group";
+
+  const botBtn = lng === "ar" ? "فتح البوت" : lng === "fr" ? "Ouvrir le Bot" : "Open Bot";
+
   return (
     <div className="min-h-screen bg-[#0A0D0B] text-[#FDFBF7] flex flex-col justify-between selection:bg-[#D4AF37] selection:text-[#0A0D0B]">
       <Header lng={lng} />
 
-      <main className="container mx-auto px-4 py-24 flex flex-col items-center max-w-3xl">
+      <main className="container mx-auto px-4 py-28 flex flex-col items-center max-w-3xl">
         {/* Header Branding Banner */}
         <div className="text-center mb-6">
           <div className="inline-block px-4 py-1 rounded-full border border-[#D4AF37]/40 bg-[#0B3B2C]/40 backdrop-blur-md mb-3">
             <span className="text-xs font-calligraphy text-[#D4AF37] tracking-widest">
-              أصالة • تجديد • أثر
+              {sloganText}
             </span>
           </div>
           <h1 className="font-calligraphy text-4xl md:text-6xl text-[#D4AF37] font-bold tracking-tight mb-2 drop-shadow-md">
-            اذْكُرْ (Izkur)
+            {titleText}
           </h1>
           <p className="font-amiri text-lg text-emerald-100/80 max-w-md mx-auto">
-            العداد الصوتي الذكي للذكر والتسبيح المدمج في منصة تفقه
+            {subtitleText}
           </p>
         </div>
 
@@ -137,6 +164,7 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
 
         {/* Voice Engine Controls */}
         <VoiceEngine
+          lng={lng}
           activePhraseId={selectedPhraseId}
           isListening={isListening}
           onToggleListening={(state) => setIsListening(state !== undefined ? state : !isListening)}
@@ -154,10 +182,10 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
         <div className="w-full max-w-md mt-6 p-4 rounded-2xl bg-gradient-to-r from-[#0B3B2C] to-[#1F4D36] border border-[#D4AF37]/40 flex items-center justify-between text-right shadow-xl">
           <div>
             <h4 className="font-calligraphy text-[#D4AF37] text-sm font-bold">
-              بوت الذكر الجماعي على تيليجرام
+              {botTitle}
             </h4>
             <p className="font-amiri text-xs text-emerald-100/80 mt-0.5">
-              احسب ذكرك عبر الرسائل الصوتية في مجموعة @center_tafaquh
+              {botDesc}
             </p>
           </div>
           <a
@@ -166,7 +194,7 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
             rel="noopener noreferrer"
             className="px-3 py-1.5 rounded-lg bg-[#D4AF37] text-[#0A0D0B] font-bold text-xs hover:bg-[#F9E498] transition-colors"
           >
-            فتح البوت
+            {botBtn}
           </a>
         </div>
       </main>
