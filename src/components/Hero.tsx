@@ -12,10 +12,11 @@ export default function Hero({ lng }: { lng: string }) {
   const [isMounted, setIsMounted] = useState(false)
   const containerRef = useRef(null)
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  })
+  const { scrollYProgress } = useScroll(
+    isMounted && containerRef.current
+      ? { target: containerRef, offset: ["start start", "end start"] }
+      : {}
+  )
 
   // Restore Parallax effects from original version
   const y1 = useTransform(scrollYProgress, [0, 1], [0, 200])

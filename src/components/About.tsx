@@ -2,16 +2,23 @@
 
 import { useTranslation } from '@/i18n/client'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { HexPattern } from './Motifs'
 
 export default function About({ lng }: { lng: string }) {
   const { t } = useTranslation(lng)
+  const [isMounted, setIsMounted] = useState(false)
   const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  })
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  const { scrollYProgress } = useScroll(
+    isMounted && ref.current
+      ? { target: ref, offset: ["start end", "end start"] }
+      : {}
+  )
   
   const y = useTransform(scrollYProgress, [0, 1], [0, 80])
 

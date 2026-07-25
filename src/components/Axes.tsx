@@ -2,7 +2,7 @@
 
 import { useTranslation } from '@/i18n/client'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { StarPattern } from './Motifs'
 import Image from 'next/image'
 
@@ -11,12 +11,18 @@ const axeKeys = ['foundations', 'religion', 'research', 'writing', 'impact']
 export default function Axes({ lng }: { lng: string }) {
   const { t } = useTranslation(lng)
   const [expandedAxe, setExpandedAxe] = useState<string | null>(null)
+  const [isMounted, setIsMounted] = useState(false)
   const ref = useRef(null)
-  
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  })
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  const { scrollYProgress } = useScroll(
+    isMounted && ref.current
+      ? { target: ref, offset: ["start end", "end start"] }
+      : {}
+  )
   
   const y = useTransform(scrollYProgress, [0, 1], [0, -50])
 

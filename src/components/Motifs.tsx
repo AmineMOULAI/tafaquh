@@ -1,14 +1,21 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 export const HexPattern = ({ speed = 50 }: { speed?: number }) => {
   const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  })
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  const { scrollYProgress } = useScroll(
+    isMounted && ref.current
+      ? { target: ref, offset: ["start end", "end start"] }
+      : {}
+  )
   const y = useTransform(scrollYProgress, [0, 1], [0, speed])
 
   return (
@@ -35,10 +42,17 @@ export const HexPattern = ({ speed = 50 }: { speed?: number }) => {
 
 export const StarPattern = ({ speed = -100 }: { speed?: number }) => {
   const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  })
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  const { scrollYProgress } = useScroll(
+    isMounted && ref.current
+      ? { target: ref, offset: ["start end", "end start"] }
+      : {}
+  )
   const y = useTransform(scrollYProgress, [0, 1], [0, speed])
 
   return (
