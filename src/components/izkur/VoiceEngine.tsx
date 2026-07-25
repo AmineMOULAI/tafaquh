@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { detectDhikrInText, DhikrPhraseId } from "@/utils/arabicSpeech";
+import { detectDhikrInText, DhikrPhraseId, DHIKR_PHRASES } from "@/utils/arabicSpeech";
 
 interface VoiceEngineProps {
   lng: string;
@@ -72,10 +72,10 @@ export default function VoiceEngine({
       if (event.error === "network") {
         setErrorMessage(
           lng === "ar"
-            ? "تعذر الاتصال بمركز التقدير الصوتي لـ Google. تحقق من الاتصال بالإنترنت أو استخدم اللمس المباشر."
+            ? "خدمة التعرف الصوتي المباشر لـ Google تتطلب اتصالاً بالإنترنت. يمكنك تجربة أزرار الصوت التجريبية أدناه أو استخدام اللمس."
             : lng === "fr"
-            ? "Impossible de contacter le service vocal Google. Vérifiez votre connexion ou utilisez le mode manuel."
-            : "Could not reach Google Speech service. Check internet connection or tap manually."
+            ? "Le service vocal Google nécessite une connexion Internet. Utilisez les boutons de test ou le mode manuel."
+            : "Google Speech service requires internet connectivity. Try test audio buttons below or tap manually."
         );
         onToggleListening(false);
       } else if (event.error === "not-allowed") {
@@ -124,6 +124,12 @@ export default function VoiceEngine({
     }
   }, [isListening]);
 
+  const handleSimulatedRecitation = (phraseId: DhikrPhraseId) => {
+    const text = DHIKR_PHRASES[phraseId].arabic;
+    setLatestTranscript(text);
+    onRecognizedMatch(phraseId, 1);
+  };
+
   const buttonLabel = isListening
     ? lng === "ar"
       ? "إيقاف التعرف الصوتي"
@@ -143,7 +149,7 @@ export default function VoiceEngine({
     : "Listening for recitation...";
 
   return (
-    <div className="flex flex-col items-center justify-center my-4">
+    <div className="flex flex-col items-center justify-center my-4 w-full">
       <button
         onClick={() => onToggleListening()}
         className={`px-6 py-3 rounded-full font-bold text-sm flex items-center gap-3 shadow-xl transition-all border ${
@@ -167,6 +173,25 @@ export default function VoiceEngine({
           ⚠️ {errorMessage}
         </div>
       )}
+
+      {/* Voice Test & Simulation Buttons for Local Testing */}
+      <div className="mt-4 p-3 rounded-xl bg-[#0B3B2C]/30 border border-[#D4AF37]/20 text-center max-w-sm">
+        <span className="text-[11px] font-mono text-[#D4AF37]/80 block mb-2">
+          {lng === "ar"
+            ? "💡 اختبر المحرك بصوت صناعي محاكي:"
+            : lng === "fr"
+            ? "💡 Simuler une récitation vocale (Test local) :"
+            : "💡 Test simulated voice recitation (Local Test):"}
+        </span>
+        <div className="flex flex-wrap gap-2 justify-center">
+          <button
+            onClick={() => handleSimulatedRecitation(activePhraseId)}
+            className="px-3 py-1 rounded-md bg-[#D4AF37]/20 hover:bg-[#D4AF37] hover:text-[#0A0D0B] text-[#D4AF37] text-xs font-amiri font-bold border border-[#D4AF37]/40 transition-all"
+          >
+            🗣️ {DHIKR_PHRASES[activePhraseId].arabic}
+          </button>
+        </div>
+      </div>
 
       {!supported && (
         <p className="mt-2 text-xs text-amber-400 text-center">
