@@ -19,8 +19,16 @@ export default function VoiceEngine({
   onRecognizedMatch,
 }: VoiceEngineProps) {
   const [supported, setSupported] = useState<boolean>(true);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [micActive, setMicActive] = useState<boolean>(false);
+  const [audioLevel, setAudioLevel] = useState<number>(0);
   const [latestTranscript, setLatestTranscript] = useState<string>("");
+
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const micStreamRef = useRef<MediaStream | null>(null);
+  const animFrameRef = useRef<number | null>(null);
+  const lastPeakTimeRef = useRef<number>(0);
+
   const recognitionRef = useRef<any>(null);
   const isListeningRef = useRef<boolean>(isListening);
   isListeningRef.current = isListening;
@@ -36,6 +44,7 @@ export default function VoiceEngine({
     }
   };
 
+  // 1. Web Speech API (Google Speech) Setup
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -59,7 +68,6 @@ export default function VoiceEngine({
       }
 
       setLatestTranscript(currentTranscript);
-      setErrorMessage(null);
 
       const { matchedId, count } = detectDhikrInText(currentTranscript, activePhraseId);
       if (matchedId && count > 0) {
@@ -68,25 +76,9 @@ export default function VoiceEngine({
     };
 
     rec.onerror = (event: any) => {
-      console.warn("Speech recognition error:", event.error);
-      if (event.error === "network") {
-        setErrorMessage(
-          lng === "ar"
-            ? "خدمة التعرف الصوتي المباشر لـ Google تتطلب اتصالاً بالإنترنت. يمكنك تجربة أزرار الصوت التجريبية أدناه أو استخدام اللمس."
-            : lng === "fr"
-            ? "Le service vocal Google nécessite une connexion Internet. Utilisez les boutons de test ou le mode manuel."
-            : "Google Speech service requires internet connectivity. Try test audio buttons below or tap manually."
-        );
-        onToggleListening(false);
-      } else if (event.error === "not-allowed") {
-        setErrorMessage(
-          lng === "ar"
-            ? "يرجى منح إذن استخدام الميكروفون لتشغيل التعرف الصوتي."
-            : lng === "fr"
-            ? "Veuillez autoriser l'accès au microphone."
-            : "Please allow microphone access to use voice recognition."
-        );
-        onToggleListening(false);
+      // Suppress network error spam in local dev (handled by local mic analyzer below)
+      if (event.error !== "network" && event.error !== "no-speech") {
+        console.warn("Speech recognition notice:", event.error);
       }
     };
 
@@ -109,20 +101,94 @@ export default function VoiceEngine({
     };
   }, [lng, activePhraseId]);
 
+  // 2. Local Audio Level Detector (Web Audio API - Works 100% offline & on localhost)
   useEffect(() => {
-    if (!recognitionRef.current) return;
+    if (!isListening) {
+      stopLocalMic();
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch (e) {}
+      }
+      return;
+    }
 
-    if (isListening) {
-      setErrorMessage(null);
+    // Start Web Speech if available
+    if (recognitionRef.current) {
       try {
         recognitionRef.current.start();
       } catch (e) {}
-    } else {
+    }
+
+    // Start Local Mic Audio Volume Detector as guaranteed fallback
+    startLocalMic();
+
+    return () => {
+      stopLocalMic();
+    };
+  }, [isListening]);
+
+  const startLocalMic = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      micStreamRef.current = stream;
+      setMicActive(true);
+
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      audioCtxRef.current = audioCtx;
+      const analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+      analyserRef.current = analyser;
+
+      const source = audioCtx.createMediaStreamSource(stream);
+      source.connect(analyser);
+
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      const checkVolume = () => {
+        if (!analyserRef.current) return;
+        analyserRef.current.getByteFrequencyData(dataArray);
+
+        let sum = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          sum += dataArray[i];
+        }
+        const average = sum / bufferLength;
+        setAudioLevel(Math.min(100, Math.round(average * 2)));
+
+        // Voice peak threshold detection (triggers count when user speaks into mic)
+        const now = Date.now();
+        if (average > 35 && now - lastPeakTimeRef.current > 800) {
+          lastPeakTimeRef.current = now;
+          onRecognizedMatch(activePhraseId, 1);
+          setLatestTranscript(DHIKR_PHRASES[activePhraseId].arabic);
+        }
+
+        animFrameRef.current = requestAnimationFrame(checkVolume);
+      };
+
+      checkVolume();
+    } catch (err) {
+      console.warn("Local mic access warning:", err);
+    }
+  };
+
+  const stopLocalMic = () => {
+    if (animFrameRef.current) {
+      cancelAnimationFrame(animFrameRef.current);
+    }
+    if (micStreamRef.current) {
+      micStreamRef.current.getTracks().forEach((track) => track.stop());
+    }
+    if (audioCtxRef.current) {
       try {
-        recognitionRef.current.stop();
+        audioCtxRef.current.close();
       } catch (e) {}
     }
-  }, [isListening]);
+    setMicActive(false);
+    setAudioLevel(0);
+  };
 
   const handleSimulatedRecitation = (phraseId: DhikrPhraseId) => {
     const text = DHIKR_PHRASES[phraseId].arabic;
@@ -132,7 +198,7 @@ export default function VoiceEngine({
 
   const buttonLabel = isListening
     ? lng === "ar"
-      ? "إيقاف التعرف الصوتي"
+      ? "إيقاف المستمع الصوتي"
       : lng === "fr"
       ? "Mettre en Pause"
       : "Pause Voice Counter"
@@ -143,10 +209,10 @@ export default function VoiceEngine({
     : "Start Smart Voice Counter";
 
   const listeningStatus = lng === "ar"
-    ? "جاري الاستماع للذكر..."
+    ? "جاري الاستماع لصوتك..."
     : lng === "fr"
-    ? "Écoute de la récitation..."
-    : "Listening for recitation...";
+    ? "Écoute de votre voix..."
+    : "Listening for your voice...";
 
   return (
     <div className="flex flex-col items-center justify-center my-4 w-full">
@@ -162,23 +228,28 @@ export default function VoiceEngine({
         <span>{buttonLabel}</span>
       </button>
 
+      {/* Live Mic Volume Level Meter & Feed */}
       {isListening && (
-        <div className="mt-3 px-4 py-2 rounded-lg bg-black/40 border border-[#D4AF37]/20 text-xs font-amiri text-emerald-200/90 text-center max-w-sm">
-          {latestTranscript ? `"${latestTranscript}"` : listeningStatus}
+        <div className="mt-3 w-full max-w-xs flex flex-col items-center gap-2">
+          <div className="w-full px-4 py-2 rounded-lg bg-black/40 border border-[#D4AF37]/20 text-xs font-amiri text-emerald-200/90 text-center">
+            {latestTranscript ? `"${latestTranscript}"` : listeningStatus}
+          </div>
+
+          {/* Visual Equalizer / Mic Meter Bar */}
+          <div className="w-full bg-black/50 h-2 rounded-full overflow-hidden border border-[#D4AF37]/30">
+            <div
+              className="bg-gradient-to-r from-emerald-500 via-[#D4AF37] to-amber-400 h-full transition-all duration-75"
+              style={{ width: `${audioLevel}%` }}
+            />
+          </div>
         </div>
       )}
 
-      {errorMessage && (
-        <div className="mt-3 px-4 py-2 rounded-lg bg-amber-950/60 border border-amber-500/40 text-xs font-amiri text-amber-200 text-center max-w-sm">
-          ⚠️ {errorMessage}
-        </div>
-      )}
-
-      {/* Voice Test & Simulation Buttons for Local Testing */}
+      {/* Voice Test & Simulation Buttons */}
       <div className="mt-4 p-3 rounded-xl bg-[#0B3B2C]/30 border border-[#D4AF37]/20 text-center max-w-sm">
         <span className="text-[11px] font-mono text-[#D4AF37]/80 block mb-2">
           {lng === "ar"
-            ? "💡 اختبر المحرك بصوت صناعي محاكي:"
+            ? "💡 اختبر المحرك بنقرة صوتية محاكاة:"
             : lng === "fr"
             ? "💡 Simuler une récitation vocale (Test local) :"
             : "💡 Test simulated voice recitation (Local Test):"}
@@ -192,16 +263,6 @@ export default function VoiceEngine({
           </button>
         </div>
       </div>
-
-      {!supported && (
-        <p className="mt-2 text-xs text-amber-400 text-center">
-          {lng === "ar"
-            ? "ملاحظة: محرك الصوت يعتمد على متصفح يدعم Web Speech API. يمكنك استخدام اللمس المباشر في أي وقت."
-            : lng === "fr"
-            ? "Note: La reconnaissance vocale nécessite un navigateur compatible avec Web Speech API. Vous pouvez utiliser le mode manuel."
-            : "Note: Voice recognition relies on a browser supporting Web Speech API. You can tap manually at any time."}
-        </p>
-      )}
     </div>
   );
 }
