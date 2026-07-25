@@ -57,15 +57,22 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
     }
   };
 
-  const handleIncrement = (amount = 1) => {
-    const currentVal = counts[selectedPhraseId] || 0;
-    const newVal = currentVal + amount;
-    const updatedCounts = { ...counts, [selectedPhraseId]: newVal };
-    const updatedTotal = totalToday + amount;
+  const handleIncrement = (amount = 1, overridePhraseId?: DhikrPhraseId) => {
+    const targetId = overridePhraseId || selectedPhraseId;
 
-    setCounts(updatedCounts);
-    setTotalToday(updatedTotal);
-    saveStats(updatedCounts, updatedTotal);
+    setCounts((prevCounts) => {
+      const currentVal = prevCounts[targetId] || 0;
+      const newVal = currentVal + amount;
+      const updatedCounts = { ...prevCounts, [targetId]: newVal };
+
+      setTotalToday((prevTotal) => {
+        const newTotal = prevTotal + amount;
+        saveStats(updatedCounts, newTotal);
+        return newTotal;
+      });
+
+      return updatedCounts;
+    });
 
     if (typeof window !== "undefined" && window.navigator && window.navigator.vibrate) {
       window.navigator.vibrate(40);
@@ -73,16 +80,16 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
   };
 
   const handleResetCurrent = () => {
-    const updatedCounts = { ...counts, [selectedPhraseId]: 0 };
-    setCounts(updatedCounts);
-    saveStats(updatedCounts, totalToday);
+    setCounts((prevCounts) => {
+      const updatedCounts = { ...prevCounts, [selectedPhraseId]: 0 };
+      saveStats(updatedCounts, totalToday);
+      return updatedCounts;
+    });
   };
 
   const handleRecognizedMatch = (matchedPhraseId: DhikrPhraseId, amount: number) => {
-    if (matchedPhraseId !== selectedPhraseId) {
-      setSelectedPhraseId(matchedPhraseId);
-    }
-    handleIncrement(amount);
+    setSelectedPhraseId(matchedPhraseId);
+    handleIncrement(amount, matchedPhraseId);
   };
 
   const currentCount = counts[selectedPhraseId] || 0;

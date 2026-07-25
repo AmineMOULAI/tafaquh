@@ -18,7 +18,8 @@ export const DHIKR_PHRASES: Record<DhikrPhraseId, DhikrPhraseDef> = {
     defaultGoal: 33,
     patterns: [
       "سبحان الله", "سبحانك", "سبحان",
-      "subhanallah", "subhan allah", "subhan-allah", "soubhanallah", "soubhan allah"
+      "subhanallah", "subhan allah", "subhan-allah", "soubhanallah", "soubhan allah",
+      "subhana allah", "sobhan allah", "subhan", "glory to allah", "glory be to allah"
     ],
   },
   alhamdulillah: {
@@ -29,7 +30,8 @@ export const DHIKR_PHRASES: Record<DhikrPhraseId, DhikrPhraseDef> = {
     defaultGoal: 33,
     patterns: [
       "الحمد لله", "الحمدلله", "حمد لله",
-      "alhamdulillah", "alhamdoulillah", "al hamdu lillah", "al hamdulillah", "elhamdulillah"
+      "alhamdulillah", "alhamdoulillah", "al hamdu lillah", "al hamdulillah", "elhamdulillah",
+      "alhamdu lillah", "praise be to allah", "praise to allah", "all praise to allah"
     ],
   },
   allahuakbar: {
@@ -40,7 +42,8 @@ export const DHIKR_PHRASES: Record<DhikrPhraseId, DhikrPhraseDef> = {
     defaultGoal: 33,
     patterns: [
       "الله اكبر", "الله أكبر", "اللهكبر",
-      "allahu akbar", "allahuakbar", "allah akbar", "allahou akbar"
+      "allahu akbar", "allahuakbar", "allah akbar", "allahou akbar",
+      "allah is greatest", "god is greatest", "allah is the greatest"
     ],
   },
   lailahaillallah: {
@@ -51,7 +54,8 @@ export const DHIKR_PHRASES: Record<DhikrPhraseId, DhikrPhraseDef> = {
     defaultGoal: 100,
     patterns: [
       "لا اله الا الله", "لا إله إلا الله", "لااله الا الله",
-      "la ilaha illallah", "la ilaha illa allah", "la illaha illallah"
+      "la ilaha illallah", "la ilaha illa allah", "la illaha illallah",
+      "there is no god but allah"
     ],
   },
   astaghfirullah: {
@@ -62,7 +66,8 @@ export const DHIKR_PHRASES: Record<DhikrPhraseId, DhikrPhraseDef> = {
     defaultGoal: 100,
     patterns: [
       "استغفر الله", "أستغفر الله", "استغفرالله",
-      "astaghfirullah", "astagfirullah", "asteghfirullah"
+      "astaghfirullah", "astagfirullah", "asteghfirullah",
+      "i ask allah for forgiveness", "i seek forgiveness from allah"
     ],
   },
 };
