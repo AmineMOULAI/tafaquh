@@ -159,7 +159,7 @@ export default function VoiceEngine({
 
         // Voice peak threshold detection (triggers count when user speaks into mic)
         const now = Date.now();
-        if (average > 35 && now - lastPeakTimeRef.current > 800) {
+        if (average > 10 && now - lastPeakTimeRef.current > 600) {
           lastPeakTimeRef.current = now;
           onRecognizedMatch(activePhraseId, 1);
           setLatestTranscript(DHIKR_PHRASES[activePhraseId].arabic);
