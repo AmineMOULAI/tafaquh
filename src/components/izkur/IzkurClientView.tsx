@@ -88,8 +88,10 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
   };
 
   const handleRecognizedMatch = (matchedPhraseId: DhikrPhraseId, amount: number) => {
-    setSelectedPhraseId(matchedPhraseId);
-    handleIncrement(amount, matchedPhraseId);
+    // STRICT MODE: Only increment if matched phrase matches currently selected phrase
+    if (matchedPhraseId === selectedPhraseId) {
+      handleIncrement(amount, matchedPhraseId);
+    }
   };
 
   const currentCount = counts[selectedPhraseId] || 0;

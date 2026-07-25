@@ -17,9 +17,9 @@ export const DHIKR_PHRASES: Record<DhikrPhraseId, DhikrPhraseDef> = {
     french: "Gloire à Allah",
     defaultGoal: 33,
     patterns: [
-      "سبحان الله", "سبحانك", "سبحان",
+      "سبحان الله", "سبحانك", "سبحانالله", "سبحان",
       "subhanallah", "subhan allah", "subhan-allah", "soubhanallah", "soubhan allah",
-      "subhana allah", "sobhan allah", "subhan", "glory to allah", "glory be to allah"
+      "subhana allah", "sobhan allah", "glory to allah", "glory be to allah"
     ],
   },
   alhamdulillah: {
@@ -29,9 +29,9 @@ export const DHIKR_PHRASES: Record<DhikrPhraseId, DhikrPhraseDef> = {
     french: "Louange à Allah",
     defaultGoal: 33,
     patterns: [
-      "الحمد لله", "الحمدلله", "حمد لله",
+      "الحمد لله", "الحمدلله", "حمد لله", "الحمد",
       "alhamdulillah", "alhamdoulillah", "al hamdu lillah", "al hamdulillah", "elhamdulillah",
-      "alhamdu lillah", "praise be to allah", "praise to allah", "all praise to allah"
+      "alhamdu lillah", "praise be to allah", "praise to allah", "all praise to allah", "praise god", "thanks to allah"
     ],
   },
   allahuakbar: {
@@ -41,9 +41,9 @@ export const DHIKR_PHRASES: Record<DhikrPhraseId, DhikrPhraseDef> = {
     french: "Allah est le Plus Grand",
     defaultGoal: 33,
     patterns: [
-      "الله اكبر", "الله أكبر", "اللهكبر",
-      "allahu akbar", "allahuakbar", "allah akbar", "allahou akbar",
-      "allah is greatest", "god is greatest", "allah is the greatest"
+      "الله اكبر", "الله أكبر", "اللهكبر", "الله الأكبر",
+      "allahu akbar", "allahuakbar", "allah akbar", "allahou akbar", "allaahu akbar",
+      "allah is greatest", "god is greatest", "allah is the greatest", "god is the greatest"
     ],
   },
   lailahaillallah: {
@@ -53,8 +53,8 @@ export const DHIKR_PHRASES: Record<DhikrPhraseId, DhikrPhraseDef> = {
     french: "Nul n'est digne d'adoration sauf Allah",
     defaultGoal: 100,
     patterns: [
-      "لا اله الا الله", "لا إله إلا الله", "لااله الا الله",
-      "la ilaha illallah", "la ilaha illa allah", "la illaha illallah",
+      "لا اله الا الله", "لا إله إلا الله", "لااله الا الله", "لاإله إلا الله",
+      "la ilaha illallah", "la ilaha illa allah", "la illaha illallah", "lailahaillallah",
       "there is no god but allah"
     ],
   },
@@ -65,9 +65,9 @@ export const DHIKR_PHRASES: Record<DhikrPhraseId, DhikrPhraseDef> = {
     french: "J'implore le pardon d'Allah",
     defaultGoal: 100,
     patterns: [
-      "استغفر الله", "أستغفر الله", "استغفرالله",
+      "استغفر الله", "أستغفر الله", "استغفرالله", "استغفر",
       "astaghfirullah", "astagfirullah", "asteghfirullah",
-      "i ask allah for forgiveness", "i seek forgiveness from allah"
+      "i ask allah for forgiveness", "i seek forgiveness from allah", "forgive me allah"
     ],
   },
 };
@@ -88,13 +88,17 @@ export function normalizeText(text: string): string {
 }
 
 /**
- * Detect Dhikr phrase occurrence in spoken text
+ * Detect Dhikr phrase occurrence in spoken text.
+ * Strictly locks to activePhraseId if provided!
  */
-export function detectDhikrInText(transcript: string, activePhraseId?: DhikrPhraseId): { matchedId: DhikrPhraseId | null; count: number } {
+export function detectDhikrInText(
+  transcript: string,
+  activePhraseId?: DhikrPhraseId
+): { matchedId: DhikrPhraseId | null; count: number } {
   const norm = normalizeText(transcript);
   if (!norm) return { matchedId: null, count: 0 };
 
-  // Check activePhraseId patterns first
+  // STRICT TARGET LOCKING: If activePhraseId is provided, ONLY match that phrase
   if (activePhraseId) {
     const def = DHIKR_PHRASES[activePhraseId];
     for (const pattern of def.patterns) {
@@ -104,9 +108,11 @@ export function detectDhikrInText(transcript: string, activePhraseId?: DhikrPhra
         return { matchedId: activePhraseId, count: Math.max(1, matches) };
       }
     }
+    // Return null if spoken text does not match the active target phrase
+    return { matchedId: null, count: 0 };
   }
 
-  // Check all phrases
+  // Fallback check all phrases
   for (const [id, def] of Object.entries(DHIKR_PHRASES)) {
     for (const pattern of def.patterns) {
       const normPattern = normalizeText(pattern);
