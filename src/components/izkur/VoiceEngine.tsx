@@ -177,14 +177,19 @@ export default function VoiceEngine({
   const stopLocalMic = () => {
     if (animFrameRef.current) {
       cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = null;
     }
     if (micStreamRef.current) {
       micStreamRef.current.getTracks().forEach((track) => track.stop());
+      micStreamRef.current = null;
     }
     if (audioCtxRef.current) {
-      try {
-        audioCtxRef.current.close();
-      } catch (e) {}
+      if (audioCtxRef.current.state !== "closed") {
+        try {
+          audioCtxRef.current.close().catch(() => {});
+        } catch (e) {}
+      }
+      audioCtxRef.current = null;
     }
     setMicActive(false);
     setAudioLevel(0);
