@@ -2,9 +2,9 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { JALSA_PROJECTS } from '@/data/jalsaData';
 import ProjectCard from './jalsa/ProjectCard';
+import { StarGeometricIcon, MicrophoneIcon } from './jalsa/Icons';
 
 export default function JalsaSection({ lng }: { lng: string }) {
   const isAr = lng === 'ar';
@@ -20,7 +20,8 @@ export default function JalsaSection({ lng }: { lng: string }) {
   return (
     <section className="py-28 bg-gradient-to-b from-[#0A0D0B] via-[#0B3B2C]/40 to-[#0A0D0B] relative overflow-hidden border-y border-gold/20" id="jalsa">
       {/* Decorative Islamic Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l5 25 25 5-25 5-5 25-5-25-25-5 25-5z' fill='%23D4AF37' fill-opacity='1'/%3E%3C/svg%3E")`,
           backgroundSize: '30px 30px',
@@ -31,8 +32,8 @@ export default function JalsaSection({ lng }: { lng: string }) {
         {/* Section Header */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/40 text-gold text-xs font-bold tracking-widest uppercase">
-            <span>🎙️</span>
-            <span>{isAr ? 'جديد المنصة • مجالس مسجلة' : 'New • Recorded Sessions'}</span>
+            <MicrophoneIcon className="w-3.5 h-3.5 text-gold" />
+            <span>{isAr ? 'المجالس العلمية والتسجيلات الرسمية' : 'Study Circles & Audio Records'}</span>
           </div>
 
           <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold text-gold tracking-tight ${isAr ? 'font-calligraphy' : 'font-display uppercase'}`}>
@@ -57,8 +58,8 @@ export default function JalsaSection({ lng }: { lng: string }) {
             href={`/${lng}/jalsa`}
             className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-gold via-gold-light to-amber-400 text-primary font-bold text-base shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:scale-105 transition-all"
           >
-            <span>📖</span>
-            <span>{isAr ? 'استكشف جميع جلسات ومشاريع تفقه' : 'Explore All Tafaqquh Sessions'}</span>
+            <StarGeometricIcon className="w-4 h-4 text-primary" />
+            <span>{isAr ? 'استكشف كافة مشاريع ومجالس تفقه' : 'Explore All Tafaqquh Majalis'}</span>
             <span>{isAr ? '←' : '→'}</span>
           </Link>
         </div>

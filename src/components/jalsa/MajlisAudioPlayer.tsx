@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { PlayIcon, PauseIcon, MicrophoneIcon, TelegramIcon, StarGeometricIcon } from './Icons';
 
 interface MajlisAudioPlayerProps {
   lng: string;
@@ -26,16 +27,12 @@ export default function MajlisAudioPlayer({
 }: MajlisAudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const [actualDuration, setActualDuration] = useState(durationSeconds);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [volume, setVolume] = useState(0.9);
   const [isMuted, setIsMuted] = useState(false);
-  const [hasAudioFile, setHasAudioFile] = useState(true);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const synthOscillatorRef = useRef<OscillatorNode | null>(null);
-  const synthGainRef = useRef<GainNode | null>(null);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Sync external seek requests (e.g. clicking a chapter in the notes)
   useEffect(() => {
@@ -45,109 +42,51 @@ export default function MajlisAudioPlayer({
   }, [currentTimestamp]);
 
   const formatTime = (secs: number) => {
+    if (isNaN(secs) || secs < 0) return '00:00';
     const m = Math.floor(secs / 60);
     const s = Math.floor(secs % 60);
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
   const seekTo = (seconds: number) => {
-    const clamped = Math.max(0, Math.min(durationSeconds, seconds));
+    const clamped = Math.max(0, Math.min(actualDuration, seconds));
     setCurrentTime(clamped);
-    if (audioRef.current && hasAudioFile) {
+    if (audioRef.current) {
       audioRef.current.currentTime = clamped;
     }
     if (onSeek) onSeek(clamped);
   };
 
-  const stopSynth = () => {
-    if (synthGainRef.current && audioContextRef.current) {
-      try {
-        synthGainRef.current.gain.setTargetAtTime(0, audioContextRef.current.currentTime, 0.1);
-      } catch {
-        // ignore
-      }
-    }
-  };
-
-  const startSynth = () => {
-    try {
-      const AudioContextClass =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (!audioContextRef.current) {
-        audioContextRef.current = new AudioContextClass();
-      }
-      const ctx = audioContextRef.current;
-      if (ctx.state === 'suspended') {
-        ctx.resume();
-      }
-
-      if (!synthGainRef.current) {
-        const gain = ctx.createGain();
-        gain.gain.setValueAtTime(0.05 * volume, ctx.currentTime);
-        gain.connect(ctx.destination);
-        synthGainRef.current = gain;
-      }
-
-      // Atmospheric spiritual ambient tone generator
-      const osc = ctx.createOscillator();
-      osc.type = 'sine';
-      // Harmonic 432Hz calming tone
-      osc.frequency.setValueAtTime(216, ctx.currentTime);
-      osc.connect(synthGainRef.current);
-      osc.start();
-      synthOscillatorRef.current = osc;
-    } catch {
-      // AudioContext fallback ignored
-    }
-  };
-
   const togglePlay = () => {
+    if (!audioRef.current) return;
+
     if (isPlaying) {
+      audioRef.current.pause();
       setIsPlaying(false);
-      if (audioRef.current && hasAudioFile) {
-        audioRef.current.pause();
-      }
-      stopSynth();
-      if (timerRef.current) clearInterval(timerRef.current);
     } else {
-      setIsPlaying(true);
-      if (audioRef.current && hasAudioFile) {
-        audioRef.current.play().catch(() => {
-          setHasAudioFile(false);
-          startSynth();
-        });
-      } else {
-        startSynth();
-      }
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch((err) => {
+        console.warn("Audio playback error:", err);
+      });
     }
   };
 
-  // Timer loop for tracking playback progress
-  useEffect(() => {
-    if (isPlaying) {
-      timerRef.current = setInterval(() => {
-        setCurrentTime((prev) => {
-          const next = prev + playbackRate;
-          if (next >= durationSeconds) {
-            setIsPlaying(false);
-            stopSynth();
-            return 0;
-          }
-          return next;
-        });
-      }, 1000);
-    } else {
-      if (timerRef.current) clearInterval(timerRef.current);
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
     }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [isPlaying, playbackRate, durationSeconds]);
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current && audioRef.current.duration && !isNaN(audioRef.current.duration)) {
+      setActualDuration(audioRef.current.duration);
+    }
+  };
 
   const handleSpeedChange = (speed: number) => {
     setPlaybackRate(speed);
-    if (audioRef.current && hasAudioFile) {
+    if (audioRef.current) {
       audioRef.current.playbackRate = speed;
     }
   };
@@ -156,7 +95,7 @@ export default function MajlisAudioPlayer({
     seekTo(currentTime + seconds);
   };
 
-  const progressPercent = durationSeconds > 0 ? (currentTime / durationSeconds) * 100 : 0;
+  const progressPercent = actualDuration > 0 ? (currentTime / actualDuration) * 100 : 0;
 
   const isAr = lng === 'ar';
   const isFr = lng === 'fr';
@@ -164,7 +103,7 @@ export default function MajlisAudioPlayer({
   const speedOptions = [0.75, 1, 1.25, 1.5, 2];
 
   return (
-    <div className="w-full bg-gradient-to-br from-[#0B3B2C]/90 via-[#0A261A]/95 to-[#0A0D0B] border-2 border-gold/40 rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-2xl relative overflow-hidden text-bg-paper selection:bg-gold selection:text-primary">
+    <div className="w-full bg-gradient-to-br from-[#0B3B2C]/90 via-[#0A261A]/95 to-[#0A0D0B] border-2 border-gold/40 rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-2xl relative overflow-hidden text-bg-paper">
       {/* Background Islamic Star Motif */}
       <div className="absolute top-0 right-0 w-64 h-64 opacity-[0.03] pointer-events-none">
         <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
@@ -174,12 +113,14 @@ export default function MajlisAudioPlayer({
         </svg>
       </div>
 
-      {/* Hidden audio element */}
+      {/* Real HTML5 Audio Element */}
       {audioUrl && (
         <audio
           ref={audioRef}
           src={audioUrl}
-          onError={() => setHasAudioFile(false)}
+          preload="metadata"
+          onTimeUpdate={handleTimeUpdate}
+          onLoadedMetadata={handleLoadedMetadata}
           onEnded={() => {
             setIsPlaying(false);
             setCurrentTime(0);
@@ -190,18 +131,19 @@ export default function MajlisAudioPlayer({
       {/* Player Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 relative z-10">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gold/10 border border-gold/40 flex items-center justify-center text-2xl text-gold shadow-inner flex-shrink-0">
-            🎙️
+          <div className="w-12 h-12 rounded-2xl bg-gold/10 border border-gold/40 flex items-center justify-center text-gold shadow-inner flex-shrink-0">
+            <MicrophoneIcon className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-widest uppercase bg-gold/20 text-gold border border-gold/30">
-                {isAr ? 'تسجيل صوتي للمجلس' : isFr ? 'Enregistrement de la session' : 'Session Audio Recording'}
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-widest uppercase bg-gold/20 text-gold border border-gold/30 flex items-center gap-1">
+                <StarGeometricIcon className="w-2.5 h-2.5 text-gold" />
+                <span>{isAr ? 'تسجيل صوتي للمجلس' : isFr ? 'Enregistrement Audio' : 'Session Recording'}</span>
               </span>
               {isPlaying && (
                 <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                  {isAr ? 'قيد التشغيل' : isFr ? 'En lecture' : 'Playing'}
+                  <span>{isAr ? 'قيد التشغيل' : isFr ? 'En cours' : 'Playing'}</span>
                 </span>
               )}
             </div>
@@ -212,17 +154,15 @@ export default function MajlisAudioPlayer({
           </div>
         </div>
 
-        {/* Telegram Direct Group CTA */}
+        {/* Telegram Direct Group Link */}
         <a
           href={telegramPostUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-700/60 to-emerald-900/80 border border-gold/40 text-gold hover:text-white hover:border-gold transition-all text-xs font-bold shadow-md group"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-800/60 to-emerald-950/80 border border-gold/40 text-gold hover:text-white hover:border-gold transition-all text-xs font-bold shadow-md group flex-shrink-0"
         >
-          <svg className="w-4 h-4 fill-current transition-transform group-hover:scale-110" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.45-.42-1.39-.88.03-.24.36-.48.99-.73 3.84-1.67 6.4-2.77 7.67-3.3 3.64-1.51.4-.21.9-.21.11 0 .35.02.5.07.13.04.22.11.26.21.04.09.05.21.02.32z"/>
-          </svg>
-          <span>{isAr ? 'المجلس في تيليجرام تفقه' : isFr ? 'Session sur Telegram Tafaqquh' : 'Session on Telegram Tafaqquh'}</span>
+          <TelegramIcon className="w-4 h-4 transition-transform group-hover:scale-110" />
+          <span>{isAr ? 'المجلس في تيليجرام تفقه' : isFr ? 'Session sur Telegram Tafaqquh' : 'Session on Telegram'}</span>
         </a>
       </div>
 
@@ -230,8 +170,8 @@ export default function MajlisAudioPlayer({
       <div className="flex items-center justify-center gap-1.5 h-12 my-4 px-2 py-1 bg-black/40 rounded-2xl border border-gold/20 overflow-hidden">
         {[...Array(36)].map((_, i) => {
           const barHeight = isPlaying
-            ? Math.max(15, Math.sin((i + currentTime) * 0.4) * 80 + Math.cos(i * 0.7) * 20)
-            : 10 + (i % 4) * 5;
+            ? Math.max(15, Math.sin((i + currentTime * 2) * 0.4) * 80 + Math.cos(i * 0.7) * 20)
+            : 12 + (i % 4) * 4;
           const isActive = (i / 36) * 100 <= progressPercent;
 
           return (
@@ -254,7 +194,7 @@ export default function MajlisAudioPlayer({
           <input
             type="range"
             min="0"
-            max={durationSeconds}
+            max={actualDuration}
             value={currentTime}
             onChange={(e) => seekTo(Number(e.target.value))}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
@@ -267,7 +207,7 @@ export default function MajlisAudioPlayer({
         <div className="flex justify-between text-xs font-mono text-gold/80 px-1">
           <span>{formatTime(currentTime)}</span>
           <span className="text-white/40">/</span>
-          <span>{formatTime(durationSeconds)}</span>
+          <span>{formatTime(actualDuration)}</span>
         </div>
       </div>
 
@@ -296,7 +236,7 @@ export default function MajlisAudioPlayer({
           <button
             onClick={() => handleSkip(-10)}
             title={isAr ? 'تأخير 10 ثوانٍ' : 'Skip Back 10s'}
-            className="w-10 h-10 rounded-full bg-gold/10 hover:bg-gold/20 border border-gold/30 flex items-center justify-center text-gold hover:text-white transition-all active:scale-95 text-xs font-bold"
+            className="w-10 h-10 rounded-full bg-gold/10 hover:bg-gold/20 border border-gold/30 flex items-center justify-center text-gold hover:text-white transition-all active:scale-95 text-xs font-mono font-bold"
           >
             -10s
           </button>
@@ -306,16 +246,16 @@ export default function MajlisAudioPlayer({
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.94 }}
             onClick={togglePlay}
-            className="w-14 h-14 rounded-full bg-gradient-to-tr from-gold via-gold-light to-amber-400 text-primary shadow-[0_0_25px_rgba(212,175,55,0.7)] flex items-center justify-center text-2xl font-bold transition-all"
+            className="w-14 h-14 rounded-full bg-gradient-to-tr from-gold via-gold-light to-amber-400 text-primary shadow-[0_0_25px_rgba(212,175,55,0.7)] flex items-center justify-center text-lg font-bold transition-all"
           >
-            {isPlaying ? '⏸' : '▶'}
+            {isPlaying ? <PauseIcon className="w-6 h-6" /> : <PlayIcon className="w-6 h-6 ml-0.5" />}
           </motion.button>
 
           {/* Skip Forward 10s */}
           <button
             onClick={() => handleSkip(10)}
             title={isAr ? 'تقديم 10 ثوانٍ' : 'Skip Forward 10s'}
-            className="w-10 h-10 rounded-full bg-gold/10 hover:bg-gold/20 border border-gold/30 flex items-center justify-center text-gold hover:text-white transition-all active:scale-95 text-xs font-bold"
+            className="w-10 h-10 rounded-full bg-gold/10 hover:bg-gold/20 border border-gold/30 flex items-center justify-center text-gold hover:text-white transition-all active:scale-95 text-xs font-mono font-bold"
           >
             +10s
           </button>
@@ -324,8 +264,13 @@ export default function MajlisAudioPlayer({
         {/* Volume & Mute */}
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setIsMuted(!isMuted)}
-            className="text-gold/80 hover:text-gold text-lg transition-colors"
+            onClick={() => {
+              if (audioRef.current) {
+                audioRef.current.muted = !isMuted;
+              }
+              setIsMuted(!isMuted);
+            }}
+            className="text-gold/80 hover:text-gold text-sm transition-colors"
             title={isMuted ? 'Unmute' : 'Mute'}
           >
             {isMuted || volume === 0 ? '🔇' : '🔊'}
@@ -337,8 +282,13 @@ export default function MajlisAudioPlayer({
             step="0.05"
             value={isMuted ? 0 : volume}
             onChange={(e) => {
-              setVolume(Number(e.target.value));
+              const val = Number(e.target.value);
+              setVolume(val);
               setIsMuted(false);
+              if (audioRef.current) {
+                audioRef.current.volume = val;
+                audioRef.current.muted = false;
+              }
             }}
             className="w-20 h-1.5 bg-black/60 rounded-full accent-gold cursor-pointer"
           />
