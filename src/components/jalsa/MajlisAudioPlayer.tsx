@@ -31,6 +31,8 @@ export default function MajlisAudioPlayer({
   const [playbackRate, setPlaybackRate] = useState(1);
   const [volume, setVolume] = useState(0.9);
   const [isMuted, setIsMuted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -41,6 +43,12 @@ export default function MajlisAudioPlayer({
     }
   }, [currentTimestamp]);
 
+  useEffect(() => {
+    if (durationSeconds > 0) {
+      setActualDuration(durationSeconds);
+    }
+  }, [durationSeconds]);
+
   const formatTime = (secs: number) => {
     if (isNaN(secs) || secs < 0) return '00:00';
     const m = Math.floor(secs / 60);
@@ -49,7 +57,7 @@ export default function MajlisAudioPlayer({
   };
 
   const seekTo = (seconds: number) => {
-    const clamped = Math.max(0, Math.min(actualDuration, seconds));
+    const clamped = Math.max(0, Math.min(actualDuration || durationSeconds, seconds));
     setCurrentTime(clamped);
     if (audioRef.current) {
       audioRef.current.currentTime = clamped;
@@ -64,11 +72,20 @@ export default function MajlisAudioPlayer({
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch((err) => {
-        console.warn("Audio playback error:", err);
-      });
+      setIsLoading(true);
+      setHasError(false);
+
+      audioRef.current
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.warn("Audio playback error:", err);
+          setIsLoading(false);
+          setHasError(true);
+        });
     }
   };
 
@@ -79,9 +96,10 @@ export default function MajlisAudioPlayer({
   };
 
   const handleLoadedMetadata = () => {
-    if (audioRef.current && audioRef.current.duration && !isNaN(audioRef.current.duration)) {
+    if (audioRef.current && audioRef.current.duration && !isNaN(audioRef.current.duration) && audioRef.current.duration > 0) {
       setActualDuration(audioRef.current.duration);
     }
+    setIsLoading(false);
   };
 
   const handleSpeedChange = (speed: number) => {
@@ -95,12 +113,19 @@ export default function MajlisAudioPlayer({
     seekTo(currentTime + seconds);
   };
 
-  const progressPercent = actualDuration > 0 ? (currentTime / actualDuration) * 100 : 0;
+  const progressPercent = (actualDuration || durationSeconds) > 0
+    ? (currentTime / (actualDuration || durationSeconds)) * 100
+    : 0;
 
   const isAr = lng === 'ar';
   const isFr = lng === 'fr';
 
   const speedOptions = [0.75, 1, 1.25, 1.5, 2];
+
+  // Derive source candidates (MP3 primary for universal compatibility, M4A, OGG)
+  const mp3Url = audioUrl ? audioUrl.replace(/\.(ogg|m4a)$/, '.mp3') : '';
+  const m4aUrl = audioUrl ? audioUrl.replace(/\.(ogg|mp3)$/, '.m4a') : '';
+  const oggUrl = audioUrl ? audioUrl.replace(/\.(mp3|m4a)$/, '.ogg') : '';
 
   return (
     <div className="w-full bg-gradient-to-br from-[#0B3B2C]/90 via-[#0A261A]/95 to-[#0A0D0B] border-2 border-gold/40 rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-2xl relative overflow-hidden text-bg-paper">
@@ -113,19 +138,33 @@ export default function MajlisAudioPlayer({
         </svg>
       </div>
 
-      {/* Real HTML5 Audio Element */}
+      {/* Real HTML5 Multi-format Audio Element */}
       {audioUrl && (
         <audio
           ref={audioRef}
-          src={audioUrl}
           preload="metadata"
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
+          onWaiting={() => setIsLoading(true)}
+          onPlaying={() => {
+            setIsLoading(false);
+            setIsPlaying(true);
+          }}
+          onPause={() => setIsPlaying(false)}
+          onError={() => {
+            console.error("Audio failed to load");
+            setIsLoading(false);
+            setHasError(true);
+          }}
           onEnded={() => {
             setIsPlaying(false);
             setCurrentTime(0);
           }}
-        />
+        >
+          <source src={mp3Url} type="audio/mpeg" />
+          <source src={m4aUrl} type="audio/mp4" />
+          <source src={oggUrl} type="audio/ogg" />
+        </audio>
       )}
 
       {/* Player Header */}
@@ -138,12 +177,17 @@ export default function MajlisAudioPlayer({
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-widest uppercase bg-gold/20 text-gold border border-gold/30 flex items-center gap-1">
                 <StarGeometricIcon className="w-2.5 h-2.5 text-gold" />
-                <span>{isAr ? 'تسجيل صوتي للمجلس' : isFr ? 'Enregistrement Audio' : 'Session Recording'}</span>
+                <span>{isAr ? 'تسجيل صوتي رسمي' : isFr ? 'Enregistrement Audio Officiel' : 'Official Recording'}</span>
               </span>
               {isPlaying && (
                 <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
                   <span>{isAr ? 'قيد التشغيل' : isFr ? 'En cours' : 'Playing'}</span>
+                </span>
+              )}
+              {isLoading && (
+                <span className="text-[10px] text-gold/80 font-mono animate-pulse">
+                  {isAr ? 'جاري التحميل...' : 'Buffering...'}
                 </span>
               )}
             </div>
@@ -165,6 +209,15 @@ export default function MajlisAudioPlayer({
           <span>{isAr ? 'المجلس في تيليجرام تفقه' : isFr ? 'Session sur Telegram Tafaqquh' : 'Session on Telegram'}</span>
         </a>
       </div>
+
+      {hasError && (
+        <div className="mb-4 p-3 rounded-xl bg-red-900/40 border border-red-500/40 text-xs text-red-200 flex items-center justify-between">
+          <span>{isAr ? 'تعذر تحميل الملف الصوتي. يمكنك الاستماع مباشرة عبر تيليجرام.' : 'Audio format could not be played directly. You can listen on Telegram.'}</span>
+          <a href={telegramPostUrl} target="_blank" rel="noopener noreferrer" className="underline font-bold text-gold">
+            {isAr ? 'فتح تيليجرام' : 'Open Telegram'}
+          </a>
+        </div>
+      )}
 
       {/* Animated Waveform Visualizer */}
       <div className="flex items-center justify-center gap-1.5 h-12 my-4 px-2 py-1 bg-black/40 rounded-2xl border border-gold/20 overflow-hidden">
@@ -194,7 +247,7 @@ export default function MajlisAudioPlayer({
           <input
             type="range"
             min="0"
-            max={actualDuration}
+            max={actualDuration || durationSeconds}
             value={currentTime}
             onChange={(e) => seekTo(Number(e.target.value))}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
@@ -207,7 +260,7 @@ export default function MajlisAudioPlayer({
         <div className="flex justify-between text-xs font-mono text-gold/80 px-1">
           <span>{formatTime(currentTime)}</span>
           <span className="text-white/40">/</span>
-          <span>{formatTime(actualDuration)}</span>
+          <span>{formatTime(actualDuration || durationSeconds)}</span>
         </div>
       </div>
 
@@ -270,10 +323,10 @@ export default function MajlisAudioPlayer({
               }
               setIsMuted(!isMuted);
             }}
-            className="text-gold/80 hover:text-gold text-sm transition-colors"
+            className="text-gold/80 hover:text-gold text-xs transition-colors font-mono"
             title={isMuted ? 'Unmute' : 'Mute'}
           >
-            {isMuted || volume === 0 ? '🔇' : '🔊'}
+            {isMuted || volume === 0 ? 'MUTE' : 'VOL'}
           </button>
           <input
             type="range"
