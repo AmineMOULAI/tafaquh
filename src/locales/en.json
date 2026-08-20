@@ -89,5 +89,16 @@
     },
     "telegram_bot_banner": "Join the Tafaqquh Telegram Bot to track group Dhikr via voice notes",
     "bot_link": "Open Bot @izkur_tafaqquh_bot"
+  },
+  "jalsa": {
+    "title": "Tafaqquh Study Circles (Jalsa)",
+    "subtitle": "Systematic knowledge circles and contemplation sessions",
+    "sharh_40": "Explanation of the 40 Nawawiyyah by Shaykh Ibn al-Uthaymeen",
+    "gharib_quran": "Gharib al-Qur'an & Vocabulary of Eloquence",
+    "listen_now": "Listen to Majlis",
+    "telegram_join": "Join Tafaqquh Majalis on Telegram",
+    "explore_project": "Explore Project",
+    "back_to_jalsa": "Back to Study Circles",
+    "sessions_available": "Recorded Sessions Available"
   }
 }

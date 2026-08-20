@@ -99,6 +99,13 @@ export default function Header({ lng }: { lng: string }) {
                 </Link>
              ))}
              <Link 
+               href={`/${lng}/jalsa`} 
+               className="relative text-[#D4AF37] font-bold text-lg md:text-xl font-calligraphy hover:text-white transition-all py-1 px-4 border border-gold/40 rounded-xl bg-gold/10 hover:bg-gold/20 flex items-center gap-2 shadow-[0_0_12px_rgba(212,175,55,0.3)]"
+             >
+               <span>🎙️</span>
+               <span>{lng === 'ar' ? 'جَلْسَة' : 'JALSA'}</span>
+             </Link>
+             <Link 
                href={`/${lng}/izkur`} 
                className="relative text-[#D4AF37] font-bold text-lg md:text-xl font-calligraphy hover:text-white transition-all py-1 px-4 border border-gold/40 rounded-xl bg-gold/10 hover:bg-gold/20 flex items-center gap-2 shadow-[0_0_12px_rgba(212,175,55,0.3)]"
              >

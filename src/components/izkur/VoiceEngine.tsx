@@ -45,107 +45,14 @@ export default function VoiceEngine({
     }
   };
 
-  // 1. Web Speech API Setup (Only increments when actual phrase text is recognized)
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-      setSupported(false);
-      return;
-    }
-
-    const rec = new SpeechRecognition();
-    rec.continuous = true;
-    rec.interimResults = true;
-    rec.lang = getLanguageCode(lng);
-
-    rec.onresult = (event: any) => {
-      let currentTranscript = "";
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        currentTranscript += event.results[i][0].transcript + " ";
-      }
-
-      const trimmed = currentTranscript.trim();
-      setLatestTranscript(trimmed);
-
-      // Match recognized spoken text against Dhikr dictionary
-      const { matchedId, count } = detectDhikrInText(trimmed, activePhraseId);
-      if (matchedId && count > 0) {
-        const now = Date.now();
-        // Debounce 1.2s between phrase increments
-        if (now - lastMatchTimeRef.current > 1200) {
-          lastMatchTimeRef.current = now;
-          onRecognizedMatch(matchedId, count);
-        }
-      }
-    };
-
-    rec.onerror = (event: any) => {
-      if (event.error === "network") {
-        setModeNotice(
-          lng === "ar"
-            ? "خدمة الصوت تتطلب شبكة متصلة. يمكنك التجربة عبر النقر المباشر أو الأزرار أدناه."
-            : lng === "fr"
-            ? "Le service vocal nécessite une connexion réseau."
-            : "Voice service requires a network connection."
-        );
-      }
-    };
-
-    rec.onend = () => {
-      if (isListeningRef.current && recognitionRef.current) {
-        try {
-          rec.start();
-        } catch (e) {}
-      }
-    };
-
-    recognitionRef.current = rec;
-
-    return () => {
-      if (recognitionRef.current) {
-        try {
-          recognitionRef.current.stop();
-        } catch (e) {}
-      }
-    };
-  }, [lng, activePhraseId]);
-
-  // 2. Microphone Level Meter ONLY (Visual indicator, NO automatic noise incrementing)
-  useEffect(() => {
-    if (!isListening) {
-      stopLocalMic();
-      if (recognitionRef.current) {
-        try {
-          recognitionRef.current.stop();
-        } catch (e) {}
-      }
-      return;
-    }
-
-    if (recognitionRef.current) {
-      try {
-        recognitionRef.current.start();
-      } catch (e) {}
-    }
-
-    startLocalMic();
-
-    return () => {
-      stopLocalMic();
-    };
-  }, [isListening]);
-
   const startLocalMic = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       micStreamRef.current = stream;
       setMicActive(true);
 
-      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const audioCtx = new AudioContextClass();
       audioCtxRef.current = audioCtx;
       const analyser = audioCtx.createAnalyser();
       analyser.fftSize = 256;
@@ -191,13 +98,118 @@ export default function VoiceEngine({
       if (audioCtxRef.current.state !== "closed") {
         try {
           audioCtxRef.current.close().catch(() => {});
-        } catch (e) {}
+        } catch {
+          // ignore error
+        }
       }
       audioCtxRef.current = null;
     }
     setMicActive(false);
     setAudioLevel(0);
   };
+
+  // 1. Web Speech API Setup (Only increments when actual phrase text is recognized)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const SpeechRecognitionClass =
+      (window as unknown as { SpeechRecognition?: any; webkitSpeechRecognition?: any }).SpeechRecognition ||
+      (window as unknown as { webkitSpeechRecognition?: any }).webkitSpeechRecognition;
+
+    if (!SpeechRecognitionClass) {
+      setSupported(false);
+      return;
+    }
+
+    const rec = new SpeechRecognitionClass();
+    rec.continuous = true;
+    rec.interimResults = true;
+    rec.lang = getLanguageCode(lng);
+
+    rec.onresult = (event: any) => {
+      let currentTranscript = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        currentTranscript += event.results[i][0].transcript + " ";
+      }
+
+      const trimmed = currentTranscript.trim();
+      setLatestTranscript(trimmed);
+
+      // Match recognized spoken text against Dhikr dictionary
+      const { matchedId, count } = detectDhikrInText(trimmed, activePhraseId);
+      if (matchedId && count > 0) {
+        const now = Date.now();
+        // Debounce 1.2s between phrase increments
+        if (now - lastMatchTimeRef.current > 1200) {
+          lastMatchTimeRef.current = now;
+          onRecognizedMatch(matchedId, count);
+        }
+      }
+    };
+
+    rec.onerror = (event: any) => {
+      if (event.error === "network") {
+        setModeNotice(
+          lng === "ar"
+            ? "خدمة الصوت تتطلب شبكة متصلة. يمكنك التجربة عبر النقر المباشر أو الأزرار أدناه."
+            : lng === "fr"
+            ? "Le service vocal nécessite une connexion réseau."
+            : "Voice service requires a network connection."
+        );
+      }
+    };
+
+    rec.onend = () => {
+      if (isListeningRef.current && recognitionRef.current) {
+        try {
+          rec.start();
+        } catch {
+          // ignore error
+        }
+      }
+    };
+
+    recognitionRef.current = rec;
+
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch {
+          // ignore error
+        }
+      }
+    };
+  }, [lng, activePhraseId]);
+
+  // 2. Microphone Level Meter ONLY (Visual indicator, NO automatic noise incrementing)
+  useEffect(() => {
+    if (!isListening) {
+      stopLocalMic();
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch {
+          // ignore error
+        }
+      }
+      return;
+    }
+
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.start();
+      } catch {
+        // ignore error
+      }
+    }
+
+    startLocalMic();
+
+    return () => {
+      stopLocalMic();
+    };
+  }, [isListening]);
 
   const handleSimulatedRecitation = (phraseId: DhikrPhraseId) => {
     const text = DHIKR_PHRASES[phraseId].arabic;

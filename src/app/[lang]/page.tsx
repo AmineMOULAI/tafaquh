@@ -2,6 +2,7 @@ import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import About from '@/components/About'
 import Axes from '@/components/Axes'
+import JalsaSection from '@/components/JalsaSection'
 import ContactForm from '@/components/ContactForm'
 import Footer from '@/components/Footer'
 import LoadingAnimation from '@/components/LoadingAnimation'
@@ -20,6 +21,7 @@ export default async function Page({
       <Hero lng={lang} />
       <About lng={lang} />
       <Axes lng={lang} />
+      <JalsaSection lng={lang} />
       <ContactForm lng={lang} />
       <Footer lng={lang} />
     </main>

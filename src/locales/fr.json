@@ -89,5 +89,16 @@
     },
     "telegram_bot_banner": "Rejoignez le Bot Telegram Tafaqquh pour le comptage de Dhikr collectif par notes vocales",
     "bot_link": "Ouvrir le Bot @izkur_tafaqquh_bot"
+  },
+  "jalsa": {
+    "title": "Sessions Tafaqquh (Jalsa)",
+    "subtitle": "Cercles d'étude méthodiques et de méditation",
+    "sharh_40": "Explication des 40 Hadiths Nawawi par Cheikh Ibn al-Outhaymine",
+    "gharib_quran": "Gharib al-Coran & Vocabulaire de l'Éloquence",
+    "listen_now": "Écouter la Session",
+    "telegram_join": "Rejoindre les Majalis Tafaqquh sur Telegram",
+    "explore_project": "Explorer le Projet",
+    "back_to_jalsa": "Retour aux Sessions",
+    "sessions_available": "Sessions enregistrées disponibles"
   }
 }
