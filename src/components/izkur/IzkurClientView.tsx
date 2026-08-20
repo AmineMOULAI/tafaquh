@@ -118,10 +118,10 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
     : "Group Dhikr Telegram Bot";
 
   const botDesc = lng === "ar"
-    ? "احسب ذكرك عبر الرسائل الصوتية في مجموعة @center_tafaquh"
+    ? "احسب ذكرك عبر الرسائل الصوتية في مجموعة @center_tafaqquh"
     : lng === "fr"
-    ? "Comptabilisez votre Dhikr via notes vocales dans le groupe @center_tafaquh"
-    : "Track your Dhikr via voice notes in @center_tafaquh group";
+    ? "Comptabilisez votre Dhikr via notes vocales dans le groupe @center_tafaqquh"
+    : "Track your Dhikr via voice notes in @center_tafaqquh group";
 
   const botBtn = lng === "ar" ? "فتح البوت" : lng === "fr" ? "Ouvrir le Bot" : "Open Bot";
 

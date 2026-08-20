@@ -114,8 +114,8 @@ export const JALSA_PROJECTS: JalsaProject[] = [
     "accentColor": "#D4AF37",
     "totalMajalis": 42,
     "completedMajalis": 1,
-    "telegramChatUrl": "https://t.me/center_tafaquh",
-    "telegramGroupName": "@center_tafaquh",
+    "telegramChatUrl": "https://t.me/center_tafaqquh",
+    "telegramGroupName": "@center_tafaqquh",
     "majalis": [
       {
         "id": "majlis-1-innama-al-aamal-bin-niyyat",
@@ -138,7 +138,7 @@ export const JALSA_PROJECTS: JalsaProject[] = [
         "audioUrl": "/audio/hadith-1.ogg",
         "posterImage": "/images/40nawawiyah.jpg",
         "isAvailable": true,
-        "telegramPostUrl": "https://t.me/center_tafaquh",
+        "telegramPostUrl": "https://t.me/center_tafaqquh",
         "telegramVoiceNoteInfo": {
           "ar": "تسجيل صوتي رسمي للمجلس في مجموعة تفقه على تيليجرام",
           "en": "Official audio recording available in the Tafaqquh Telegram group",
@@ -379,7 +379,7 @@ export const JALSA_PROJECTS: JalsaProject[] = [
         "durationSeconds": 2700,
         "audioUrl": "",
         "isAvailable": false,
-        "telegramPostUrl": "https://t.me/center_tafaquh",
+        "telegramPostUrl": "https://t.me/center_tafaqquh",
         "telegramVoiceNoteInfo": {
           "ar": "المجلس القادم في البث الصوتي المباشر على تيليجرام",
           "en": "Upcoming session on Tafaqquh Telegram live voice stream",
@@ -450,8 +450,8 @@ export const JALSA_PROJECTS: JalsaProject[] = [
     "accentColor": "#F9E498",
     "totalMajalis": 30,
     "completedMajalis": 1,
-    "telegramChatUrl": "https://t.me/center_tafaquh",
-    "telegramGroupName": "@center_tafaquh",
+    "telegramChatUrl": "https://t.me/center_tafaqquh",
+    "telegramGroupName": "@center_tafaqquh",
     "majalis": [
       {
         "id": "majlis-1-lafz-al-hamd",
@@ -474,7 +474,7 @@ export const JALSA_PROJECTS: JalsaProject[] = [
         "audioUrl": "/audio/majlis-1-hamd.ogg",
         "posterImage": "/images/gharibalquran.jpg",
         "isAvailable": true,
-        "telegramPostUrl": "https://t.me/center_tafaquh",
+        "telegramPostUrl": "https://t.me/center_tafaqquh",
         "telegramVoiceNoteInfo": {
           "ar": "تسجيل صوتي رسمي لمدارسة لفظ الحمد في مجموعة تفقه على تيليجرام",
           "en": "Official voice recording of the Al-Hamd session in the Tafaqquh Telegram group",

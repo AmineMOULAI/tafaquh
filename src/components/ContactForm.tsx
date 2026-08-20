@@ -109,7 +109,7 @@ export default function ContactForm({ lng }: { lng: string }) {
                    <div className="pt-8 border-t border-white/10 space-y-6">
                       <p className="text-gold font-bold text-sm tracking-widest uppercase">{t('follow_us')}</p>
                       <div className="flex flex-col gap-6">
-                         <a href="https://t.me/center_tafaquh" target="_blank" rel="noopener noreferrer" 
+                         <a href="https://t.me/center_tafaqquh" target="_blank" rel="noopener noreferrer" 
                             className="flex items-center gap-4 text-white/60 hover:text-gold transition-colors group">
                             <div className="w-10 h-10 border border-white/20 group-hover:border-gold flex items-center justify-center rotate-45 transition-colors">
                                <div className="-rotate-45">

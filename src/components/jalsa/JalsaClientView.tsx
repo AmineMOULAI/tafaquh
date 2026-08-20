@@ -113,13 +113,13 @@ export default function JalsaClientView({ lng }: JalsaClientViewProps) {
           </div>
 
           <a
-            href="https://t.me/center_tafaquh"
+            href="https://t.me/center_tafaqquh"
             target="_blank"
             rel="noopener noreferrer"
             className="px-8 py-4 rounded-2xl bg-gold text-primary font-bold text-base hover:bg-gold-light transition-all shadow-[0_0_25px_rgba(212,175,55,0.5)] flex items-center gap-3 flex-shrink-0"
           >
             <TelegramIcon className="w-5 h-5 text-primary" />
-            <span>{isAr ? 'دخول مجموعة تفقه @center_tafaquh' : 'Join @center_tafaquh'}</span>
+            <span>{isAr ? 'دخول مجموعة تفقه @center_tafaqquh' : 'Join @center_tafaqquh'}</span>
           </a>
         </div>
       </main>

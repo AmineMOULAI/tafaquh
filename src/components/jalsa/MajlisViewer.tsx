@@ -524,7 +524,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                     </p>
                   </div>
                   <a
-                    href="https://t.me/center_tafaquh"
+                    href="https://t.me/center_tafaqquh"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-6 py-3 rounded-xl bg-gold text-primary font-bold text-sm hover:bg-gold-light transition-all flex items-center gap-2 flex-shrink-0 shadow-lg"

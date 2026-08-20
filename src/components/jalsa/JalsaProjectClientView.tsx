@@ -232,19 +232,19 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
             </h3>
             <p className="text-xs md:text-sm text-emerald-100/90 font-amiri max-w-xl leading-relaxed">
               {isAr
-                ? 'تقام مجالس المدارسة عبر الرسائل والبث الصوتي في مجموعة تفقه على تيليجرام @center_tafaquh'
-                : 'Live study circles and voice notes take place directly in the Tafaqquh Telegram group @center_tafaquh'}
+                ? 'تقام مجالس المدارسة عبر الرسائل والبث الصوتي في مجموعة تفقه على تيليجرام @center_tafaqquh'
+                : 'Live study circles and voice notes take place directly in the Tafaqquh Telegram group @center_tafaqquh'}
             </p>
           </div>
 
           <a
-            href="https://t.me/center_tafaquh"
+            href="https://t.me/center_tafaqquh"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3.5 rounded-xl bg-gold text-primary font-bold text-sm hover:bg-gold-light transition-all flex items-center gap-2 flex-shrink-0 shadow-lg"
           >
             <TelegramIcon className="w-4 h-4 text-primary" />
-            <span>{isAr ? 'انضم إلى @center_tafaquh' : 'Join @center_tafaquh'}</span>
+            <span>{isAr ? 'انضم إلى @center_tafaqquh' : 'Join @center_tafaqquh'}</span>
           </a>
         </div>
       </main>

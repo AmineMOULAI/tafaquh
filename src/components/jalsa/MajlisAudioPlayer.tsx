@@ -21,7 +21,7 @@ export default function MajlisAudioPlayer({
   subtitle,
   durationSeconds = 2400,
   audioUrl,
-  telegramPostUrl = 'https://t.me/center_tafaquh',
+  telegramPostUrl = 'https://t.me/center_tafaqquh',
   currentTimestamp,
   onSeek,
 }: MajlisAudioPlayerProps) {

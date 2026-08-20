@@ -97,7 +97,7 @@ export default function Footer({ lng }: { lng: string }) {
                       <IslamicStarIcon className="w-3 h-3 text-gold/40" />
                       {t('footer.phone')}
                    </a>
-                   <a href="https://t.me/center_tafaquh" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-gold transition-colors text-sm flex items-center gap-3">
+                   <a href="https://t.me/center_tafaqquh" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-gold transition-colors text-sm flex items-center gap-3">
                       <TelegramIcon className="w-3 h-3 text-gold/40" />
                       Telegram
                    </a>
