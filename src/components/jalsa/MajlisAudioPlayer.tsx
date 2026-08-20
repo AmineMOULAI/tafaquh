@@ -66,14 +66,14 @@ export default function MajlisAudioPlayer({
     }
   }, [durationSeconds]);
 
-  // When activeAudioUrl changes, load audio
+  // When activeAudioUrl changes, update audio src
   useEffect(() => {
     if (audioRef.current && activeAudioUrl) {
+      const wasPlaying = isPlaying;
       audioRef.current.src = activeAudioUrl;
       audioRef.current.load();
-      if (isPlaying) {
-        audioRef.current.play().catch((err) => {
-          console.warn("Autoplay error after format switch:", err);
+      if (wasPlaying) {
+        audioRef.current.play().catch(() => {
           setIsPlaying(false);
         });
       }
@@ -106,7 +106,7 @@ export default function MajlisAudioPlayer({
       setIsLoading(true);
       setHasError(false);
 
-      if (!audioRef.current.src || audioRef.current.src === '' || audioRef.current.currentSrc === '') {
+      if (!audioRef.current.src || audioRef.current.src === '') {
         audioRef.current.src = activeAudioUrl;
         audioRef.current.load();
       }
@@ -116,11 +116,12 @@ export default function MajlisAudioPlayer({
         .then(() => {
           setIsPlaying(true);
           setIsLoading(false);
+          setHasError(false);
         })
         .catch((err) => {
-          console.warn("Audio playback error:", err);
+          console.warn("Audio play error:", err);
           setIsLoading(false);
-          // If mp3 fails, try m4a or ogg fallback
+          // Try fallback format
           if (selectedFormat === 'mp3') {
             setSelectedFormat('m4a');
           } else if (selectedFormat === 'm4a') {
@@ -143,6 +144,7 @@ export default function MajlisAudioPlayer({
       setActualDuration(audioRef.current.duration);
     }
     setIsLoading(false);
+    setHasError(false);
   };
 
   const handleSpeedChange = (speed: number) => {
@@ -190,11 +192,15 @@ export default function MajlisAudioPlayer({
           preload="metadata"
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
-          onCanPlay={() => setIsLoading(false)}
+          onCanPlay={() => {
+            setIsLoading(false);
+            setHasError(false);
+          }}
           onWaiting={() => setIsLoading(true)}
           onPlaying={() => {
             setIsLoading(false);
             setIsPlaying(true);
+            setHasError(false);
           }}
           onPause={() => setIsPlaying(false)}
           onError={() => {
@@ -234,7 +240,7 @@ export default function MajlisAudioPlayer({
                 </span>
               )}
               {isLoading && (
-                <span className="text-[10px] text-gold/80 font-mono animate-pulse">
+                <span className="text-[10px] text-gold/80 font-mono animate-pulse font-bold">
                   {isAr ? 'جاري التحميل...' : 'Buffering...'}
                 </span>
               )}
@@ -283,7 +289,7 @@ export default function MajlisAudioPlayer({
 
       {hasError && (
         <div className="mb-4 p-3 rounded-xl bg-red-900/30 border border-red-500/40 text-xs text-red-300 flex items-center justify-between">
-          <span>{isAr ? 'تعذر تشغيل هذه الصيغة، جرب اختيار M4A أو استمع مباشرة عبر تيليجرام.' : 'Audio format could not be played. Try clicking M4A or listen on Telegram.'}</span>
+          <span>{isAr ? 'يمكنك الاستماع مباشرة إلى المجلس عبر قناة تيليجرام تفقه الرسمية.' : 'You can listen directly on the official Tafaqquh Telegram channel.'}</span>
           <a href={telegramPostUrl} target="_blank" rel="noopener noreferrer" className="underline font-bold text-gold">
             {isAr ? 'فتح تيليجرام' : 'Open Telegram'}
           </a>
