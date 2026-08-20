@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { detectDhikrInText, DhikrPhraseId, DHIKR_PHRASES } from "@/utils/arabicSpeech";
+import { MicrophoneIcon, AudioWaveIcon } from "@/components/jalsa/Icons";
 
 interface VoiceEngineProps {
   lng: string;
@@ -245,7 +246,7 @@ export default function VoiceEngine({
             : "bg-[#D4AF37] text-[#0A0D0B] border-[#D4AF37] hover:scale-105"
         }`}
       >
-        <span className="text-lg">🎙️</span>
+        <MicrophoneIcon className="w-5 h-5" />
         <span>{buttonLabel}</span>
       </button>
 
@@ -282,7 +283,7 @@ export default function VoiceEngine({
               onClick={() => handleSimulatedRecitation(id)}
               className="px-3 py-1.5 rounded-lg bg-[#D4AF37]/20 hover:bg-[#D4AF37] hover:text-[#0A0D0B] text-[#D4AF37] text-xs font-amiri font-bold border border-[#D4AF37]/40 transition-all shadow-sm"
             >
-              🗣️ {DHIKR_PHRASES[id].arabic}
+              <span className="flex items-center gap-1.5"><AudioWaveIcon className="w-3.5 h-3.5" /><span>{DHIKR_PHRASES[id].arabic}</span></span>
             </button>
           ))}
         </div>

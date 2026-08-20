@@ -14,6 +14,8 @@ interface AppContextType {
   isSidebarCollapsed: boolean;
   setIsSidebarCollapsed: (collapsed: boolean) => void;
   toggleSidebar: () => void;
+  isMobileSidebarOpen: boolean;
+  setIsMobileSidebarOpen: (open: boolean) => void;
   isSettingsOpen: boolean;
   setIsSettingsOpen: (open: boolean) => void;
 }
@@ -24,6 +26,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<ThemeMode>('dark');
   const [navLayout, setNavLayoutState] = useState<NavLayout>('top');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -97,6 +100,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         isSidebarCollapsed,
         setIsSidebarCollapsed,
         toggleSidebar,
+        isMobileSidebarOpen,
+        setIsMobileSidebarOpen,
         isSettingsOpen,
         setIsSettingsOpen,
       }}

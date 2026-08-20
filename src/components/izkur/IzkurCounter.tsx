@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { DHIKR_PHRASES, DhikrPhraseId } from "@/utils/arabicSpeech";
+import { StarGeometricIcon } from "@/components/jalsa/Icons";
 
 interface IzkurCounterProps {
   currentPhraseId: DhikrPhraseId;
@@ -112,7 +113,7 @@ export default function IzkurCounter({
           animate={{ opacity: 1, y: 0 }}
           className="mt-6 px-6 py-2 rounded-full bg-gradient-to-r from-[#D4AF37] to-amber-600 text-[#0A0D0B] font-bold text-sm shadow-lg flex items-center gap-2"
         >
-          <span>✨</span>
+          <StarGeometricIcon className="w-4 h-4 text-[#0A0D0B]" />
           <span>تم بحمد الله! اكتمل الهدف ({targetGoal})</span>
           <button
             onClick={(e) => {

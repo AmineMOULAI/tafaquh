@@ -8,11 +8,20 @@ import SettingsModal from './SettingsModal';
 import { useEffect, useState } from 'react';
 import { useTranslation } from '@/i18n/client';
 import { useApp } from '@/context/AppContext';
-import { StarGeometricIcon, MicrophoneIcon, CompassIcon } from './jalsa/Icons';
+import {
+  StarGeometricIcon,
+  MicrophoneIcon,
+  CompassIcon,
+  SunIcon,
+  MoonIcon,
+  SettingsIcon,
+  MenuIcon,
+  CrossIcon,
+} from './jalsa/Icons';
 
 export default function Header({ lng }: { lng: string }) {
   const { t } = useTranslation(lng);
-  const { theme, toggleTheme, navLayout, setIsSettingsOpen } = useApp();
+  const { theme, toggleTheme, navLayout, setIsSettingsOpen, setIsMobileSidebarOpen } = useApp();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -27,9 +36,52 @@ export default function Header({ lng }: { lng: string }) {
   const menuItems = ['about', 'axes', 'contact'];
   const isAr = lng === 'ar';
 
-  // If user selected sidebar mode on desktop, the header remains accessible or can be compact
-  const isSidebarMode = navLayout === 'sidebar';
+  // If user selected sidebar mode, on desktop the top header is completely hidden
+  if (navLayout === 'sidebar') {
+    return (
+      <>
+        <SettingsModal lng={lng} />
 
+        {/* Mobile floating top bar trigger only */}
+        <div className="lg:hidden fixed top-4 right-4 left-4 z-40 flex items-center justify-between pointer-events-none">
+          <div className="pointer-events-auto">
+            <button
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className={`p-3 rounded-2xl border-2 border-gold/40 shadow-xl backdrop-blur-xl flex items-center gap-2 text-gold transition-all active:scale-95 ${
+                theme === 'light' ? 'bg-[#FAF8F5]/95 text-[#123326]' : 'bg-[#0A1A14]/95 text-white'
+              }`}
+            >
+              <MenuIcon className="w-5 h-5 text-gold" />
+              <span className="text-xs font-bold font-calligraphy">{t('project_name')}</span>
+            </button>
+          </div>
+
+          <div className="pointer-events-auto flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className={`p-2.5 rounded-xl border border-gold/40 text-gold shadow-md backdrop-blur-xl ${
+                theme === 'light' ? 'bg-white/90' : 'bg-black/60'
+              }`}
+              title="Toggle Theme"
+            >
+              {theme === 'dark' ? <SunIcon className="w-4 h-4" /> : <MoonIcon className="w-4 h-4" />}
+            </button>
+            <button
+              onClick={() => setIsSettingsOpen(true)}
+              className={`p-2.5 rounded-xl border border-gold/40 text-gold shadow-md backdrop-blur-xl ${
+                theme === 'light' ? 'bg-white/90' : 'bg-black/60'
+              }`}
+              title="Settings"
+            >
+              <SettingsIcon className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Classic Top Navbar Mode
   return (
     <>
       <SettingsModal lng={lng} />
@@ -38,9 +90,7 @@ export default function Header({ lng }: { lng: string }) {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-40 flex justify-center p-3 md:p-6 transition-all ${
-          isSidebarMode ? (isAr ? 'lg:mr-24' : 'lg:ml-24') : ''
-        }`}
+        className="fixed top-0 left-0 right-0 z-40 flex justify-center p-3 md:p-6 transition-all"
       >
         <div className="container mx-auto max-w-6xl">
           <motion.div
@@ -152,22 +202,22 @@ export default function Header({ lng }: { lng: string }) {
 
             {/* Right Controls: Theme Toggle + Settings + Language + Mobile Menu */}
             <div className="flex items-center gap-2.5 relative z-10">
-              {/* Quick Theme Toggle Button */}
+              {/* Quick Theme Toggle Button with SVG */}
               <button
                 onClick={toggleTheme}
                 title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
-                className="p-2 rounded-xl bg-gold/10 hover:bg-gold/25 border border-gold/40 text-gold transition-all flex items-center justify-center text-sm"
+                className="p-2 rounded-xl bg-gold/10 hover:bg-gold/25 border border-gold/40 text-gold transition-all flex items-center justify-center"
               >
-                {theme === 'dark' ? '☀️' : '🌙'}
+                {theme === 'dark' ? <SunIcon className="w-4 h-4" /> : <MoonIcon className="w-4 h-4" />}
               </button>
 
-              {/* Settings Modal Button */}
+              {/* Settings Modal Button with SVG */}
               <button
                 onClick={() => setIsSettingsOpen(true)}
                 title={isAr ? 'الإعدادات والتخصيص' : 'Settings'}
                 className="p-2 rounded-xl bg-gold/10 hover:bg-gold/25 border border-gold/40 text-gold transition-all flex items-center justify-center"
               >
-                <CompassIcon className="w-4 h-4" />
+                <SettingsIcon className="w-4 h-4" />
               </button>
 
               <div className="h-6 w-px bg-gold/30 hidden sm:block" />
@@ -179,13 +229,7 @@ export default function Header({ lng }: { lng: string }) {
                 className="lg:hidden p-2 rounded-xl bg-gold/10 border border-gold/30 text-gold hover:text-white focus:outline-none"
                 aria-label="Toggle Menu"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  {mobileMenuOpen ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  )}
-                </svg>
+                {mobileMenuOpen ? <CrossIcon className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
               </button>
             </div>
 
@@ -248,7 +292,7 @@ export default function Header({ lng }: { lng: string }) {
                       onClick={toggleTheme}
                       className="px-4 py-2 rounded-xl bg-gold/15 text-gold font-bold text-sm border border-gold/30 flex items-center gap-2"
                     >
-                      <span>{theme === 'dark' ? '☀️' : '🌙'}</span>
+                      {theme === 'dark' ? <SunIcon className="w-4 h-4" /> : <MoonIcon className="w-4 h-4" />}
                       <span>{theme === 'dark' ? (isAr ? 'الوضع الفاتح' : 'Light Theme') : (isAr ? 'الوضع الداكن' : 'Dark Theme')}</span>
                     </button>
                     <button
@@ -258,7 +302,7 @@ export default function Header({ lng }: { lng: string }) {
                       }}
                       className="px-4 py-2 rounded-xl bg-gold/15 text-gold font-bold text-sm border border-gold/30 flex items-center gap-1.5"
                     >
-                      <CompassIcon className="w-4 h-4" />
+                      <SettingsIcon className="w-4 h-4" />
                       <span>{isAr ? 'الإعدادات' : 'Settings'}</span>
                     </button>
                   </div>

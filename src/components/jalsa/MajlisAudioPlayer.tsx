@@ -3,7 +3,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useApp } from '@/context/AppContext';
-import { PlayIcon, PauseIcon, MicrophoneIcon, TelegramIcon, StarGeometricIcon } from './Icons';
+import {
+  PlayIcon,
+  PauseIcon,
+  MicrophoneIcon,
+  TelegramIcon,
+  StarGeometricIcon,
+  VolumeHighIcon,
+  VolumeMuteIcon,
+} from './Icons';
 
 interface MajlisAudioPlayerProps {
   lng: string;
@@ -220,8 +228,8 @@ export default function MajlisAudioPlayer({
                 <span>{isAr ? 'تسجيل صوتي رسمي' : isFr ? 'Enregistrement Audio Officiel' : 'Official Recording'}</span>
               </span>
               {isPlaying && (
-                <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30 font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
                   <span>{isAr ? 'قيد التشغيل' : isFr ? 'En cours' : 'Playing'}</span>
                 </span>
               )}
@@ -238,7 +246,7 @@ export default function MajlisAudioPlayer({
             >
               {title}
             </h3>
-            {subtitle && <p className="text-xs text-gold/70 font-amiri mt-0.5">{subtitle}</p>}
+            {subtitle && <p className="text-xs text-gold/80 font-amiri mt-0.5 font-bold">{subtitle}</p>}
           </div>
         </div>
 
@@ -275,7 +283,7 @@ export default function MajlisAudioPlayer({
 
       {hasError && (
         <div className="mb-4 p-3 rounded-xl bg-red-900/30 border border-red-500/40 text-xs text-red-300 flex items-center justify-between">
-          <span>{isAr ? 'تعذر تحميل الملف الصوتي. اضغط على صيغة M4A أو استمع عبر تيليجرام.' : 'Audio format could not be played. Try clicking M4A or listen on Telegram.'}</span>
+          <span>{isAr ? 'تعذر تشغيل هذه الصيغة، جرب اختيار M4A أو استمع مباشرة عبر تيليجرام.' : 'Audio format could not be played. Try clicking M4A or listen on Telegram.'}</span>
           <a href={telegramPostUrl} target="_blank" rel="noopener noreferrer" className="underline font-bold text-gold">
             {isAr ? 'فتح تيليجرام' : 'Open Telegram'}
           </a>
@@ -320,7 +328,7 @@ export default function MajlisAudioPlayer({
             style={{ width: `${progressPercent}%` }}
           />
         </div>
-        <div className="flex justify-between text-xs font-mono text-gold/90 px-1">
+        <div className="flex justify-between text-xs font-mono text-gold font-bold px-1">
           <span>{formatTime(currentTime)}</span>
           <span className="text-gold/40">/</span>
           <span>{formatTime(actualDuration || durationSeconds)}</span>
@@ -377,7 +385,7 @@ export default function MajlisAudioPlayer({
           </button>
         </div>
 
-        {/* Volume & Mute */}
+        {/* Volume & Mute with SVG Icons */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => {
@@ -386,10 +394,10 @@ export default function MajlisAudioPlayer({
               }
               setIsMuted(!isMuted);
             }}
-            className="text-gold/80 hover:text-gold text-xs transition-colors font-mono font-bold"
+            className="text-gold/80 hover:text-gold p-1 transition-colors"
             title={isMuted ? 'Unmute' : 'Mute'}
           >
-            {isMuted || volume === 0 ? 'MUTE' : 'VOL'}
+            {isMuted || volume === 0 ? <VolumeMuteIcon className="w-4 h-4" /> : <VolumeHighIcon className="w-4 h-4" />}
           </button>
           <input
             type="range"

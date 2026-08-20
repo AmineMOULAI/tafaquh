@@ -1,4 +1,6 @@
-"use client";
+'use client';
+
+import { StarGeometricIcon } from '@/components/jalsa/Icons';
 
 interface StatsDashboardProps {
   totalToday: number;
@@ -6,7 +8,7 @@ interface StatsDashboardProps {
   phraseCounts: Record<string, number>;
 }
 
-export default function StatsDashboard({ totalToday, streakDays, phraseCounts }: StatsDashboardProps) {
+export default function StatsDashboard({ totalToday, streakDays }: StatsDashboardProps) {
   return (
     <div className="w-full max-w-md bg-[#0B3B2C]/40 backdrop-blur-md border border-[#D4AF37]/30 rounded-2xl p-5 my-6 text-white shadow-xl">
       <div className="flex items-center justify-between border-b border-[#D4AF37]/20 pb-3 mb-4">
@@ -29,8 +31,9 @@ export default function StatsDashboard({ totalToday, streakDays, phraseCounts }:
         </div>
 
         <div className="bg-black/30 p-3 rounded-xl border border-[#D4AF37]/10">
-          <span className="block text-2xl font-black text-[#D4AF37]">
-            {streakDays} 🔥
+          <span className="text-2xl font-black text-[#D4AF37] flex items-center justify-center gap-1">
+            <span>{streakDays}</span>
+            <StarGeometricIcon className="w-4 h-4 text-gold inline" />
           </span>
           <span className="text-xs font-mono text-emerald-100/70">
             الأيام المتتالية
