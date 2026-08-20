@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useApp } from '@/context/AppContext';
 import { PlayIcon, PauseIcon, MicrophoneIcon, TelegramIcon, StarGeometricIcon } from './Icons';
 
 interface MajlisAudioPlayerProps {
@@ -25,6 +26,7 @@ export default function MajlisAudioPlayer({
   currentTimestamp,
   onSeek,
 }: MajlisAudioPlayerProps) {
+  const { theme } = useApp();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [actualDuration, setActualDuration] = useState(durationSeconds);
@@ -33,8 +35,15 @@ export default function MajlisAudioPlayer({
   const [isMuted, setIsMuted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [selectedFormat, setSelectedFormat] = useState<'mp3' | 'm4a' | 'ogg'>('mp3');
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Compute active audio URL based on format
+  const activeAudioUrl = React.useMemo(() => {
+    if (!audioUrl) return '';
+    return audioUrl.replace(/\.(mp3|m4a|ogg)$/, `.${selectedFormat}`);
+  }, [audioUrl, selectedFormat]);
 
   // Sync external seek requests (e.g. clicking a chapter in the notes)
   useEffect(() => {
@@ -48,6 +57,20 @@ export default function MajlisAudioPlayer({
       setActualDuration(durationSeconds);
     }
   }, [durationSeconds]);
+
+  // When activeAudioUrl changes, load audio
+  useEffect(() => {
+    if (audioRef.current && activeAudioUrl) {
+      audioRef.current.src = activeAudioUrl;
+      audioRef.current.load();
+      if (isPlaying) {
+        audioRef.current.play().catch((err) => {
+          console.warn("Autoplay error after format switch:", err);
+          setIsPlaying(false);
+        });
+      }
+    }
+  }, [activeAudioUrl]);
 
   const formatTime = (secs: number) => {
     if (isNaN(secs) || secs < 0) return '00:00';
@@ -75,6 +98,11 @@ export default function MajlisAudioPlayer({
       setIsLoading(true);
       setHasError(false);
 
+      if (!audioRef.current.src || audioRef.current.src === '' || audioRef.current.currentSrc === '') {
+        audioRef.current.src = activeAudioUrl;
+        audioRef.current.load();
+      }
+
       audioRef.current
         .play()
         .then(() => {
@@ -84,7 +112,14 @@ export default function MajlisAudioPlayer({
         .catch((err) => {
           console.warn("Audio playback error:", err);
           setIsLoading(false);
-          setHasError(true);
+          // If mp3 fails, try m4a or ogg fallback
+          if (selectedFormat === 'mp3') {
+            setSelectedFormat('m4a');
+          } else if (selectedFormat === 'm4a') {
+            setSelectedFormat('ogg');
+          } else {
+            setHasError(true);
+          }
         });
     }
   };
@@ -122,13 +157,14 @@ export default function MajlisAudioPlayer({
 
   const speedOptions = [0.75, 1, 1.25, 1.5, 2];
 
-  // Derive source candidates (MP3 primary for universal compatibility, M4A, OGG)
-  const mp3Url = audioUrl ? audioUrl.replace(/\.(ogg|m4a)$/, '.mp3') : '';
-  const m4aUrl = audioUrl ? audioUrl.replace(/\.(ogg|mp3)$/, '.m4a') : '';
-  const oggUrl = audioUrl ? audioUrl.replace(/\.(mp3|m4a)$/, '.ogg') : '';
-
   return (
-    <div className="w-full bg-gradient-to-br from-[#0B3B2C]/90 via-[#0A261A]/95 to-[#0A0D0B] border-2 border-gold/40 rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-2xl relative overflow-hidden text-bg-paper">
+    <div
+      className={`w-full border-2 border-gold/40 rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-2xl relative overflow-hidden transition-all ${
+        theme === 'light'
+          ? 'bg-[#FFFDF9] text-[#123326] border-gold/60'
+          : 'bg-gradient-to-br from-[#0B3B2C]/90 via-[#0A261A]/95 to-[#0A0D0B] text-white'
+      }`}
+    >
       {/* Background Islamic Star Motif */}
       <div className="absolute top-0 right-0 w-64 h-64 opacity-[0.03] pointer-events-none">
         <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
@@ -138,13 +174,15 @@ export default function MajlisAudioPlayer({
         </svg>
       </div>
 
-      {/* Real HTML5 Multi-format Audio Element */}
-      {audioUrl && (
+      {/* HTML5 Audio Element with direct SRC and event handlers */}
+      {activeAudioUrl && (
         <audio
           ref={audioRef}
+          src={activeAudioUrl}
           preload="metadata"
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
+          onCanPlay={() => setIsLoading(false)}
           onWaiting={() => setIsLoading(true)}
           onPlaying={() => {
             setIsLoading(false);
@@ -152,19 +190,21 @@ export default function MajlisAudioPlayer({
           }}
           onPause={() => setIsPlaying(false)}
           onError={() => {
-            console.error("Audio failed to load");
-            setIsLoading(false);
-            setHasError(true);
+            console.error("Audio error on format:", selectedFormat);
+            if (selectedFormat === 'mp3') {
+              setSelectedFormat('m4a');
+            } else if (selectedFormat === 'm4a') {
+              setSelectedFormat('ogg');
+            } else {
+              setIsLoading(false);
+              setHasError(true);
+            }
           }}
           onEnded={() => {
             setIsPlaying(false);
             setCurrentTime(0);
           }}
-        >
-          <source src={mp3Url} type="audio/mpeg" />
-          <source src={m4aUrl} type="audio/mp4" />
-          <source src={oggUrl} type="audio/ogg" />
-        </audio>
+        />
       )}
 
       {/* Player Header */}
@@ -191,28 +231,51 @@ export default function MajlisAudioPlayer({
                 </span>
               )}
             </div>
-            <h3 className={`text-xl md:text-2xl font-bold text-white mt-1 ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+            <h3
+              className={`text-xl md:text-2xl font-bold mt-1 ${
+                theme === 'light' ? 'text-[#123326]' : 'text-white'
+              } ${isAr ? 'font-calligraphy' : 'font-display'}`}
+            >
               {title}
             </h3>
             {subtitle && <p className="text-xs text-gold/70 font-amiri mt-0.5">{subtitle}</p>}
           </div>
         </div>
 
-        {/* Telegram Direct Group Link */}
-        <a
-          href={telegramPostUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-800/60 to-emerald-950/80 border border-gold/40 text-gold hover:text-white hover:border-gold transition-all text-xs font-bold shadow-md group flex-shrink-0"
-        >
-          <TelegramIcon className="w-4 h-4 transition-transform group-hover:scale-110" />
-          <span>{isAr ? 'المجلس في تيليجرام تفقه' : isFr ? 'Session sur Telegram Tafaqquh' : 'Session on Telegram'}</span>
-        </a>
+        {/* Telegram Direct Group Link & Format Selector */}
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Format selector */}
+          <div className="flex items-center gap-1 bg-black/20 p-1 rounded-xl border border-gold/30 text-[10px] font-mono">
+            {(['mp3', 'm4a', 'ogg'] as const).map((fmt) => (
+              <button
+                key={fmt}
+                onClick={() => setSelectedFormat(fmt)}
+                className={`px-2 py-0.5 rounded-lg font-bold transition-all uppercase ${
+                  selectedFormat === fmt
+                    ? 'bg-gold text-primary shadow-sm'
+                    : 'text-gold/60 hover:text-gold'
+                }`}
+              >
+                {fmt}
+              </button>
+            ))}
+          </div>
+
+          <a
+            href={telegramPostUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-800/60 to-emerald-950/80 border border-gold/40 text-gold hover:text-white hover:border-gold transition-all text-xs font-bold shadow-md group"
+          >
+            <TelegramIcon className="w-4 h-4 transition-transform group-hover:scale-110" />
+            <span>{isAr ? 'تيليجرام تفقه' : 'Telegram'}</span>
+          </a>
+        </div>
       </div>
 
       {hasError && (
-        <div className="mb-4 p-3 rounded-xl bg-red-900/40 border border-red-500/40 text-xs text-red-200 flex items-center justify-between">
-          <span>{isAr ? 'تعذر تحميل الملف الصوتي. يمكنك الاستماع مباشرة عبر تيليجرام.' : 'Audio format could not be played directly. You can listen on Telegram.'}</span>
+        <div className="mb-4 p-3 rounded-xl bg-red-900/30 border border-red-500/40 text-xs text-red-300 flex items-center justify-between">
+          <span>{isAr ? 'تعذر تحميل الملف الصوتي. اضغط على صيغة M4A أو استمع عبر تيليجرام.' : 'Audio format could not be played. Try clicking M4A or listen on Telegram.'}</span>
           <a href={telegramPostUrl} target="_blank" rel="noopener noreferrer" className="underline font-bold text-gold">
             {isAr ? 'فتح تيليجرام' : 'Open Telegram'}
           </a>
@@ -220,7 +283,7 @@ export default function MajlisAudioPlayer({
       )}
 
       {/* Animated Waveform Visualizer */}
-      <div className="flex items-center justify-center gap-1.5 h-12 my-4 px-2 py-1 bg-black/40 rounded-2xl border border-gold/20 overflow-hidden">
+      <div className="flex items-center justify-center gap-1.5 h-12 my-4 px-2 py-1 bg-black/20 rounded-2xl border border-gold/20 overflow-hidden">
         {[...Array(36)].map((_, i) => {
           const barHeight = isPlaying
             ? Math.max(15, Math.sin((i + currentTime * 2) * 0.4) * 80 + Math.cos(i * 0.7) * 20)
@@ -243,7 +306,7 @@ export default function MajlisAudioPlayer({
 
       {/* Scrubber / Progress Bar */}
       <div className="space-y-2 mb-6">
-        <div className="relative w-full h-3 bg-black/60 rounded-full overflow-hidden border border-gold/30 cursor-pointer group">
+        <div className="relative w-full h-3 bg-black/30 rounded-full overflow-hidden border border-gold/30 cursor-pointer group">
           <input
             type="range"
             min="0"
@@ -257,9 +320,9 @@ export default function MajlisAudioPlayer({
             style={{ width: `${progressPercent}%` }}
           />
         </div>
-        <div className="flex justify-between text-xs font-mono text-gold/80 px-1">
+        <div className="flex justify-between text-xs font-mono text-gold/90 px-1">
           <span>{formatTime(currentTime)}</span>
-          <span className="text-white/40">/</span>
+          <span className="text-gold/40">/</span>
           <span>{formatTime(actualDuration || durationSeconds)}</span>
         </div>
       </div>
@@ -267,7 +330,7 @@ export default function MajlisAudioPlayer({
       {/* Controls: Play, Skip, Speed, Volume */}
       <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-gold/20">
         {/* Speed Controls */}
-        <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-gold/20">
+        <div className="flex items-center gap-1 bg-black/20 p-1 rounded-xl border border-gold/20">
           {speedOptions.map((speed) => (
             <button
               key={speed}
@@ -323,7 +386,7 @@ export default function MajlisAudioPlayer({
               }
               setIsMuted(!isMuted);
             }}
-            className="text-gold/80 hover:text-gold text-xs transition-colors font-mono"
+            className="text-gold/80 hover:text-gold text-xs transition-colors font-mono font-bold"
             title={isMuted ? 'Unmute' : 'Mute'}
           >
             {isMuted || volume === 0 ? 'MUTE' : 'VOL'}
@@ -343,7 +406,7 @@ export default function MajlisAudioPlayer({
                 audioRef.current.muted = false;
               }
             }}
-            className="w-20 h-1.5 bg-black/60 rounded-full accent-gold cursor-pointer"
+            className="w-20 h-1.5 bg-black/40 rounded-full accent-gold cursor-pointer"
           />
         </div>
       </div>

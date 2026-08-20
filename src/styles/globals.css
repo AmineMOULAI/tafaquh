@@ -11,22 +11,30 @@
 }
 
 :root {
-  --background: #FDFBF7;
-  --foreground: #1F4D36;
+  --background: #0A0D0B;
+  --foreground: #FDFBF7;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1F4D36;
-    --foreground: #FDFBF7;
-  }
+html.light {
+  --background: #FAF8F5;
+  --foreground: #123326;
+  background-color: #FAF8F5;
+  color: #123326;
+}
+
+html.dark {
+  --background: #0A0D0B;
+  --foreground: #FDFBF7;
+  background-color: #0A0D0B;
+  color: #FDFBF7;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-body), sans-serif;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
 }
 
 [lang="ar"] {
@@ -59,7 +67,7 @@ body {
 
 /* Custom Glassmorphism */
 .glass {
-  @apply backdrop-blur-xl bg-white/60 dark:bg-black/60 border border-white/20 dark:border-white/10 shadow-sm;
+  @apply backdrop-blur-xl bg-white/80 dark:bg-black/60 border border-gold/30 dark:border-white/10 shadow-sm;
 }
 
 /* Premium Gradient Text */
@@ -80,7 +88,26 @@ body {
   100% { background-position: 0% center; }
 }
 
+/* Light / Dark Mode Surface utility classes */
+.theme-surface {
+  @apply bg-gradient-to-b from-[#0B3B2C]/90 via-[#0A261A]/95 to-[#0A0D0B] text-white;
+}
+
+html.light .theme-surface {
+  background: linear-gradient(to bottom, #FFFFFF, #F8F5EE, #F1ECE0) !important;
+  color: #123326 !important;
+}
+
+html.light .theme-card-bg {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: #123326 !important;
+}
+
+html.light .theme-subtext {
+  color: #2D5A46 !important;
+}
+
 /* Smooth Transitions */
 * {
-  @apply transition-all duration-300 ease-in-out;
+  @apply transition-colors duration-200;
 }

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useApp } from '@/context/AppContext';
 import { JalsaProject } from '@/data/jalsaData';
 import {
   BookIcon,
@@ -13,7 +14,6 @@ import {
   ClockIcon,
   StarGeometricIcon,
   TelegramIcon,
-  ScrollIcon,
 } from './Icons';
 
 interface JalsaProjectClientViewProps {
@@ -22,6 +22,7 @@ interface JalsaProjectClientViewProps {
 }
 
 export default function JalsaProjectClientView({ lng, project }: JalsaProjectClientViewProps) {
+  const { theme, navLayout } = useApp();
   const isAr = lng === 'ar';
   const isFr = lng === 'fr';
 
@@ -30,26 +31,38 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
     return isAr ? obj.ar : isFr ? obj.fr : obj.en;
   };
 
+  const isSidebar = navLayout === 'sidebar';
+
   return (
-    <div className="min-h-screen bg-[#0A0D0B] text-[#FDFBF7] flex flex-col justify-between selection:bg-gold selection:text-primary">
+    <div
+      className={`min-h-screen flex flex-col justify-between selection:bg-gold selection:text-primary transition-all duration-300 ${
+        theme === 'light' ? 'bg-[#FAF8F5] text-[#123326]' : 'bg-[#0A0D0B] text-[#FDFBF7]'
+      } ${isSidebar ? (isAr ? 'lg:pr-72' : 'lg:pl-72') : ''}`}
+    >
       <Header lng={lng} />
 
       <main className="container mx-auto px-4 pt-32 pb-24 max-w-6xl flex-1 space-y-12">
         {/* Breadcrumb */}
-        <nav className="flex flex-wrap items-center gap-2 text-sm text-gold/70 font-amiri pb-2 border-b border-gold/20">
-          <Link href={`/${lng}`} className="hover:text-gold transition-colors">
+        <nav className="flex flex-wrap items-center gap-2 text-sm text-gold/80 font-amiri pb-2 border-b border-gold/20">
+          <Link href={`/${lng}`} className="hover:text-gold transition-colors font-bold">
             {isAr ? 'الرئيسية' : 'Home'}
           </Link>
           <span>/</span>
-          <Link href={`/${lng}/jalsa`} className="hover:text-gold transition-colors">
+          <Link href={`/${lng}/jalsa`} className="hover:text-gold transition-colors font-bold">
             {isAr ? 'جلسات تفقه (JALSA)' : 'Jalsa'}
           </Link>
           <span>/</span>
-          <span className="text-white font-bold">{getLocalized(project.title)}</span>
+          <span className="font-bold text-gold">{getLocalized(project.title)}</span>
         </nav>
 
         {/* Project Header Banner with Poster Picture */}
-        <div className="p-8 md:p-12 rounded-[36px] bg-gradient-to-br from-[#0B3B2C] via-[#14532D] to-[#0A261A] border-2 border-gold/40 shadow-2xl flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
+        <div
+          className={`p-8 md:p-12 rounded-[36px] border-2 border-gold/40 shadow-2xl flex flex-col md:flex-row items-center gap-8 relative overflow-hidden ${
+            theme === 'light'
+              ? 'bg-gradient-to-br from-[#FFFDF9] via-[#FAF6ED] to-[#F2EADB] text-[#123326]'
+              : 'bg-gradient-to-br from-[#0B3B2C] via-[#14532D] to-[#0A261A] text-white'
+          }`}
+        >
           {/* Poster Image */}
           {project.posterImage && (
             <div className="relative w-full md:w-72 h-72 md:h-80 rounded-3xl overflow-hidden border-2 border-gold/50 shadow-2xl flex-shrink-0 group">
@@ -78,19 +91,27 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
               <span>{getLocalized(project.badge)}</span>
             </div>
 
-            <h1 className={`text-3xl md:text-5xl font-bold text-white tracking-tight ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+            <h1
+              className={`text-3xl md:text-5xl font-bold tracking-tight ${
+                theme === 'light' ? 'text-[#123326]' : 'text-white'
+              } ${isAr ? 'font-calligraphy' : 'font-display'}`}
+            >
               {getLocalized(project.title)}
             </h1>
 
-            <p className="text-lg md:text-xl text-gold/90 font-amiri leading-relaxed">
+            <p className="text-lg md:text-xl text-gold font-amiri leading-relaxed font-bold">
               {getLocalized(project.subtitle)}
             </p>
 
-            <p className="text-sm md:text-base text-emerald-100/90 font-amiri leading-relaxed">
+            <p
+              className={`text-sm md:text-base font-amiri leading-relaxed ${
+                theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/90'
+              }`}
+            >
               {getLocalized(project.description)}
             </p>
 
-            <div className="pt-4 border-t border-gold/20 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-gold/90">
+            <div className="pt-4 border-t border-gold/20 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-gold font-bold">
               <span className="flex items-center gap-1.5">
                 <BookIcon className="w-4 h-4 text-gold" />
                 <span>{getLocalized(project.scholarlySource)}</span>
@@ -109,14 +130,18 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
               <h2 className={`text-2xl md:text-3xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
                 {isAr ? 'شبكة مجالس ومدارسات المشروع' : 'Project Sessions Grid'}
               </h2>
-              <p className="text-xs text-gray-300 font-amiri mt-1">
+              <p
+                className={`text-xs font-amiri mt-1 ${
+                  theme === 'light' ? 'text-gray-600' : 'text-gray-300'
+                }`}
+              >
                 {isAr
                   ? 'انقر على أي مجلس للاستماع للتسجيل الصوتي والاطلاع على الشرح والفوائد'
                   : 'Select a session to listen to the audio recording and explore the commentary'}
               </p>
             </div>
 
-            <span className="text-xs text-gold/70 font-mono">
+            <span className="text-xs text-gold font-mono font-bold">
               {project.majalis.length} {isAr ? 'مجالس في البرنامج' : 'Sessions in Curriculum'}
             </span>
           </div>
@@ -134,7 +159,11 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                   className={`rounded-3xl border-2 p-6 flex flex-col justify-between transition-all backdrop-blur-xl relative overflow-hidden ${
                     isAvailable
-                      ? 'bg-gradient-to-b from-[#0B3B2C]/90 via-[#0A261A]/95 to-[#0A0D0B] border-gold/50 shadow-2xl hover:border-gold hover:-translate-y-1'
+                      ? theme === 'light'
+                        ? 'bg-[#FFFDF9] border-gold/50 shadow-lg hover:border-gold hover:-translate-y-1 text-[#123326]'
+                        : 'bg-gradient-to-b from-[#0B3B2C]/90 via-[#0A261A]/95 to-[#0A0D0B] border-gold/50 shadow-2xl hover:border-gold hover:-translate-y-1 text-white'
+                      : theme === 'light'
+                      ? 'bg-black/5 border-black/10 opacity-70'
                       : 'bg-black/40 border-white/10 opacity-75'
                   }`}
                 >
@@ -153,12 +182,12 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
                       </span>
 
                       {isAvailable ? (
-                        <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                        <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
                           <span>{isAr ? 'تسجيل متاح' : 'Audio Available'}</span>
                         </span>
                       ) : (
-                        <span className="px-3 py-1 rounded-full text-[11px] font-mono text-gold/60 bg-white/5 border border-white/10">
+                        <span className="px-3 py-1 rounded-full text-[11px] font-mono text-gold/70 bg-white/5 border border-gold/20">
                           {isAr ? 'قريباً' : 'Coming Soon'}
                         </span>
                       )}
@@ -179,17 +208,25 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
 
                     {/* Title & Subtitle */}
                     <div className="space-y-1.5">
-                      <h3 className={`text-xl font-bold text-white ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+                      <h3
+                        className={`text-xl font-bold ${
+                          theme === 'light' ? 'text-[#123326]' : 'text-white'
+                        } ${isAr ? 'font-calligraphy' : 'font-display'}`}
+                      >
                         {getLocalized(m.title)}
                       </h3>
-                      <p className="text-xs text-gold/80 font-amiri line-clamp-2">
+                      <p
+                        className={`text-xs font-amiri line-clamp-2 ${
+                          theme === 'light' ? 'text-gray-600 font-bold' : 'text-gold/80'
+                        }`}
+                      >
                         {getLocalized(m.subtitle)}
                       </p>
                     </div>
 
                     {/* Duration & Theme */}
-                    <div className="flex items-center justify-between text-xs text-gray-400 font-mono pt-2 border-t border-white/10">
-                      <span className="flex items-center gap-1 text-gold/80">
+                    <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 font-mono pt-2 border-t border-gold/20">
+                      <span className="flex items-center gap-1 text-gold font-bold">
                         <ClockIcon className="w-3.5 h-3.5" />
                         <span>{m.duration}</span>
                       </span>
@@ -212,7 +249,7 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
                     ) : (
                       <button
                         disabled
-                        className="w-full py-2.5 px-4 rounded-xl bg-white/5 text-white/40 font-bold text-xs cursor-not-allowed border border-white/5 text-center"
+                        className="w-full py-2.5 px-4 rounded-xl bg-white/5 text-gray-400 font-bold text-xs cursor-not-allowed border border-white/5 text-center"
                       >
                         {isAr ? 'المجلس قيد الإعداد' : 'Scheduled Soon'}
                       </button>
@@ -225,12 +262,22 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
         </div>
 
         {/* Telegram Community Bottom Box */}
-        <div className="p-8 rounded-3xl bg-gradient-to-r from-[#0B3B2C] via-[#14532D] to-[#0A261A] border-2 border-gold/40 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div
+          className={`p-8 rounded-3xl border-2 border-gold/40 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 ${
+            theme === 'light'
+              ? 'bg-gradient-to-r from-[#FAF6ED] via-[#F2EADB] to-[#FAF6ED] text-[#123326]'
+              : 'bg-gradient-to-r from-[#0B3B2C] via-[#14532D] to-[#0A261A] text-white'
+          }`}
+        >
           <div className="space-y-2">
-            <h3 className={`text-2xl font-bold text-white ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+            <h3 className={`text-2xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
               {isAr ? 'حلقات النقاش والتسجيلات الصوتية' : 'Voice Sessions & Discussion'}
             </h3>
-            <p className="text-xs md:text-sm text-emerald-100/90 font-amiri max-w-xl leading-relaxed">
+            <p
+              className={`text-xs md:text-sm font-amiri max-w-xl leading-relaxed ${
+                theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/90'
+              }`}
+            >
               {isAr
                 ? 'تقام مجالس المدارسة عبر الرسائل والبث الصوتي في مجموعة تفقه على تيليجرام @center_tafaqquh'
                 : 'Live study circles and voice notes take place directly in the Tafaqquh Telegram group @center_tafaqquh'}

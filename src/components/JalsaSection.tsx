@@ -2,11 +2,13 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useApp } from '@/context/AppContext';
 import { JALSA_PROJECTS } from '@/data/jalsaData';
 import ProjectCard from './jalsa/ProjectCard';
 import { StarGeometricIcon, MicrophoneIcon } from './jalsa/Icons';
 
 export default function JalsaSection({ lng }: { lng: string }) {
+  const { theme } = useApp();
   const isAr = lng === 'ar';
   const isFr = lng === 'fr';
 
@@ -18,7 +20,14 @@ export default function JalsaSection({ lng }: { lng: string }) {
     : "Systematic study circles uniting Sunnah depth and Quranic eloquence with interactive audio recordings";
 
   return (
-    <section className="py-28 bg-gradient-to-b from-[#0A0D0B] via-[#0B3B2C]/40 to-[#0A0D0B] relative overflow-hidden border-y border-gold/20" id="jalsa">
+    <section
+      className={`py-28 relative overflow-hidden border-y border-gold/20 transition-colors duration-300 ${
+        theme === 'light'
+          ? 'bg-gradient-to-b from-[#FAF8F5] via-[#F3EFE6] to-[#FAF8F5] text-[#123326]'
+          : 'bg-gradient-to-b from-[#0A0D0B] via-[#0B3B2C]/40 to-[#0A0D0B] text-white'
+      }`}
+      id="jalsa"
+    >
       {/* Decorative Islamic Background Pattern */}
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -40,7 +49,11 @@ export default function JalsaSection({ lng }: { lng: string }) {
             {sectionTitle}
           </h2>
 
-          <p className="text-lg md:text-xl text-emerald-100/80 font-amiri leading-relaxed">
+          <p
+            className={`text-lg md:text-xl font-amiri leading-relaxed ${
+              theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/80'
+            }`}
+          >
             {sectionSubtitle}
           </p>
         </div>

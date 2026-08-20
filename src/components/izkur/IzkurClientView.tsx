@@ -1,21 +1,23 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import IzkurCounter from "@/components/izkur/IzkurCounter";
-import DhikrSelector from "@/components/izkur/DhikrSelector";
-import TargetPresets from "@/components/izkur/TargetPresets";
-import VoiceEngine from "@/components/izkur/VoiceEngine";
-import StatsDashboard from "@/components/izkur/StatsDashboard";
-import { DHIKR_PHRASES, DhikrPhraseId } from "@/utils/arabicSpeech";
+import { useEffect, useState } from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import IzkurCounter from '@/components/izkur/IzkurCounter';
+import DhikrSelector from '@/components/izkur/DhikrSelector';
+import TargetPresets from '@/components/izkur/TargetPresets';
+import VoiceEngine from '@/components/izkur/VoiceEngine';
+import StatsDashboard from '@/components/izkur/StatsDashboard';
+import { DHIKR_PHRASES, DhikrPhraseId } from '@/utils/arabicSpeech';
+import { useApp } from '@/context/AppContext';
 
 interface IzkurClientViewProps {
   lng: string;
 }
 
 export default function IzkurClientView({ lng }: IzkurClientViewProps) {
-  const [selectedPhraseId, setSelectedPhraseId] = useState<DhikrPhraseId>("subhanallah");
+  const { theme, navLayout } = useApp();
+  const [selectedPhraseId, setSelectedPhraseId] = useState<DhikrPhraseId>('subhanallah');
   const [counts, setCounts] = useState<Record<DhikrPhraseId, number>>({
     subhanallah: 0,
     alhamdulillah: 0,
@@ -31,29 +33,29 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
 
   // Load persistence
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
     try {
-      const savedCounts = localStorage.getItem("izkur_phrase_counts");
+      const savedCounts = localStorage.getItem('izkur_phrase_counts');
       if (savedCounts) {
         setCounts(JSON.parse(savedCounts));
       }
-      const savedTotal = localStorage.getItem("izkur_total_today");
+      const savedTotal = localStorage.getItem('izkur_total_today');
       if (savedTotal) {
         setTotalToday(parseInt(savedTotal, 10));
       }
     } catch (e) {
-      console.warn("LocalStorage loading error:", e);
+      console.warn('LocalStorage loading error:', e);
     }
   }, []);
 
   // Save persistence
   const saveStats = (newCounts: Record<DhikrPhraseId, number>, newTotal: number) => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
     try {
-      localStorage.setItem("izkur_phrase_counts", JSON.stringify(newCounts));
-      localStorage.setItem("izkur_total_today", newTotal.toString());
+      localStorage.setItem('izkur_phrase_counts', JSON.stringify(newCounts));
+      localStorage.setItem('izkur_total_today', newTotal.toString());
     } catch (e) {
-      console.warn("LocalStorage saving error:", e);
+      console.warn('LocalStorage saving error:', e);
     }
   };
 
@@ -74,7 +76,7 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
       return updatedCounts;
     });
 
-    if (typeof window !== "undefined" && window.navigator && window.navigator.vibrate) {
+    if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
       window.navigator.vibrate(40);
     }
   };
@@ -96,40 +98,46 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
 
   const currentCount = counts[selectedPhraseId] || 0;
   const isCompleted = currentCount >= targetGoal;
+  const isAr = lng === 'ar';
+  const isSidebar = navLayout === 'sidebar';
 
   // Language Texts
-  const titleText = lng === "ar" ? "اذْكُرْ" : "Izkur (اذْكُرْ)";
-  const subtitleText = lng === "ar"
-    ? "العداد الصوتي الرقمي للذكـر والتسبيح المدمج في منصة تفقه"
-    : lng === "fr"
-    ? "Compagnon vocal numérique pour le Dhikr & le Tasbih dans l'écosystème Tafaqquh"
-    : "Voice-activated digital Dhikr & Tasbih companion integrated in Tafaqquh";
+  const titleText = isAr ? 'اذْكُرْ' : 'Izkur (اذْكُرْ)';
+  const subtitleText = isAr
+    ? 'العداد الصوتي الرقمي للذكـر والتسبيح المدمج في منصة تفقه'
+    : lng === 'fr'
+    ? 'Compagnon vocal numérique pour le Dhikr & le Tasbih dans l\'écosystème Tafaqquh'
+    : 'Voice-activated digital Dhikr & Tasbih companion integrated in Tafaqquh';
 
-  const sloganText = lng === "ar"
-    ? "أصالة • تجديد • أثر"
-    : lng === "fr"
-    ? "Authenticité • Innovation • Impact"
-    : "Authenticity • Innovation • Impact";
+  const sloganText = isAr
+    ? 'أصالة • تجديد • أثر'
+    : lng === 'fr'
+    ? 'Authenticité • Innovation • Impact'
+    : 'Authenticity • Innovation • Impact';
 
-  const botTitle = lng === "ar"
-    ? "بوت الذكر الجماعي على تيليجرام"
-    : lng === "fr"
-    ? "Bot Telegram de Dhikr Collectif"
-    : "Group Dhikr Telegram Bot";
+  const botTitle = isAr
+    ? 'بوت الذكر الجماعي على تيليجرام'
+    : lng === 'fr'
+    ? 'Bot Telegram de Dhikr Collectif'
+    : 'Group Dhikr Telegram Bot';
 
-  const botDesc = lng === "ar"
-    ? "احسب ذكرك عبر الرسائل الصوتية في مجموعة @center_tafaqquh"
-    : lng === "fr"
-    ? "Comptabilisez votre Dhikr via notes vocales dans le groupe @center_tafaqquh"
-    : "Track your Dhikr via voice notes in @center_tafaqquh group";
+  const botDesc = isAr
+    ? 'احسب ذكرك عبر الرسائل الصوتية في مجموعة @center_tafaqquh'
+    : lng === 'fr'
+    ? 'Comptabilisez votre Dhikr via notes vocales dans le groupe @center_tafaqquh'
+    : 'Track your Dhikr via voice notes in @center_tafaqquh group';
 
-  const botBtn = lng === "ar" ? "فتح البوت" : lng === "fr" ? "Ouvrir le Bot" : "Open Bot";
+  const botBtn = isAr ? 'فتح البوت' : lng === 'fr' ? 'Ouvrir le Bot' : 'Open Bot';
 
   return (
-    <div className="min-h-screen bg-[#0A0D0B] text-[#FDFBF7] flex flex-col justify-between selection:bg-[#D4AF37] selection:text-[#0A0D0B]">
+    <div
+      className={`min-h-screen flex flex-col justify-between selection:bg-[#D4AF37] selection:text-[#0A0D0B] transition-all duration-300 ${
+        theme === 'light' ? 'bg-[#FAF8F5] text-[#123326]' : 'bg-[#0A0D0B] text-[#FDFBF7]'
+      } ${isSidebar ? (isAr ? 'lg:pr-72' : 'lg:pl-72') : ''}`}
+    >
       <Header lng={lng} />
 
-      <main className="container mx-auto px-4 py-28 flex flex-col items-center max-w-3xl">
+      <main className="container mx-auto px-4 py-28 flex flex-col items-center max-w-3xl flex-1">
         {/* Header Branding Banner */}
         <div className="text-center mb-6">
           <div className="inline-block px-4 py-1 rounded-full border border-[#D4AF37]/40 bg-[#0B3B2C]/40 backdrop-blur-md mb-3">
@@ -140,7 +148,11 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
           <h1 className="font-calligraphy text-4xl md:text-6xl text-[#D4AF37] font-bold tracking-tight mb-2 drop-shadow-md">
             {titleText}
           </h1>
-          <p className="font-amiri text-lg text-emerald-100/80 max-w-md mx-auto">
+          <p
+            className={`font-amiri text-lg max-w-md mx-auto ${
+              theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/80'
+            }`}
+          >
             {subtitleText}
           </p>
         </div>
@@ -150,7 +162,7 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
           selectedPhraseId={selectedPhraseId}
           onSelectPhrase={(id) => {
             setSelectedPhraseId(id);
-            setTargetGoal(DHIKR_PHRASES[id].defaultGoal);
+            setTargetGoal(DHIRK_GOAL_MAP(id));
           }}
         />
 
@@ -211,4 +223,8 @@ export default function IzkurClientView({ lng }: IzkurClientViewProps) {
       <Footer lng={lng} />
     </div>
   );
+}
+
+function DHIRK_GOAL_MAP(id: DhikrPhraseId) {
+  return DHIKR_PHRASES[id]?.defaultGoal || 33;
 }

@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { useApp } from '@/context/AppContext';
 import { JalsaProject } from '@/data/jalsaData';
 import { PlayIcon, BookIcon, ScrollIcon, ClockIcon, StarGeometricIcon } from './Icons';
 
@@ -13,6 +14,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ lng, project }: ProjectCardProps) {
+  const { theme } = useApp();
   const isAr = lng === 'ar';
   const isFr = lng === 'fr';
 
@@ -27,7 +29,11 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
     <motion.div
       whileHover={{ y: -6 }}
       transition={{ duration: 0.3 }}
-      className="group relative rounded-[32px] bg-gradient-to-b from-[#0B3B2C]/90 via-[#0A261A]/95 to-[#0A0D0B] border-2 border-gold/40 hover:border-gold p-6 md:p-8 shadow-2xl flex flex-col justify-between overflow-hidden backdrop-blur-xl"
+      className={`group relative rounded-[32px] border-2 p-6 md:p-8 shadow-2xl flex flex-col justify-between overflow-hidden backdrop-blur-xl transition-all ${
+        theme === 'light'
+          ? 'bg-[#FFFDF9] border-gold/50 hover:border-gold shadow-[0_15px_35px_rgba(212,175,55,0.15)] text-[#123326]'
+          : 'bg-gradient-to-b from-[#0B3B2C]/90 via-[#0A261A]/95 to-[#0A0D0B] border-gold/40 hover:border-gold text-white'
+      }`}
     >
       {/* Decorative Golden Geometric Corner */}
       <div className="absolute top-0 right-0 w-28 h-28 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
@@ -45,16 +51,16 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
               {project.iconName === 'scroll' ? <ScrollIcon className="w-6 h-6" /> : <BookIcon className="w-6 h-6" />}
             </div>
             <div>
-              <span className="text-[10px] font-mono text-emerald-300 uppercase tracking-widest block">
+              <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-300 uppercase tracking-widest block font-bold">
                 {project.category}
               </span>
-              <span className="text-xs text-gold/80 font-mono">
+              <span className="text-xs text-gold font-mono font-bold">
                 {project.completedMajalis} / {project.totalMajalis} {isAr ? 'مجالس' : 'Sessions'}
               </span>
             </div>
           </div>
 
-          <span className="px-3 py-1 rounded-full text-xs font-bold bg-gold/20 text-gold border border-gold/30 flex items-center gap-1.5">
+          <span className="px-3 py-1 rounded-full text-xs font-bold bg-gold/20 text-gold border border-gold/40 flex items-center gap-1.5 shadow-sm">
             <StarGeometricIcon className="w-3 h-3 text-gold" />
             <span>{getLocalized(project.badge)}</span>
           </span>
@@ -62,7 +68,7 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
 
         {/* Poster Image Preview */}
         {project.posterImage && (
-          <div className="relative w-full h-48 md:h-56 rounded-2xl overflow-hidden border border-gold/30 shadow-lg group-hover:border-gold transition-colors">
+          <div className="relative w-full h-48 md:h-56 rounded-2xl overflow-hidden border border-gold/40 shadow-lg group-hover:border-gold transition-colors">
             <Image
               src={project.posterImage}
               alt={getLocalized(project.title)}
@@ -75,7 +81,7 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
                 {getLocalized(project.scholarlySource).split(' ')[0]}...
               </span>
               {firstMajlis && (
-                <span className="flex items-center gap-1 text-gold font-mono bg-black/60 px-2 py-1 rounded-lg border border-gold/20">
+                <span className="flex items-center gap-1 text-gold font-mono bg-black/60 px-2 py-1 rounded-lg border border-gold/20 font-bold">
                   <ClockIcon className="w-3 h-3" />
                   <span>{firstMajlis.duration}</span>
                 </span>
@@ -86,35 +92,53 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
 
         {/* Title and Description */}
         <div className="space-y-2">
-          <h3 className={`text-2xl md:text-3xl font-bold text-white group-hover:text-gold transition-colors ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+          <h3
+            className={`text-2xl md:text-3xl font-bold group-hover:text-gold transition-colors ${
+              theme === 'light' ? 'text-[#123326]' : 'text-white'
+            } ${isAr ? 'font-calligraphy' : 'font-display'}`}
+          >
             {getLocalized(project.title)}
           </h3>
 
-          <p className="text-xs text-gold/70 font-mono flex items-center gap-1.5">
-            <BookIcon className="w-3.5 h-3.5 text-gold/60" />
+          <p className="text-xs text-gold/90 font-mono flex items-center gap-1.5 font-bold">
+            <BookIcon className="w-3.5 h-3.5 text-gold" />
             <span>{getLocalized(project.scholarlySource)}</span>
           </p>
         </div>
 
-        <p className="text-sm md:text-base text-emerald-100/80 font-amiri leading-relaxed line-clamp-2">
+        <p
+          className={`text-sm md:text-base font-amiri leading-relaxed line-clamp-2 ${
+            theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/80'
+          }`}
+        >
           {getLocalized(project.description)}
         </p>
 
         {/* Active Majlis 1 Banner */}
         {firstMajlis && (
-          <div className="p-3.5 rounded-2xl bg-black/50 border border-gold/20 flex items-center justify-between gap-3">
+          <div
+            className={`p-3.5 rounded-2xl border flex items-center justify-between gap-3 ${
+              theme === 'light'
+                ? 'bg-gold/10 border-gold/30 text-[#123326]'
+                : 'bg-black/50 border-gold/20 text-white'
+            }`}
+          >
             <div className="flex items-center gap-2.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
               <div>
                 <span className="text-xs font-bold text-gold block font-amiri">
                   {getLocalized(firstMajlis.title)}
                 </span>
-                <span className="text-[11px] text-gray-300 font-amiri line-clamp-1">
+                <span
+                  className={`text-[11px] font-amiri line-clamp-1 ${
+                    theme === 'light' ? 'text-gray-600' : 'text-gray-300'
+                  }`}
+                >
                   {getLocalized(firstMajlis.subtitle)}
                 </span>
               </div>
             </div>
-            <span className="text-xs font-mono text-emerald-300 flex-shrink-0">
+            <span className="text-xs font-mono text-emerald-600 dark:text-emerald-300 flex-shrink-0 font-bold">
               {firstMajlis.duration}
             </span>
           </div>
@@ -135,7 +159,11 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
 
         <Link
           href={`/${lng}/jalsa/${project.slug}`}
-          className="px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-gold font-bold text-sm border border-gold/30 transition-all text-center"
+          className={`px-4 py-3 rounded-xl font-bold text-sm border border-gold/40 transition-all text-center ${
+            theme === 'light'
+              ? 'bg-white hover:bg-gold/15 text-gold-muted'
+              : 'bg-white/5 hover:bg-white/10 text-gold'
+          }`}
         >
           {isAr ? 'عرض كافة المجالس' : isFr ? 'Tous les Majalis' : 'All Sessions'}
         </Link>
