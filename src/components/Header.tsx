@@ -163,12 +163,12 @@ export default function Header({ lng }: { lng: string }) {
             </Link>
 
             {/* Desktop Navigation Links & Islamic App Pills */}
-            <nav className="hidden lg:flex items-center gap-6 relative z-10">
+            <nav className="hidden xl:flex items-center gap-5 relative z-10">
               {menuItems.map((item) => (
                 <Link
                   key={item}
                   href={`/${lng}#${item}`}
-                  className={`relative font-bold text-base md:text-lg font-display hover:text-gold transition-colors py-1 group/nav ${
+                  className={`relative font-bold text-sm lg:text-base font-display hover:text-gold transition-colors py-1 group/nav ${
                     theme === 'light' ? 'text-[#123326]' : 'text-white/90'
                   }`}
                 >
@@ -184,24 +184,42 @@ export default function Header({ lng }: { lng: string }) {
               {/* Jalsa / Majalis Islamic Pill Button */}
               <Link
                 href={`/${lng}/jalsa`}
-                className="relative text-gold font-bold text-sm md:text-base font-calligraphy hover:text-white transition-all py-1.5 px-4 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-2 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/jalsa"
+                className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/jalsa"
               >
-                <MicrophoneIcon className="w-4 h-4 text-gold group-hover/jalsa:scale-110 transition-transform" />
-                <span>{isAr ? 'المجالس (جَلْسَة)' : 'Majalis (Jalsa)'}</span>
+                <MicrophoneIcon className="w-3.5 h-3.5 text-gold group-hover/jalsa:scale-110 transition-transform" />
+                <span>{isAr ? 'المجالس' : 'Jalsa'}</span>
               </Link>
 
               {/* Izkur App Islamic Pill Button */}
               <Link
                 href={`/${lng}/izkur`}
-                className="relative text-gold font-bold text-sm md:text-base font-calligraphy hover:text-white transition-all py-1.5 px-4 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-2 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/izkur"
+                className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/izkur"
               >
-                <StarGeometricIcon className="w-4 h-4 text-gold group-hover/izkur:rotate-45 transition-transform duration-300" />
+                <StarGeometricIcon className="w-3.5 h-3.5 text-gold group-hover/izkur:rotate-45 transition-transform duration-300" />
                 <span>{isAr ? 'اذْكُرْ' : 'Izkur'}</span>
+              </Link>
+
+              {/* Mawiza Pill Button */}
+              <Link
+                href={`/${lng}/mawiza`}
+                className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/mawiza"
+              >
+                <CompassIcon className="w-3.5 h-3.5 text-gold group-hover/mawiza:scale-110 transition-transform" />
+                <span>{isAr ? 'موعظة' : 'Mawiza'}</span>
+              </Link>
+
+              {/* Khatmah Pill Button */}
+              <Link
+                href={`/${lng}/khatmah`}
+                className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/khatmah"
+              >
+                <StarGeometricIcon className="w-3.5 h-3.5 text-gold group-hover/khatmah:scale-110 transition-transform" />
+                <span>{isAr ? 'ختمة' : 'Khatmah'}</span>
               </Link>
             </nav>
 
             {/* Right Controls: Theme Toggle + Settings + Language + Mobile Menu */}
-            <div className="flex items-center gap-2.5 relative z-10">
+            <div className="flex items-center gap-2 relative z-10">
               {/* Quick Theme Toggle Button with SVG */}
               <button
                 onClick={toggleTheme}
@@ -226,7 +244,7 @@ export default function Header({ lng }: { lng: string }) {
               {/* Mobile Menu Toggle Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 rounded-xl bg-gold/10 border border-gold/30 text-gold hover:text-white focus:outline-none"
+                className="xl:hidden p-2 rounded-xl bg-gold/10 border border-gold/30 text-gold hover:text-white focus:outline-none"
                 aria-label="Toggle Menu"
               >
                 {mobileMenuOpen ? <CrossIcon className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
@@ -251,17 +269,17 @@ export default function Header({ lng }: { lng: string }) {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className={`lg:hidden mt-2 p-6 rounded-3xl border-2 border-gold/50 backdrop-blur-2xl shadow-2xl space-y-4 text-center ${
+                className={`xl:hidden mt-2 p-6 rounded-3xl border-2 border-gold/50 backdrop-blur-2xl shadow-2xl space-y-4 text-center ${
                   theme === 'light' ? 'bg-[#FAF8F5]/98 text-[#123326]' : 'bg-[#0B3B2C]/98 text-white'
                 }`}
               >
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2.5">
                   {menuItems.map((item) => (
                     <Link
                       key={item}
                       href={`/${lng}#${item}`}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`font-bold text-lg font-display hover:text-gold transition-colors py-2 border-b border-gold/20 ${
+                      className={`font-bold text-base font-display hover:text-gold transition-colors py-2 border-b border-gold/20 ${
                         theme === 'light' ? 'text-[#123326]' : 'text-white'
                       }`}
                     >
@@ -269,40 +287,68 @@ export default function Header({ lng }: { lng: string }) {
                     </Link>
                   ))}
 
-                  <Link
-                    href={`/${lng}/jalsa`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="py-3 px-4 rounded-xl bg-gold/20 text-gold font-bold text-lg font-calligraphy border border-gold/40 flex items-center justify-center gap-2"
-                  >
-                    <MicrophoneIcon className="w-5 h-5 text-gold" />
-                    <span>{isAr ? 'المجالس (جَلْسَة)' : 'Majalis (Jalsa)'}</span>
-                  </Link>
+                  <div className="grid grid-cols-2 gap-2 pt-2">
+                    <Link
+                      href={`/${lng}/jalsa`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
+                    >
+                      <MicrophoneIcon className="w-4 h-4 text-gold" />
+                      <span>{isAr ? 'المجالس' : 'Jalsa'}</span>
+                    </Link>
+
+                    <Link
+                      href={`/${lng}/izkur`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
+                    >
+                      <StarGeometricIcon className="w-4 h-4 text-gold" />
+                      <span>{isAr ? 'اذْكُرْ' : 'Izkur'}</span>
+                    </Link>
+
+                    <Link
+                      href={`/${lng}/mawiza`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
+                    >
+                      <CompassIcon className="w-4 h-4 text-gold" />
+                      <span>{isAr ? 'موعظة' : 'Mawiza'}</span>
+                    </Link>
+
+                    <Link
+                      href={`/${lng}/khatmah`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
+                    >
+                      <StarGeometricIcon className="w-4 h-4 text-gold" />
+                      <span>{isAr ? 'ختمة' : 'Khatmah'}</span>
+                    </Link>
+                  </div>
 
                   <Link
-                    href={`/${lng}/izkur`}
+                    href={`/${lng}#experts`}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="py-3 px-4 rounded-xl bg-gold/20 text-gold font-bold text-lg font-calligraphy border border-gold/40 flex items-center justify-center gap-2"
+                    className="py-2.5 px-3 mt-1 rounded-xl bg-gradient-to-r from-gold/30 to-gold/10 text-gold font-bold text-sm font-calligraphy border border-gold/50 flex items-center justify-center gap-2"
                   >
-                    <StarGeometricIcon className="w-5 h-5 text-gold" />
-                    <span>{isAr ? 'اذْكُرْ' : 'Izkur'}</span>
+                    <span>{t('experts.badge')}</span>
                   </Link>
 
                   <div className="pt-2 flex items-center justify-center gap-3">
                     <button
                       onClick={toggleTheme}
-                      className="px-4 py-2 rounded-xl bg-gold/15 text-gold font-bold text-sm border border-gold/30 flex items-center gap-2"
+                      className="px-4 py-2 rounded-xl bg-gold/15 text-gold font-bold text-xs border border-gold/30 flex items-center gap-1.5"
                     >
-                      {theme === 'dark' ? <SunIcon className="w-4 h-4" /> : <MoonIcon className="w-4 h-4" />}
-                      <span>{theme === 'dark' ? (isAr ? 'الوضع الفاتح' : 'Light Theme') : (isAr ? 'الوضع الداكن' : 'Dark Theme')}</span>
+                      {theme === 'dark' ? <SunIcon className="w-3.5 h-3.5" /> : <MoonIcon className="w-3.5 h-3.5" />}
+                      <span>{theme === 'dark' ? (isAr ? 'الفاتح' : 'Light') : (isAr ? 'الداكن' : 'Dark')}</span>
                     </button>
                     <button
                       onClick={() => {
                         setMobileMenuOpen(false);
                         setIsSettingsOpen(true);
                       }}
-                      className="px-4 py-2 rounded-xl bg-gold/15 text-gold font-bold text-sm border border-gold/30 flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-xl bg-gold/15 text-gold font-bold text-xs border border-gold/30 flex items-center gap-1.5"
                     >
-                      <SettingsIcon className="w-4 h-4" />
+                      <SettingsIcon className="w-3.5 h-3.5" />
                       <span>{isAr ? 'الإعدادات' : 'Settings'}</span>
                     </button>
                   </div>

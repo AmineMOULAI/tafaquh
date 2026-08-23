@@ -160,10 +160,60 @@ export default function Sidebar({ lng }: SidebarProps) {
             {!isSidebarCollapsed && (
               <div className="flex flex-col text-right flex-1">
                 <span className="text-sm font-bold font-calligraphy text-gold">
-                  {isAr ? 'اذْكُرْ' : 'Izkur'}
+                  {isAr ? 'اذْكُرْ (Izkur)' : 'Izkur'}
                 </span>
                 <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-amiri">
                   {isAr ? 'العداد الصوتي الرقمي' : 'Voice Dhikr Companion'}
+                </span>
+              </div>
+            )}
+          </Link>
+
+          {/* Mawiza Platform */}
+          <Link
+            href={`/${lng}/mawiza`}
+            onClick={() => setIsMobileSidebarOpen(false)}
+            className={`w-full p-3 rounded-2xl flex items-center gap-3 transition-all border group ${
+              theme === 'light'
+                ? 'bg-white/90 hover:bg-gold/15 text-[#123326] border-gold/40 shadow-sm'
+                : 'bg-gradient-to-r from-gold/15 to-[#0B3B2C]/70 hover:bg-gold/25 text-white border-gold/40 shadow-md'
+            }`}
+          >
+            <div className="w-9 h-9 rounded-xl bg-gold/20 text-gold flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <CompassIcon className="w-4 h-4" />
+            </div>
+            {!isSidebarCollapsed && (
+              <div className="flex flex-col text-right flex-1">
+                <span className="text-sm font-bold font-calligraphy text-gold">
+                  {isAr ? 'منصة موعظة' : 'Maw’izah Platform'}
+                </span>
+                <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-amiri">
+                  {isAr ? 'تأملات قرآنية وفكرية' : 'Quranic Reflections'}
+                </span>
+              </div>
+            )}
+          </Link>
+
+          {/* Khatmah App */}
+          <Link
+            href={`/${lng}/khatmah`}
+            onClick={() => setIsMobileSidebarOpen(false)}
+            className={`w-full p-3 rounded-2xl flex items-center gap-3 transition-all border group ${
+              theme === 'light'
+                ? 'bg-white/90 hover:bg-gold/15 text-[#123326] border-gold/40 shadow-sm'
+                : 'bg-gradient-to-r from-gold/15 to-[#0B3B2C]/70 hover:bg-gold/25 text-white border-gold/40 shadow-md'
+            }`}
+          >
+            <div className="w-9 h-9 rounded-xl bg-gold/20 text-gold flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <BookIcon className="w-4 h-4" />
+            </div>
+            {!isSidebarCollapsed && (
+              <div className="flex flex-col text-right flex-1">
+                <span className="text-sm font-bold font-calligraphy text-gold">
+                  {isAr ? 'تطبيق خَتْمَة' : 'Khatmah App'}
+                </span>
+                <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-amiri">
+                  {isAr ? 'تتبع الحفظ والمراجعة' : 'Hifz & Revision'}
                 </span>
               </div>
             )}

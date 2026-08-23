@@ -6,6 +6,9 @@ import Hero from '@/components/Hero';
 import About from '@/components/About';
 import Axes from '@/components/Axes';
 import JalsaSection from '@/components/JalsaSection';
+import MawizaSection from '@/components/MawizaSection';
+import KhatmahSection from '@/components/KhatmahSection';
+import ExpertsSection from '@/components/ExpertsSection';
 import ContactForm from '@/components/ContactForm';
 import Footer from '@/components/Footer';
 import LoadingAnimation from '@/components/LoadingAnimation';
@@ -28,8 +31,12 @@ export default function HomeClientView({ lng }: { lng: string }) {
       <About lng={lng} />
       <Axes lng={lng} />
       <JalsaSection lng={lng} />
+      <MawizaSection lng={lng} />
+      <KhatmahSection lng={lng} />
+      <ExpertsSection lng={lng} />
       <ContactForm lng={lng} />
       <Footer lng={lng} />
     </div>
   );
 }
+

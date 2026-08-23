@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,7 +16,9 @@ import {
   ClockIcon,
   StarGeometricIcon,
   CompassIcon,
+  LayersIcon,
 } from './Icons';
+import { IslamicWatermark, TafaqquhEmblem } from '@/components/Motifs';
 
 interface MajlisViewerProps {
   lng: string;
@@ -30,6 +32,10 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
   const [currentSeekTimestamp, setCurrentSeekTimestamp] = useState<number | undefined>(undefined);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [submittedQuiz, setSubmittedQuiz] = useState<boolean>(false);
+  const [copiedMatn, setCopiedMatn] = useState<boolean>(false);
+  const [fontScale, setFontScale] = useState<'normal' | 'large' | 'xlarge'>('normal');
+  const [userNote, setUserNote] = useState<string>('');
+  const [noteSavedFeedback, setNoteSavedFeedback] = useState<boolean>(false);
 
   const isAr = lng === 'ar';
   const isFr = lng === 'fr';
@@ -37,6 +43,36 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
   const getLocalized = (obj?: { ar: string; en: string; fr: string }) => {
     if (!obj) return '';
     return isAr ? obj.ar : isFr ? obj.fr : obj.en;
+  };
+
+  // Load saved personal note from localStorage
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const saved = localStorage.getItem(`tafaqquh_note_${majlis.id}`);
+      if (saved) setUserNote(saved);
+    } catch (e) {
+      console.warn(e);
+    }
+  }, [majlis.id]);
+
+  const handleSaveNote = () => {
+    if (typeof window === 'undefined') return;
+    try {
+      localStorage.setItem(`tafaqquh_note_${majlis.id}`, userNote);
+      setNoteSavedFeedback(true);
+      setTimeout(() => setNoteSavedFeedback(false), 2500);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
+  const handleCopyMatn = () => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(majlis.matn.arabic);
+      setCopiedMatn(true);
+      setTimeout(() => setCopiedMatn(false), 2500);
+    }
   };
 
   const handleSelectQuizOption = (qIndex: number, oIndex: number) => {
@@ -55,12 +91,12 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
   };
 
   const tabs = [
-    { id: 'matn', label: isAr ? 'النص والمتن' : isFr ? 'Le Matn & Texte' : 'Text & Matn' },
-    { id: 'sharh', label: isAr ? 'الشرح والبيان' : isFr ? 'Explication Détaillée' : 'Detailed Commentary' },
-    { id: 'vocab', label: isAr ? 'غريب الألفاظ' : isFr ? 'Vocabulaire & Lexique' : 'Vocabulary & Nuances' },
-    { id: 'fawaid', label: isAr ? 'الفوائد والدروس' : isFr ? 'Enseignements & Règles' : 'Core Lessons' },
-    { id: 'quiz', label: isAr ? 'التقييم الذاتي' : isFr ? 'Auto-Évaluation' : 'Self-Quiz' },
-    { id: 'reflection', label: isAr ? 'وقفة تدبرية' : isFr ? 'Méditation Spirituelle' : 'Contemplation' },
+    { id: 'matn', label: isAr ? 'النص والمتن' : isFr ? 'Le Matn & Texte' : 'Text & Matn', icon: BookIcon },
+    { id: 'sharh', label: isAr ? 'الشرح والبيان' : isFr ? 'Explication Détaillée' : 'Detailed Commentary', icon: LayersIcon },
+    { id: 'vocab', label: isAr ? 'غريب الألفاظ' : isFr ? 'Vocabulaire & Lexique' : 'Vocabulary & Nuances', icon: StarGeometricIcon },
+    { id: 'fawaid', label: isAr ? 'الفوائد والدروس' : isFr ? 'Enseignements & Règles' : 'Core Lessons', icon: CompassIcon },
+    { id: 'quiz', label: isAr ? 'التقييم الذاتي' : isFr ? 'Auto-Évaluation' : 'Self-Quiz', icon: CheckmarkIcon },
+    { id: 'reflection', label: isAr ? 'وقفة تدبرية' : isFr ? 'Méditation Spirituelle' : 'Contemplation', icon: StarGeometricIcon },
   ] as const;
 
   return (
@@ -92,6 +128,8 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
             : 'bg-gradient-to-b from-[#0B3B2C]/80 via-[#0A261A]/90 to-[#0A0D0B] text-white'
         }`}
       >
+        <IslamicWatermark className="opacity-[0.04]" />
+
         {/* Poster Image */}
         {majlis.posterImage && (
           <div className="relative w-full md:w-64 h-64 md:h-72 rounded-2xl overflow-hidden border-2 border-gold/40 shadow-2xl flex-shrink-0 group">
@@ -114,7 +152,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
         )}
 
         {/* Text Header Info */}
-        <div className="space-y-4 flex-1">
+        <div className="space-y-4 flex-1 relative z-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-widest">
             <StarGeometricIcon className="w-3.5 h-3.5 text-gold" />
             <span>{getLocalized(project.title)}</span>
@@ -206,26 +244,38 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
         </div>
       )}
 
-      {/* Interactive Tabs Header */}
-      <div className="flex flex-wrap gap-2 border-b border-gold/30 pb-3">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as typeof activeTab)}
-            className={`px-4 py-2.5 rounded-2xl font-bold text-sm transition-all relative ${
-              activeTab === tab.id
-                ? 'bg-gold text-primary shadow-[0_0_20px_rgba(212,175,55,0.4)]'
-                : theme === 'light'
-                ? 'text-[#123326] hover:bg-gold/15 hover:text-gold'
-                : 'text-white/70 hover:text-gold hover:bg-gold/10'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+      {/* Interactive Tabs Header with Animation */}
+      <div className="flex flex-wrap gap-2 border-b border-gold/30 pb-3 relative">
+        {tabs.map((tab) => {
+          const IconC = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as typeof activeTab)}
+              className={`px-4 py-2.5 rounded-2xl font-bold text-sm transition-all relative flex items-center gap-2 ${
+                isActive
+                  ? 'bg-gold text-primary shadow-[0_0_20px_rgba(212,175,55,0.4)]'
+                  : theme === 'light'
+                  ? 'text-[#123326] hover:bg-gold/15 hover:text-gold'
+                  : 'text-white/70 hover:text-gold hover:bg-gold/10'
+              }`}
+            >
+              <IconC className={`w-4 h-4 ${isActive ? 'text-primary' : 'text-gold'}`} />
+              <span>{tab.label}</span>
+              {isActive && (
+                <motion.div
+                  layoutId="activeMajlisTab"
+                  className="absolute inset-0 rounded-2xl border-2 border-gold -z-10"
+                  transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                />
+              )}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Tab Contents */}
+      {/* Tab Contents with Smooth Animated Transitions */}
       <div className="min-h-[400px]">
         <AnimatePresence mode="wait">
           {/* TAB 1: MATN */}
@@ -240,18 +290,66 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
             >
               {/* Islamic Parchment Card for Matn */}
               <div className="p-8 md:p-12 rounded-[36px] bg-gradient-to-b from-[#FDFBF7] to-[#F5EEDB] text-primary border-4 border-gold/60 shadow-2xl relative overflow-hidden">
+                <IslamicWatermark className="opacity-[0.05]" />
+
+                {/* Decorative Corners */}
                 <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-gold" />
                 <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-gold" />
                 <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-gold" />
                 <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-gold" />
 
-                <div className="text-center space-y-6 relative z-10">
-                  <div className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-bold text-primary tracking-widest uppercase">
-                    <StarGeometricIcon className="w-3 h-3 text-primary" />
-                    <span>{isAr ? 'النص والمتن الأصلي' : 'Original Text & Matn'}</span>
+                <div className="space-y-6 relative z-10">
+                  {/* Top Tools Bar (Copy Button & Font Scale) */}
+                  <div className="flex items-center justify-between border-b border-primary/20 pb-4">
+                    <div className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-bold text-primary tracking-widest uppercase">
+                      <StarGeometricIcon className="w-3 h-3 text-primary" />
+                      <span>{isAr ? 'النص والمتن الأصلي' : 'Original Text & Matn'}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      {/* Font Size Selector */}
+                      <div className="flex items-center gap-1 bg-primary/10 rounded-xl p-1 text-xs font-mono font-bold text-primary">
+                        <button
+                          onClick={() => setFontScale('normal')}
+                          className={`px-2 py-0.5 rounded-lg ${fontScale === 'normal' ? 'bg-primary text-gold' : ''}`}
+                        >
+                          A
+                        </button>
+                        <button
+                          onClick={() => setFontScale('large')}
+                          className={`px-2 py-0.5 rounded-lg ${fontScale === 'large' ? 'bg-primary text-gold' : ''}`}
+                        >
+                          A+
+                        </button>
+                        <button
+                          onClick={() => setFontScale('xlarge')}
+                          className={`px-2 py-0.5 rounded-lg ${fontScale === 'xlarge' ? 'bg-primary text-gold' : ''}`}
+                        >
+                          A++
+                        </button>
+                      </div>
+
+                      {/* Copy Matn Button */}
+                      <button
+                        onClick={handleCopyMatn}
+                        className="px-3.5 py-1.5 rounded-xl bg-primary text-gold hover:bg-primary/90 text-xs font-amiri font-bold flex items-center gap-1.5 transition-all shadow-sm"
+                      >
+                        <CheckmarkIcon className="w-3.5 h-3.5" />
+                        <span>{copiedMatn ? (isAr ? 'تم النسخ!' : 'Copied!') : (isAr ? 'نسخ النص' : 'Copy')}</span>
+                      </button>
+                    </div>
                   </div>
 
-                  <p className="font-amiri text-2xl md:text-4xl text-primary font-bold leading-[2.2] text-center whitespace-pre-line tracking-wide drop-shadow-sm select-text">
+                  {/* Vocalized Matn Arabic Text */}
+                  <p
+                    className={`font-amiri text-primary font-bold text-center whitespace-pre-line tracking-wide drop-shadow-sm select-text ${
+                      fontScale === 'normal'
+                        ? 'text-2xl md:text-4xl leading-[2.3]'
+                        : fontScale === 'large'
+                        ? 'text-3xl md:text-5xl leading-[2.5]'
+                        : 'text-4xl md:text-6xl leading-[2.7]'
+                    }`}
+                  >
                     {majlis.matn.arabic}
                   </p>
 
@@ -318,20 +416,21 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                 {majlis.sharhChapters.map((ch, idx) => (
                   <div
                     key={idx}
-                    className={`p-6 md:p-8 rounded-3xl border shadow-xl space-y-4 transition-colors ${
+                    className={`p-6 md:p-8 rounded-3xl border shadow-xl space-y-4 transition-all relative overflow-hidden ${
                       theme === 'light'
                         ? 'bg-white/90 border-gold/40 text-[#123326] hover:border-gold'
                         : 'bg-gradient-to-b from-[#0B3B2C]/70 to-[#0A261A]/80 border-gold/30 text-white hover:border-gold/60'
                     }`}
                   >
-                    <div className="flex items-center justify-between">
+                    <IslamicWatermark className="opacity-[0.02]" />
+                    <div className="flex items-center justify-between relative z-10">
                       <h4 className={`text-xl md:text-2xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
                         {getLocalized(ch.title)}
                       </h4>
                       {typeof ch.timestampSeconds === 'number' && (
                         <button
                           onClick={() => setCurrentSeekTimestamp(ch.timestampSeconds)}
-                          className="px-3 py-1 rounded-xl bg-gold/15 hover:bg-gold hover:text-primary text-gold text-xs font-mono border border-gold/30 transition-all flex items-center gap-1.5 font-bold"
+                          className="px-3 py-1 rounded-xl bg-gold/15 hover:bg-gold hover:text-primary text-gold text-xs font-mono border border-gold/30 transition-all flex items-center gap-1.5 font-bold shadow-sm"
                         >
                           <PlayIcon className="w-3 h-3" />
                           <span>{Math.floor(ch.timestampSeconds / 60)}:00</span>
@@ -340,7 +439,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                     </div>
 
                     <p
-                      className={`text-lg leading-[2] font-amiri whitespace-pre-line text-justify ${
+                      className={`text-lg leading-[2.1] font-amiri whitespace-pre-line text-justify relative z-10 ${
                         theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/90'
                       }`}
                     >
@@ -372,15 +471,16 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                         : 'bg-[#0B3B2C]/50 border-gold/30 text-white'
                     }`}
                   >
-                    <div className="flex items-center justify-between border-b border-gold/20 pb-3">
+                    <IslamicWatermark className="opacity-[0.03]" />
+                    <div className="flex items-center justify-between border-b border-gold/20 pb-3 relative z-10">
                       <span className="text-2xl font-bold text-gold font-amiri">{v.term}</span>
-                      <span className="w-8 h-8 rounded-full bg-gold/20 border border-gold/30 flex items-center justify-center text-xs text-gold font-bold">
+                      <span className="w-8 h-8 rounded-full bg-gold/20 border border-gold/30 flex items-center justify-center text-xs text-gold font-bold font-mono">
                         {idx + 1}
                       </span>
                     </div>
 
                     <p
-                      className={`text-base font-amiri leading-relaxed ${
+                      className={`text-base font-amiri leading-relaxed relative z-10 ${
                         theme === 'light' ? 'text-[#2D5A46]' : 'text-gray-200'
                       }`}
                     >
@@ -388,7 +488,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                     </p>
 
                     {v.etymology && (
-                      <div className="pt-2 text-xs text-gold font-mono flex items-center gap-2 font-bold">
+                      <div className="pt-2 text-xs text-gold font-mono flex items-center gap-2 font-bold relative z-10">
                         <StarGeometricIcon className="w-3 h-3 text-gold" />
                         <span>{getLocalized(v.etymology)}</span>
                       </div>
@@ -419,17 +519,18 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                     {f.points.map((pt, pIdx) => (
                       <div
                         key={pIdx}
-                        className={`p-5 rounded-2xl border flex items-start gap-4 shadow-md ${
+                        className={`p-5 rounded-2xl border flex items-start gap-4 shadow-md relative overflow-hidden ${
                           theme === 'light'
                             ? 'bg-white/90 border-gold/40 text-[#123326]'
                             : 'bg-black/40 border-gold/30 text-white'
                         }`}
                       >
-                        <div className="w-8 h-8 rounded-xl bg-gold text-primary font-bold flex items-center justify-center flex-shrink-0 text-sm mt-1">
+                        <IslamicWatermark className="opacity-[0.02]" />
+                        <div className="w-8 h-8 rounded-xl bg-gold text-primary font-bold flex items-center justify-center flex-shrink-0 text-sm mt-1 shadow-sm font-mono">
                           {pIdx + 1}
                         </div>
                         <p
-                          className={`text-lg font-amiri leading-relaxed ${
+                          className={`text-lg font-amiri leading-relaxed relative z-10 ${
                             theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/90'
                           }`}
                         >
@@ -586,7 +687,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
             </motion.div>
           )}
 
-          {/* TAB 6: REFLECTION */}
+          {/* TAB 6: REFLECTION & PERSONAL NOTES */}
           {activeTab === 'reflection' && (
             <motion.div
               key="reflection"
@@ -594,16 +695,18 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="space-y-6"
+              className="space-y-8"
             >
+              {/* Contemplation Box */}
               <div
-                className={`p-8 rounded-3xl border-2 border-gold/50 shadow-2xl space-y-6 ${
+                className={`p-8 rounded-3xl border-2 border-gold/50 shadow-2xl space-y-6 relative overflow-hidden ${
                   theme === 'light'
                     ? 'bg-gradient-to-br from-[#FFFDF9] via-[#FAF6ED] to-[#F2EADB] text-[#123326]'
                     : 'bg-gradient-to-b from-[#0B3B2C]/80 via-[#0A261A] to-black/80 text-white'
                 }`}
               >
-                <div className="flex items-center gap-3">
+                <IslamicWatermark className="opacity-[0.04]" />
+                <div className="flex items-center gap-3 relative z-10">
                   <StarGeometricIcon className="w-7 h-7 text-gold" />
                   <h3 className={`text-2xl md:text-3xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
                     {isAr ? 'وقفة تدبرية وعملية للمجلس' : 'Contemplative Reflection'}
@@ -611,16 +714,56 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                 </div>
 
                 <p
-                  className={`text-xl md:text-2xl font-amiri leading-[2.2] italic border-r-4 border-gold pr-6 ${
+                  className={`text-xl md:text-2xl font-amiri leading-[2.2] italic border-r-4 border-gold pr-6 relative z-10 ${
                     theme === 'light' ? 'text-[#123326]' : 'text-emerald-100'
                   }`}
                 >
                   {getLocalized(majlis.reflectionPrompt)}
                 </p>
 
+                {/* Personal Reflection Notebook */}
+                <div className="pt-4 space-y-3 relative z-10">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-bold text-gold font-amiri flex items-center gap-2">
+                      <BookIcon className="w-4 h-4" />
+                      <span>{isAr ? 'دفتر الملاحظات والتدبر الشخصي:' : 'Personal Reflection Notebook:'}</span>
+                    </label>
+                    {noteSavedFeedback && (
+                      <span className="text-xs text-emerald-400 font-bold font-amiri animate-bounce">
+                        {isAr ? '✓ تم حفظ الملاحظة' : '✓ Saved!'}
+                      </span>
+                    )}
+                  </div>
+
+                  <textarea
+                    rows={4}
+                    value={userNote}
+                    onChange={(e) => setUserNote(e.target.value)}
+                    placeholder={
+                      isAr
+                        ? 'دوّن هنا فائدتك الشخصية، عزمك العملي، أو أثر الحديث في حياتك...'
+                        : 'Write down your personal reflections, practical resolutions, or notes...'
+                    }
+                    className={`w-full p-4 rounded-2xl border text-base font-amiri leading-relaxed focus:outline-none focus:border-gold transition-colors ${
+                      theme === 'light'
+                        ? 'bg-white border-gold/30 text-[#123326]'
+                        : 'bg-black/40 border-gold/30 text-white placeholder-gray-400'
+                    }`}
+                  />
+
+                  <div className="flex justify-end">
+                    <button
+                      onClick={handleSaveNote}
+                      className="px-6 py-2 rounded-xl bg-gold text-primary font-bold text-xs hover:bg-gold-light transition-all shadow-md"
+                    >
+                      {isAr ? 'حفظ الملاحظة' : 'Save Note'}
+                    </button>
+                  </div>
+                </div>
+
                 {/* Telegram Group Voice Discussion Banner */}
                 <div
-                  className={`p-6 rounded-2xl border flex flex-col md:flex-row items-center justify-between gap-6 ${
+                  className={`p-6 rounded-2xl border flex flex-col md:flex-row items-center justify-between gap-6 relative z-10 ${
                     theme === 'light'
                       ? 'bg-white/80 border-gold/40 text-[#123326]'
                       : 'bg-black/60 border-gold/30 text-white'
