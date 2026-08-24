@@ -1,37 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #0B3B2C;
+  --color-primary: #061F17;
+  --color-primary-light: #0B3B2C;
+  --color-primary-dark: #03120D;
   --color-gold: #D4AF37;
   --color-gold-muted: #B8860B;
   --color-gold-light: #F9E498;
   --color-bg-paper: var(--bg-paper);
   --color-text-main: var(--text-main);
   --color-text-soft: var(--text-soft);
+  --font-title: var(--font-title);
+  --font-subtitle: var(--font-subtitle);
+  --font-essay: var(--font-essay);
+  --font-calligraphy: var(--font-calligraphy);
+  --font-display: var(--font-title);
+  --font-body: var(--font-subtitle);
+  --font-amiri: var(--font-essay);
+  --font-quran: 'Amiri Quran', 'Scheherazade New', var(--font-essay), serif;
 }
 
 :root {
-  --bg-paper: #071A12;
+  --bg-paper: #061812;
   --text-main: #FDFBF7;
   --text-soft: #A7C4B5;
-  --primary-color: #0B3B2C;
+  --primary-color: #061F17;
 }
 
 html.light {
   --bg-paper: #FAF8F5;
   --text-main: #123326;
   --text-soft: #2D5A46;
-  --primary-color: #0B3B2C;
+  --primary-color: #061F17;
   background-color: #FAF8F5;
   color: #123326;
 }
 
 html.dark {
-  --bg-paper: #071A12;
+  --bg-paper: #061812;
   --text-main: #FDFBF7;
   --text-soft: #A7C4B5;
-  --primary-color: #0B3B2C;
-  background-color: #071A12;
+  --primary-color: #061F17;
+  background-color: #061812;
   color: #FDFBF7;
 }
 
@@ -40,69 +51,91 @@ html.dark .text-primary {
 }
 
 html.light .text-primary {
-  color: #0B3B2C !important;
+  color: #061F17 !important;
 }
 
 body {
   color: var(--text-main);
   background: var(--bg-paper);
-  font-family: var(--font-body), sans-serif;
+  font-family: var(--font-subtitle), system-ui, -apple-system, sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
+  letter-spacing: -0.01em;
 }
 
-[lang="ar"] {
-  font-family: var(--font-body), serif;
+/* 1. TITLES */
+h1,
+.font-title {
+  font-family: var(--font-title), var(--font-subtitle), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
 }
 
+/* 2. SUBTITLES & UI */
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-subtitle,
 .font-display {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-subtitle), var(--font-title), sans-serif;
+  font-weight: 600;
+  line-height: 1.45;
 }
 
+/* 3. ESSAY & PARAGRAPHS */
+p,
+article,
+.font-essay,
+.font-amiri,
 .font-body {
-  font-family: var(--font-body), sans-serif;
+  font-family: var(--font-essay), var(--font-subtitle), serif;
+  line-height: 2.1;
+  font-size: 1.05rem;
 }
 
+/* 4. CALLIGRAPHY */
 .font-calligraphy {
-  font-family: var(--font-calligraphy), serif;
+  font-family: var(--font-calligraphy), var(--font-title), serif;
 }
 
-.font-amiri {
-  font-family: var(--font-amiri), serif;
+/* 5. QURAN */
+.font-quran,
+.font-uthmani {
+  font-family: 'Amiri Quran', 'Scheherazade New', serif !important;
+  word-spacing: 4px;
 }
 
-.font-garamond {
-  font-family: var(--font-garamond), serif;
-}
-
-.font-handwriting {
-  font-family: var(--font-handwriting), cursive;
-}
-
-/* Custom Glassmorphism */
+/* Glassmorphism */
 .glass {
-  @apply backdrop-blur-xl bg-white/70 dark:bg-black/60 border border-gold/30 dark:border-white/10 shadow-sm;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
-/* Premium Gradient Text */
-.text-gradient-gold {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-gold to-gold-muted;
+html.light .glass {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.35);
 }
 
-.text-gold-radiant {
-  @apply bg-clip-text text-transparent bg-gradient-to-b from-gold-light via-gold to-gold-muted;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-  background-size: 200% auto;
-  animation: gold-shimmer 4s linear infinite;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.7);
 }
 
-@keyframes gold-shimmer {
-  0% { background-position: 0% center; }
-  50% { background-position: 100% center; }
-  100% { background-position: 0% center; }
-}
-
-/* Smooth Transitions */
-* {
-  @apply transition-colors duration-200;
+html {
+  scroll-behavior: smooth;
 }

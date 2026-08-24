@@ -1,18 +1,52 @@
 import "@/styles/globals.css";
 import { Metadata } from "next";
-import { Reem_Kufi, Noto_Naskh_Arabic, Aref_Ruqaa, Amiri, EB_Garamond, Dancing_Script } from 'next/font/google'
+import {
+  Noto_Kufi_Arabic,
+  IBM_Plex_Sans_Arabic,
+  Amiri,
+  Aref_Ruqaa,
+  EB_Garamond,
+} from 'next/font/google';
 import LanguageHandler from "@/components/LanguageHandler";
 
-const displayFont = Reem_Kufi({ weight: ['400', '700'], subsets: ['arabic'], variable: '--font-display' })
-const bodyFont = Noto_Naskh_Arabic({ weight: ['400', '700'], subsets: ['arabic'], variable: '--font-body' })
-const calligraphyFont = Aref_Ruqaa({ weight: ['400', '700'], subsets: ['arabic'], variable: '--font-calligraphy' })
-const amiriFont = Amiri({ weight: ['400', '700'], subsets: ['arabic', 'latin'], variable: '--font-amiri' })
-const garamondFont = EB_Garamond({ weight: ['400', '500', '600', '700'], subsets: ['latin'], variable: '--font-garamond' })
-const handwritingFont = Dancing_Script({ weight: ['400', '700'], subsets: ['latin'], variable: '--font-handwriting' })
+const titleFont = Noto_Kufi_Arabic({
+  weight: ['400', '600', '700', '800'],
+  subsets: ['arabic'],
+  variable: '--font-title',
+  display: 'swap',
+});
+
+const subtitleFont = IBM_Plex_Sans_Arabic({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['arabic'],
+  variable: '--font-subtitle',
+  display: 'swap',
+});
+
+const essayFont = Amiri({
+  weight: ['400', '700'],
+  subsets: ['arabic', 'latin'],
+  variable: '--font-essay',
+  display: 'swap',
+});
+
+const calligraphyFont = Aref_Ruqaa({
+  weight: ['400', '700'],
+  subsets: ['arabic'],
+  variable: '--font-calligraphy',
+  display: 'swap',
+});
+
+const garamondFont = EB_Garamond({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-garamond',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
-  title: "TAFAQUH",
-  description: "Towards a deeper understanding of knowledge and faith",
+  title: "تَفَقَّهْ — منصة التأصيل والوعي الإسلامي المعاصر",
+  description: "نحو فهم أعمق للعلوم الشرعية والفكر الإسلامي الرصين، مع حلقات المدارسة وتطبيقات القرآن والذكر.",
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -30,8 +64,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={`${displayFont.variable} ${bodyFont.variable} ${calligraphyFont.variable} ${amiriFont.variable} ${garamondFont.variable} ${handwritingFont.variable}`}>
-      <body className="antialiased font-body">
+    <html
+      className={`${titleFont.variable} ${subtitleFont.variable} ${essayFont.variable} ${calligraphyFont.variable} ${garamondFont.variable}`}
+    >
+      <body className="antialiased font-subtitle selection:bg-gold/30 selection:text-gold">
         <LanguageHandler />
         {children}
       </body>

@@ -1,11 +1,11 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import LanguageSelector from './LanguageSelector';
 import SettingsModal from './SettingsModal';
-import { useEffect, useState } from 'react';
 import { useTranslation } from '@/i18n/client';
 import { useApp } from '@/context/AppContext';
 import {
@@ -27,39 +27,38 @@ export default function Header({ lng }: { lng: string }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 25);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const menuItems = ['about', 'axes', 'contact'];
   const isAr = lng === 'ar';
 
-  // If user selected sidebar mode, on desktop the top header is completely hidden
+  // If user selected sidebar mode on desktop
   if (navLayout === 'sidebar') {
     return (
       <>
         <SettingsModal lng={lng} />
 
         {/* Mobile floating top bar trigger only */}
-        <div className="lg:hidden fixed top-4 right-4 left-4 z-40 flex items-center justify-between pointer-events-none">
+        <div className="lg:hidden fixed top-3 right-3 left-3 z-40 flex items-center justify-between pointer-events-none font-subtitle">
           <div className="pointer-events-auto">
             <button
               onClick={() => setIsMobileSidebarOpen(true)}
-              className={`p-3 rounded-2xl border-2 border-gold/40 shadow-xl backdrop-blur-xl flex items-center gap-2 text-gold transition-all active:scale-95 ${
-                theme === 'light' ? 'bg-[#FAF8F5]/95 text-[#123326]' : 'bg-[#0A1A14]/95 text-white'
+              className={`p-3 rounded-2xl border-2 border-gold/40 shadow-xl backdrop-blur-2xl flex items-center gap-2 text-gold transition-all active:scale-95 ${
+                theme === 'light' ? 'bg-[#FAF8F5]/95 text-[#123326]' : 'bg-[#04120D]/95 text-white'
               }`}
             >
               <MenuIcon className="w-5 h-5 text-gold" />
-              <span className="text-xs font-bold font-calligraphy">{t('project_name')}</span>
+              <span className="text-xs font-bold font-title">{t('project_name')}</span>
             </button>
           </div>
 
           <div className="pointer-events-auto flex items-center gap-2">
             <button
               onClick={toggleTheme}
-              className={`p-2.5 rounded-xl border border-gold/40 text-gold shadow-md backdrop-blur-xl ${
+              className={`p-2.5 rounded-2xl border border-gold/40 text-gold shadow-md backdrop-blur-2xl ${
                 theme === 'light' ? 'bg-white/90' : 'bg-black/60'
               }`}
               title="Toggle Theme"
@@ -68,7 +67,7 @@ export default function Header({ lng }: { lng: string }) {
             </button>
             <button
               onClick={() => setIsSettingsOpen(true)}
-              className={`p-2.5 rounded-xl border border-gold/40 text-gold shadow-md backdrop-blur-xl ${
+              className={`p-2.5 rounded-2xl border border-gold/40 text-gold shadow-md backdrop-blur-2xl ${
                 theme === 'light' ? 'bg-white/90' : 'bg-black/60'
               }`}
               title="Settings"
@@ -81,293 +80,311 @@ export default function Header({ lng }: { lng: string }) {
     );
   }
 
-  // Classic Top Navbar Mode
+  // Modern Architectural Floating Top Navbar
   return (
     <>
       <SettingsModal lng={lng} />
 
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-0 left-0 right-0 z-40 flex justify-center p-3 md:p-6 transition-all"
-      >
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            animate={{
-              backgroundColor:
-                theme === 'light'
-                  ? isScrolled
-                    ? "rgba(253, 251, 247, 0.98)"
-                    : "rgba(250, 248, 245, 0.94)"
-                  : isScrolled
-                  ? "rgba(10, 20, 15, 0.98)"
-                  : "rgba(15, 30, 25, 0.94)",
-              paddingTop: isScrolled ? "6px" : "10px",
-              paddingBottom: isScrolled ? "6px" : "10px",
-              borderColor: "rgba(212, 175, 55, 0.6)",
-            }}
-            style={{
-              clipPath:
-                'polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px)',
-            }}
-            className={`backdrop-blur-3xl px-6 md:px-10 flex justify-between items-center border border-gold/40 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative z-10 group transition-all duration-500 ${
-              theme === 'light' ? 'text-[#123326]' : 'text-white'
+      <header className="fixed top-0 left-0 right-0 z-40 px-3 md:px-6 pt-3 md:pt-4 pointer-events-none font-subtitle">
+        <div className="container mx-auto max-w-7xl pointer-events-auto">
+          <nav
+            className={`relative rounded-[28px] border-2 transition-all duration-300 shadow-2xl backdrop-blur-2xl px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 md:gap-4 ${
+              theme === 'light'
+                ? isScrolled
+                  ? 'bg-[#FFFDF9]/95 border-gold/50 text-[#123326] shadow-gold/15'
+                  : 'bg-[#FAF8F5]/90 border-gold/35 text-[#123326] shadow-gold/10'
+                : isScrolled
+                ? 'bg-[#04120D]/95 border-gold/40 text-white shadow-black/80'
+                : 'bg-[#061812]/90 border-gold/30 text-white shadow-black/50'
             }`}
           >
-            {/* Subtle Inner Glow */}
-            <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-black/20 pointer-events-none" />
+            {/* Top Golden Hairline */}
+            <div className="absolute top-0 left-12 right-12 h-[1.5px] bg-gradient-to-r from-transparent via-gold/60 to-transparent pointer-events-none" />
 
-            {/* Islamic Geometric Background Pattern Overlay */}
-            <div
-              className="absolute inset-0 opacity-[0.03] pointer-events-none"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l5 25 25 5-25 5-5 25-5-25-25-5 25-5z' fill='%23D4AF37' fill-opacity='1'/%3E%3C/svg%3E")`,
-                backgroundSize: '30px 30px',
-              }}
-            />
-
-            {/* Brand Logo & Title */}
-            <Link href={`/${lng}`} className="flex items-center gap-3 md:gap-5 group/logo relative z-10">
-              <motion.div
-                whileHover={{ scale: 1.1, rotate: 3 }}
-                className="relative w-14 h-14 md:w-16 md:h-16 flex items-center justify-center p-2"
-              >
-                <div
-                  className="absolute inset-0 bg-gradient-to-br from-gold via-gold-light to-amber-500 shadow-[0_0_25px_rgba(212,175,55,0.5)]"
-                  style={{
-                    clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
-                  }}
-                />
-                <Image
-                  src="/images/tafaqquh-logo.png"
-                  alt="TAFAQQUH Logo"
-                  width={80}
-                  height={80}
-                  className="object-contain relative z-10 drop-shadow-md"
-                />
-              </motion.div>
-
-              <div className="flex flex-col">
-                <span
-                  className={`font-bold text-gold tracking-tight leading-none ${
-                    isAr ? 'text-2xl md:text-3xl font-calligraphy' : 'text-lg md:text-xl font-display uppercase tracking-widest'
-                  }`}
-                >
-                  {t('project_name')}
-                </span>
-                <span className="text-[8px] md:text-[9px] text-gold/70 font-mono uppercase tracking-[0.25em] mt-1 hidden sm:block">
-                  {t('slogan_short')}
-                </span>
-              </div>
-            </Link>
-
-            {/* Desktop Navigation Links & Islamic App Pills */}
-            <nav className="hidden xl:flex items-center gap-5 relative z-10">
-              {menuItems.map((item) => (
-                <Link
-                  key={item}
-                  href={`/${lng}#${item}`}
-                  className={`relative font-bold text-sm lg:text-base font-display hover:text-gold transition-colors py-1 group/nav ${
-                    theme === 'light' ? 'text-[#123326]' : 'text-white/90'
-                  }`}
-                >
-                  {t(`menu.${item}`)}
-                  <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    whileHover={{ scale: 1, opacity: 1 }}
-                    className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-gold rotate-45 shadow-[0_0_8px_rgba(212,175,55,0.8)]"
-                  />
-                </Link>
-              ))}
-
-              {/* Jalsa / Majalis Islamic Pill Button */}
+            {/* Right: Brand Logo & Title */}
+            <div className="flex items-center gap-3 lg:gap-5">
               <Link
-                href={`/${lng}/jalsa`}
-                className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/jalsa"
+                href={`/${lng}`}
+                className="flex items-center gap-3 group/logo"
+                title="تَفَقَّهْ — منصة التأصيل والوعي الإسلامي"
               >
-                <MicrophoneIcon className="w-3.5 h-3.5 text-gold group-hover/jalsa:scale-110 transition-transform" />
-                <span>{isAr ? 'جلسات' : 'Jalsa'}</span>
+                {/* White Medallion for Highest Logo Clarity */}
+                <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border-2 border-gold shadow-[0_0_15px_rgba(212,175,55,0.3)] flex items-center justify-center p-1 flex-shrink-0 group-hover/logo:scale-105 transition-transform overflow-hidden">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src="/images/logo-tafaquh.png"
+                      alt="شعار تَفَقَّه"
+                      fill
+                      sizes="48px"
+                      className="object-contain"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col text-right">
+                  <span
+                    className={`font-bold text-gold leading-none ${
+                      isAr ? 'text-2xl font-calligraphy' : 'text-lg font-title uppercase tracking-widest'
+                    }`}
+                  >
+                    {t('project_name')}
+                  </span>
+                  <span className="text-[9px] text-gold/70 font-mono tracking-widest mt-0.5 hidden sm:block">
+                    {isAr ? 'التأصيل • التجديد • الأثر' : 'Authenticity • Renewal'}
+                  </span>
+                </div>
               </Link>
 
-              {/* Izkur Platform External Pill Button */}
-              <a
-                href="https://izkur.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/izkur"
-                title={isAr ? 'منصة وتطبيق اذْكُرْ للعداد الصوتي والتسبيح' : 'Izkur Smart Voice Counter'}
-              >
-                <StarGeometricIcon className="w-3.5 h-3.5 text-gold group-hover/izkur:rotate-45 transition-transform duration-300" />
-                <span>{isAr ? 'اذْكُرْ' : 'Izkur'}</span>
-              </a>
+              {/* Desktop Core Navigation Links */}
+              <div className="hidden xl:flex items-center gap-1 text-xs font-bold">
+                <Link
+                  href={`/${lng}`}
+                  className="px-3 py-1.5 rounded-xl hover:bg-gold/15 text-gold transition-colors"
+                >
+                  {t('menu.home')}
+                </Link>
+                <Link
+                  href={`/${lng}#axes`}
+                  className="px-3 py-1.5 rounded-xl hover:bg-gold/15 text-gray-300 hover:text-gold transition-colors"
+                >
+                  {t('menu.axes')}
+                </Link>
+                <Link
+                  href={`/${lng}#about`}
+                  className="px-3 py-1.5 rounded-xl hover:bg-gold/15 text-gray-300 hover:text-gold transition-colors"
+                >
+                  {t('menu.about')}
+                </Link>
+                <Link
+                  href={`/${lng}#experts`}
+                  className="px-3 py-1.5 rounded-xl hover:bg-gold/15 text-gray-300 hover:text-gold transition-colors"
+                >
+                  {t('menu.experts')}
+                </Link>
+              </div>
+            </div>
 
-              {/* Mawiza Platform External Pill Button */}
+            {/* Center: Ecosystem Apps & Jalsa Pill Buttons */}
+            <div className="hidden lg:flex items-center gap-2">
+              {/* Jalsa Sessions Button */}
+              <Link
+                href={`/${lng}/jalsa`}
+                className="px-3.5 py-1.5 rounded-xl bg-gold/15 hover:bg-gold/25 text-gold border border-gold/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm hover:scale-105 group"
+                title="حلقات المدارسة والتسجيلات الصوتية"
+              >
+                <MicrophoneIcon className="w-3.5 h-3.5 text-gold group-hover:scale-110 transition-transform" />
+                <span>{isAr ? 'جلسات تفقه' : 'Jalsa'}</span>
+              </Link>
+
+              {/* Mawiza Platform External Pill */}
               <a
                 href="https://mawiza.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/mawiza"
-                title={isAr ? 'منصة مَوْعِظَة للتدبر القرآني والفكر الإسلامي' : 'Mawiza Platform'}
+                className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-gold/20 via-gold/15 to-amber-500/20 hover:bg-gold hover:text-primary text-gold border border-gold/50 text-xs font-bold flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(212,175,55,0.2)] hover:scale-105"
+                title="منصة مَوْعِظَة للتدبر القرآني والمصحف الشريف"
               >
-                <CompassIcon className="w-3.5 h-3.5 text-gold group-hover/mawiza:scale-110 transition-transform" />
-                <span>{isAr ? 'موعظة' : 'Mawiza'}</span>
+                <CompassIcon className="w-3.5 h-3.5" />
+                <span>{isAr ? 'منصة مَوْعِظَة' : 'Maw’izah'}</span>
               </a>
 
-              {/* Khatmah Pill Button */}
+              {/* Izkur Platform External Pill */}
+              <a
+                href="https://izkur.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3.5 py-1.5 rounded-xl bg-gold/15 hover:bg-gold/25 text-gold border border-gold/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm hover:scale-105"
+                title="العداد الصوتي الذكي للأذكار والتسبيح"
+              >
+                <StarGeometricIcon className="w-3.5 h-3.5 text-gold" />
+                <span>{isAr ? 'اذْكُرْ' : 'Izkur'}</span>
+              </a>
+
+              {/* Khatmah App Pill */}
               <Link
                 href={`/${lng}/khatmah`}
-                className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/khatmah"
+                className="px-3 py-1.5 rounded-xl bg-black/30 hover:bg-gold/20 text-gray-300 hover:text-gold border border-gold/25 text-xs font-bold flex items-center gap-1.5 transition-all"
               >
-                <StarGeometricIcon className="w-3.5 h-3.5 text-gold group-hover/khatmah:scale-110 transition-transform" />
+                <StarGeometricIcon className="w-3 h-3 text-gold/70" />
                 <span>{isAr ? 'ختمة' : 'Khatmah'}</span>
               </Link>
-            </nav>
+            </div>
 
-            {/* Right Controls: Theme Toggle + Settings + Language + Mobile Menu */}
-            <div className="flex items-center gap-2 relative z-10">
-              {/* Quick Theme Toggle Button with SVG */}
+            {/* Left: Quick Actions, Theme, Settings, Language, Mobile Toggle */}
+            <div className="flex items-center gap-2 sm:gap-2.5">
+              {/* Theme Switcher */}
               <button
                 onClick={toggleTheme}
-                title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
-                className="p-2 rounded-xl bg-gold/10 hover:bg-gold/25 border border-gold/40 text-gold transition-all flex items-center justify-center"
+                className="p-2 rounded-xl bg-gold/10 hover:bg-gold/20 text-gold border border-gold/30 transition-all flex items-center justify-center"
+                title={theme === 'dark' ? 'Switch to Light' : 'Switch to Dark'}
               >
                 {theme === 'dark' ? <SunIcon className="w-4 h-4" /> : <MoonIcon className="w-4 h-4" />}
               </button>
 
-              {/* Settings Modal Button with SVG */}
+              {/* Settings Modal Button */}
               <button
                 onClick={() => setIsSettingsOpen(true)}
-                title={isAr ? 'الإعدادات والتخصيص' : 'Settings'}
-                className="p-2 rounded-xl bg-gold/10 hover:bg-gold/25 border border-gold/40 text-gold transition-all flex items-center justify-center"
+                className="p-2 rounded-xl bg-gold/10 hover:bg-gold/20 text-gold border border-gold/30 transition-all flex items-center justify-center"
+                title="الإعدادات والتخصيص"
               >
                 <SettingsIcon className="w-4 h-4" />
               </button>
 
-              <div className="h-6 w-px bg-gold/30 hidden sm:block" />
+              {/* Language Selector */}
+              <div className="h-5 w-px bg-gold/20 hidden sm:block" />
               <LanguageSelector lng={lng} />
 
-              {/* Mobile Menu Toggle Button */}
+              {/* Mobile Drawer Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="xl:hidden p-2 rounded-xl bg-gold/10 border border-gold/30 text-gold hover:text-white focus:outline-none"
-                aria-label="Toggle Menu"
+                className="lg:hidden p-2 rounded-xl bg-gold/15 border border-gold/40 text-gold"
+                title="القائمة الرئيسية"
               >
                 {mobileMenuOpen ? <CrossIcon className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
               </button>
             </div>
+          </nav>
+        </div>
 
-            {/* Corner Pillar Styling */}
-            <div className="absolute top-0 right-0 w-6 h-full opacity-40 pointer-events-none flex flex-col justify-between p-1">
-              <div className="w-full h-6 border-t-2 border-r-2 border-gold" />
-              <div className="w-full h-6 border-b-2 border-r-2 border-gold" />
-            </div>
-            <div className="absolute top-0 left-0 w-6 h-full opacity-40 pointer-events-none flex flex-col justify-between p-1">
-              <div className="w-full h-6 border-t-2 border-l-2 border-gold" />
-              <div className="w-full h-6 border-b-2 border-l-2 border-gold" />
-            </div>
-          </motion.div>
-
-          {/* Mobile Dropdown Menu */}
-          <AnimatePresence>
-            {mobileMenuOpen && (
+        {/* Mobile Full-Featured Drawer */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <div className="fixed inset-0 z-50 flex justify-end bg-black/80 backdrop-blur-md lg:hidden font-subtitle pointer-events-auto">
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className={`xl:hidden mt-2 p-6 rounded-3xl border-2 border-gold/50 backdrop-blur-2xl shadow-2xl space-y-4 text-center ${
-                  theme === 'light' ? 'bg-[#FAF8F5]/98 text-[#123326]' : 'bg-[#0B3B2C]/98 text-white'
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'spring', damping: 26, stiffness: 220 }}
+                className={`w-full max-w-sm h-full flex flex-col justify-between p-6 border-r-2 border-gold/40 shadow-2xl overflow-y-auto ${
+                  theme === 'light' ? 'bg-[#FAF8F5] text-[#123326]' : 'bg-[#061812] text-white'
                 }`}
               >
-                <div className="flex flex-col gap-2.5">
-                  {menuItems.map((item) => (
-                    <Link
-                      key={item}
-                      href={`/${lng}#${item}`}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`font-bold text-base font-display hover:text-gold transition-colors py-2 border-b border-gold/20 ${
-                        theme === 'light' ? 'text-[#123326]' : 'text-white'
-                      }`}
-                    >
-                      {t(`menu.${item}`)}
-                    </Link>
-                  ))}
+                <div className="space-y-6">
+                  {/* Drawer Header */}
+                  <div className="flex items-center justify-between pb-4 border-b border-gold/30">
+                    <div className="flex items-center gap-3">
+                      <div className="relative w-10 h-10 rounded-xl bg-white border border-gold p-1 flex items-center justify-center overflow-hidden">
+                        <Image
+                          src="/images/logo-tafaquh.png"
+                          alt="Logo"
+                          fill
+                          sizes="40px"
+                          className="object-contain"
+                        />
+                      </div>
+                      <span className="font-title text-xl font-bold text-gold leading-none">
+                        {t('project_name')}
+                      </span>
+                    </div>
+                    <button onClick={() => setMobileMenuOpen(false)} className="text-gold p-1">
+                      <CrossIcon className="w-5 h-5" />
+                    </button>
+                  </div>
 
-                  <div className="grid grid-cols-2 gap-2 pt-2">
+                  {/* Ecosystem Platforms Section */}
+                  <div className="space-y-2">
+                    <span className="text-[11px] font-mono text-gold/70 block uppercase tracking-widest">
+                      {isAr ? 'المنصات والتطبيقات' : 'Platforms & Apps'}
+                    </span>
+
                     <Link
                       href={`/${lng}/jalsa`}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
+                      className="p-3 rounded-2xl bg-gold/15 text-gold border border-gold/30 font-bold text-sm flex items-center gap-2.5"
                     >
                       <MicrophoneIcon className="w-4 h-4 text-gold" />
-                      <span>{isAr ? 'جلسات' : 'Jalsa'}</span>
+                      <span>{isAr ? 'جلسات تفقه العلمية' : 'Jalsa Sessions'}</span>
                     </Link>
-
-                    <a
-                      href="https://izkur.vercel.app/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
-                    >
-                      <StarGeometricIcon className="w-4 h-4 text-gold" />
-                      <span>{isAr ? 'اذْكُرْ' : 'Izkur'}</span>
-                    </a>
 
                     <a
                       href="https://mawiza.vercel.app/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
+                      className="p-3 rounded-2xl bg-gradient-to-r from-gold/20 to-amber-500/20 text-gold border border-gold/40 font-bold text-sm flex items-center justify-between"
                     >
-                      <CompassIcon className="w-4 h-4 text-gold" />
-                      <span>{isAr ? 'موعظة' : 'Mawiza'}</span>
+                      <div className="flex items-center gap-2.5">
+                        <CompassIcon className="w-4 h-4 text-gold" />
+                        <span>{isAr ? 'منصة مَوْعِظَة للقرآن' : 'Maw’izah Platform'}</span>
+                      </div>
+                      <span className="text-xs text-gold">↗</span>
+                    </a>
+
+                    <a
+                      href="https://izkur.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 rounded-2xl bg-gold/10 text-gold border border-gold/30 font-bold text-sm flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <StarGeometricIcon className="w-4 h-4 text-gold" />
+                        <span>{isAr ? 'تطبيق اذْكُرْ الصوتي' : 'Izkur App'}</span>
+                      </div>
+                      <span className="text-xs text-gold">↗</span>
                     </a>
 
                     <Link
                       href={`/${lng}/khatmah`}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
+                      className="p-3 rounded-2xl bg-black/20 text-gray-200 border border-gold/20 font-bold text-sm flex items-center gap-2.5"
                     >
-                      <StarGeometricIcon className="w-4 h-4 text-gold" />
-                      <span>{isAr ? 'ختمة' : 'Khatmah'}</span>
+                      <StarGeometricIcon className="w-4 h-4 text-gold/60" />
+                      <span>{isAr ? 'تطبيق خَتْمَة القرآنية' : 'Khatmah Tracker'}</span>
                     </Link>
                   </div>
 
-                  <Link
-                    href={`/${lng}#experts`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="py-2.5 px-3 mt-1 rounded-xl bg-gradient-to-r from-gold/30 to-gold/10 text-gold font-bold text-sm font-calligraphy border border-gold/50 flex items-center justify-center gap-2"
-                  >
-                    <span>{t('experts.badge')}</span>
-                  </Link>
-
-                  <div className="pt-2 flex items-center justify-center gap-3">
-                    <button
-                      onClick={toggleTheme}
-                      className="px-4 py-2 rounded-xl bg-gold/15 text-gold font-bold text-xs border border-gold/30 flex items-center gap-1.5"
+                  {/* Core Navigation Links */}
+                  <div className="space-y-1.5 pt-2 border-t border-gold/20">
+                    <span className="text-[11px] font-mono text-gold/70 block uppercase tracking-widest mb-1">
+                      {isAr ? 'أقسام الموقع' : 'Navigation'}
+                    </span>
+                    <Link
+                      href={`/${lng}`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="p-2.5 rounded-xl hover:bg-gold/10 text-gray-200 hover:text-gold text-sm font-bold block"
                     >
-                      {theme === 'dark' ? <SunIcon className="w-3.5 h-3.5" /> : <MoonIcon className="w-3.5 h-3.5" />}
-                      <span>{theme === 'dark' ? (isAr ? 'الفاتح' : 'Light') : (isAr ? 'الداكن' : 'Dark')}</span>
-                    </button>
-                    <button
-                      onClick={() => {
-                        setMobileMenuOpen(false);
-                        setIsSettingsOpen(true);
-                      }}
-                      className="px-4 py-2 rounded-xl bg-gold/15 text-gold font-bold text-xs border border-gold/30 flex items-center gap-1.5"
+                      {t('menu.home')}
+                    </Link>
+                    <Link
+                      href={`/${lng}#axes`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="p-2.5 rounded-xl hover:bg-gold/10 text-gray-200 hover:text-gold text-sm font-bold block"
                     >
-                      <SettingsIcon className="w-3.5 h-3.5" />
-                      <span>{isAr ? 'الإعدادات' : 'Settings'}</span>
-                    </button>
+                      {t('menu.axes')}
+                    </Link>
+                    <Link
+                      href={`/${lng}#about`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="p-2.5 rounded-xl hover:bg-gold/10 text-gray-200 hover:text-gold text-sm font-bold block"
+                    >
+                      {t('menu.about')}
+                    </Link>
+                    <Link
+                      href={`/${lng}#experts`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="p-2.5 rounded-xl hover:bg-gold/10 text-gray-200 hover:text-gold text-sm font-bold block"
+                    >
+                      {t('menu.experts')}
+                    </Link>
+                    <Link
+                      href={`/${lng}#contact`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="p-2.5 rounded-xl hover:bg-gold/10 text-gray-200 hover:text-gold text-sm font-bold block"
+                    >
+                      {t('menu.contact')}
+                    </Link>
                   </div>
                 </div>
+
+                {/* Drawer Footer */}
+                <div className="pt-4 border-t border-gold/20 flex items-center justify-between text-xs text-gold/60">
+                  <span>© {new Date().getFullYear()} تَفَقَّهْ</span>
+                  <span className="font-mono">{lng.toUpperCase()}</span>
+                </div>
               </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </motion.header>
+            </div>
+          )}
+        </AnimatePresence>
+      </header>
     </>
   );
 }

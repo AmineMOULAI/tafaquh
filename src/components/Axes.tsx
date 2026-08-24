@@ -88,14 +88,8 @@ export default function Axes({ lng }: { lng: string }) {
                   </div>
                   
                   {/* Decorative Islamic Geometric Frame for logo */}
-                  <div className="relative w-16 h-16 flex items-center justify-center">
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                      className="absolute inset-0 border border-gold/20"
-                      style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }}
-                    />
-                    <div className="relative w-10 h-10 opacity-40 group-hover:opacity-100 transition-all duration-500">
+                  <div className="relative w-12 h-12 rounded-xl bg-white border border-gold/50 shadow-md flex items-center justify-center p-1 overflow-hidden">
+                    <div className="relative w-full h-full">
                       <Image
                         src="/images/logo-tafaquh.png"
                         alt="Logo"
@@ -106,11 +100,11 @@ export default function Axes({ lng }: { lng: string }) {
                   </div>
                 </div>
 
-                <h3 className={`text-2xl lg:text-4xl font-bold text-white mb-4 leading-tight ${lng === 'ar' ? 'font-calligraphy' : 'font-display uppercase tracking-tight'}`}>
+                <h3 className={`text-2xl lg:text-3xl font-bold text-gold mb-3 leading-tight ${lng === 'ar' ? 'font-calligraphy' : 'font-title uppercase tracking-tight'}`}>
                   {t(`axes.${key}`).split('\n')[0]}
                 </h3>
                 
-                <p className="text-gold/60 text-lg font-body leading-relaxed mb-6">
+                <p className="text-emerald-100/80 text-base font-essay leading-relaxed mb-6">
                    {t(`axes.${key}`).split('\n')[1]}
                 </p>
 
