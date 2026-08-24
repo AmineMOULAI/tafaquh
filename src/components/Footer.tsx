@@ -151,7 +151,7 @@ export default function Footer({ lng }: { lng: string }) {
                 className="text-white/60 hover:text-gold transition-colors text-sm flex items-center gap-2"
               >
                 <IslamicStarIcon className="w-3 h-3 text-gold/40" />
-                <span>{isAr ? 'مجالس تفقه العلمية' : 'Study Circles'}</span>
+                <span>{isAr ? 'جلسات تفقه' : 'Jalsa'}</span>
               </Link>
             </div>
           </div>

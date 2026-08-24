@@ -135,7 +135,7 @@ export default function Sidebar({ lng }: SidebarProps) {
             {!isSidebarCollapsed && (
               <div className="flex flex-col text-right flex-1">
                 <span className="text-sm font-bold font-calligraphy text-gold">
-                  {isAr ? 'مجالس تفقه' : 'Study Circles'}
+                  {isAr ? 'جلسات تفقه' : 'Jalsa'}
                 </span>
                 <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-amiri">
                   {isAr ? 'تسجيلات وشروحات صوتية' : 'Voice Study Sessions'}
