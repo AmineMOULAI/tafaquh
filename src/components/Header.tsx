@@ -199,14 +199,17 @@ export default function Header({ lng }: { lng: string }) {
                 <span>{isAr ? 'اذْكُرْ' : 'Izkur'}</span>
               </Link>
 
-              {/* Mawiza Pill Button */}
-              <Link
-                href={`/${lng}/mawiza`}
+              {/* Mawiza Platform External Pill Button */}
+              <a
+                href="https://mawiza.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/mawiza"
+                title={isAr ? 'منصة مَوْعِظَة للتدبر القرآني والفكر الإسلامي' : 'Mawiza Platform'}
               >
                 <CompassIcon className="w-3.5 h-3.5 text-gold group-hover/mawiza:scale-110 transition-transform" />
                 <span>{isAr ? 'موعظة' : 'Mawiza'}</span>
-              </Link>
+              </a>
 
               {/* Khatmah Pill Button */}
               <Link
@@ -306,14 +309,16 @@ export default function Header({ lng }: { lng: string }) {
                       <span>{isAr ? 'اذْكُرْ' : 'Izkur'}</span>
                     </Link>
 
-                    <Link
-                      href={`/${lng}/mawiza`}
+                    <a
+                      href="https://mawiza.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       onClick={() => setMobileMenuOpen(false)}
                       className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
                     >
                       <CompassIcon className="w-4 h-4 text-gold" />
                       <span>{isAr ? 'موعظة' : 'Mawiza'}</span>
-                    </Link>
+                    </a>
 
                     <Link
                       href={`/${lng}/khatmah`}

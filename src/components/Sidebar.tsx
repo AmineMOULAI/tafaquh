@@ -170,8 +170,10 @@ export default function Sidebar({ lng }: SidebarProps) {
           </Link>
 
           {/* Mawiza Platform */}
-          <Link
-            href={`/${lng}/mawiza`}
+          <a
+            href="https://mawiza.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => setIsMobileSidebarOpen(false)}
             className={`w-full p-3 rounded-2xl flex items-center gap-3 transition-all border group ${
               theme === 'light'
@@ -192,7 +194,7 @@ export default function Sidebar({ lng }: SidebarProps) {
                 </span>
               </div>
             )}
-          </Link>
+          </a>
 
           {/* Khatmah App */}
           <Link

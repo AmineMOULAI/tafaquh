@@ -118,16 +118,18 @@ export default function MawizaSection({ lng }: { lng: string }) {
 
         {/* Action Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-          <Link
-            href={`/${lng}/mawiza`}
+          <a
+            href="https://mawiza.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-gold via-gold-light to-amber-500 text-primary font-bold text-sm shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 transition-all flex items-center gap-2"
           >
-            <span>{isAr ? 'استكشف منصة موعظة بالتفصيل' : 'Explore Maw’izah Details'}</span>
+            <span>{isAr ? 'الدخول إلى منصة مَوْعِظَة' : 'Open Maw’izah Platform'}</span>
             {isAr ? <ChevronLeftIcon className="w-4 h-4" /> : <ChevronRightIcon className="w-4 h-4" />}
-          </Link>
+          </a>
 
           <a
-            href="https://mawiza.tafaqquh.com"
+            href="https://mawiza.vercel.app/quran"
             target="_blank"
             rel="noopener noreferrer"
             className={`px-6 py-3.5 rounded-2xl border text-sm font-bold transition-all flex items-center gap-2 ${
@@ -136,7 +138,7 @@ export default function MawizaSection({ lng }: { lng: string }) {
                 : 'border-gold/40 text-gold hover:bg-gold/15'
             }`}
           >
-            <span>{t('mawiza.visit_btn')}</span>
+            <span>{isAr ? 'تصفح المصحف الشريف والتفاسير ←' : 'Browse Mushaf & Tafsir ←'}</span>
           </a>
         </div>
       </div>
