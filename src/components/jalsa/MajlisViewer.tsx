@@ -108,7 +108,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
         </Link>
         <span>/</span>
         <Link href={`/${lng}/jalsa`} className="hover:text-gold-muted transition-colors">
-          {isAr ? 'جلسات تفقه (JALSA)' : 'Jalsa'}
+          {isAr ? 'جلسات تفقه' : isFr ? 'Sessions Tafaqquh' : 'Study Circles'}
         </Link>
         <span>/</span>
         <Link href={`/${lng}/jalsa/${project.slug}`} className="hover:text-gold-muted transition-colors">

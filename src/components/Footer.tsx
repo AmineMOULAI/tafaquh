@@ -60,43 +60,39 @@ export default function Footer({ lng }: { lng: string }) {
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
           
-          {/* Brand Col */}
+          {/* Brand Col with High-Contrast White Emblem & Larger Size */}
           <div className="md:col-span-4 space-y-6">
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="text-4xl lg:text-5xl font-bold text-gold flex items-center gap-4"
+              className="flex items-center gap-5"
             >
-              <div className="relative w-16 h-16 flex items-center justify-center group/logo flex-shrink-0">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-0 bg-gold/5 border border-gold/20"
-                  style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }}
-                />
-                <div 
-                  className="absolute inset-1.5 bg-gradient-to-br from-gold/20 via-gold/10 to-transparent border border-gold/30 shadow-[0_0_15px_rgba(212,175,55,0.1)]"
-                  style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }}
-                />
-                <div className="relative w-10 h-10 transition-transform duration-500 group-hover/logo:scale-110">
+              {/* White Background Medallion for Clear Logo Contrast & Increased Size */}
+              <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-white border-2 border-gold shadow-[0_0_25px_rgba(212,175,55,0.35)] flex items-center justify-center p-2.5 flex-shrink-0 group/logo overflow-hidden">
+                <div className="relative w-full h-full transition-transform duration-500 group-hover/logo:scale-110">
                    <Image
                       src="/images/logo-tafaquh.png"
-                      alt="Logo"
+                      alt="شعار تَفَقَّه"
                       fill
-                      sizes="40px"
-                      className="object-contain drop-shadow-md"
+                      sizes="96px"
+                      className="object-contain drop-shadow-sm"
                    />
                 </div>
               </div>
-              <span className={isAr ? 'font-calligraphy' : 'font-display uppercase'}>
-                {t('project_name')}
-              </span>
+              <div className="flex flex-col text-right">
+                <span className={`text-3xl sm:text-4xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display uppercase'}`}>
+                  {t('project_name')}
+                </span>
+                <span className="text-xs text-gold/70 mt-1 font-amiri font-bold">
+                  {isAr ? 'منصة التأصيل الشرعي والفكري' : 'Islamic Knowledge Foundation'}
+                </span>
+              </div>
             </motion.div>
-            <p className="text-gold/60 font-body text-base lg:text-lg leading-relaxed italic">
+            <p className="text-gold/70 font-body text-base lg:text-lg leading-relaxed italic">
               {t('footer_description')}
             </p>
           </div>
 
-          {/* Platforms & Ecosystem Col (Includes Mawiza Vercel link) */}
+          {/* Platforms & Ecosystem Col (Includes Mawiza & Izkur links) */}
           <div className="md:col-span-3 space-y-6">
             <div className="flex items-center gap-3 border-b border-gold/20 pb-3">
               <IslamicStarIcon className="w-4 h-4 text-gold/60" />
@@ -155,7 +151,7 @@ export default function Footer({ lng }: { lng: string }) {
                 className="text-white/60 hover:text-gold transition-colors text-sm flex items-center gap-2"
               >
                 <IslamicStarIcon className="w-3 h-3 text-gold/40" />
-                <span>{isAr ? 'المجالس الفكرية (Jalsa)' : 'Jalsa Gatherings'}</span>
+                <span>{isAr ? 'مجالس تفقه العلمية' : 'Study Circles'}</span>
               </Link>
             </div>
           </div>

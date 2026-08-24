@@ -39,7 +39,7 @@
     "home": "Home",
     "about": "About",
     "axes": "5 Axes",
-    "jalsa": "Study Circles (Jalsa)",
+    "jalsa": "Study Circles",
     "izkur": "Dhikr (Izkur)",
     "mawiza": "Maw'izah Platform",
     "khatmah": "Khatmah App",
@@ -97,7 +97,7 @@
     "bot_link": "Open Bot @izkur_tafaqquh_bot"
   },
   "jalsa": {
-    "title": "Tafaqquh Study Circles (Jalsa)",
+    "title": "Tafaqquh Study Circles",
     "subtitle": "Systematic knowledge circles and contemplation sessions",
     "sharh_40": "Explanation of the 40 Nawawiyyah by Shaykh Ibn al-Uthaymeen",
     "gharib_quran": "Gharib al-Qur'an & Vocabulary of Eloquence",

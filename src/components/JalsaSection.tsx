@@ -12,7 +12,7 @@ export default function JalsaSection({ lng }: { lng: string }) {
   const isAr = lng === 'ar';
   const isFr = lng === 'fr';
 
-  const sectionTitle = isAr ? 'جلسات تفقه (JALSA)' : isFr ? 'Sessions Tafaqquh (Jalsa)' : 'Tafaqquh Study Circles (Jalsa)';
+  const sectionTitle = isAr ? 'جلسات تفقه' : isFr ? 'Sessions Tafaqquh' : 'Tafaqquh Study Circles';
   const sectionSubtitle = isAr
     ? "حلقات مدارسة علمية وتدبرية تجمع بين تأصيل السنة وبلاغة القرآن مصحوبة بالتسجيلات الصوتية"
     : isFr

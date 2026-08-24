@@ -49,7 +49,7 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
           </Link>
           <span>/</span>
           <Link href={`/${lng}/jalsa`} className="hover:text-gold transition-colors font-bold">
-            {isAr ? 'جلسات تفقه (JALSA)' : 'Jalsa'}
+            {isAr ? 'جلسات تفقه' : lng === 'fr' ? 'Sessions Tafaqquh' : 'Study Circles'}
           </Link>
           <span>/</span>
           <span className="font-bold text-gold">{getLocalized(project.title)}</span>

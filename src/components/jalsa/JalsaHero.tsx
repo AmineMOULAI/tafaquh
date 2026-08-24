@@ -14,7 +14,7 @@ export default function JalsaHero({ lng, totalProjects, totalRecordings }: Jalsa
   const isAr = lng === 'ar';
   const isFr = lng === 'fr';
 
-  const title = isAr ? 'جَلَسَات تَفَقُّه' : isFr ? 'Sessions Tafaqquh (Jalsa)' : 'Tafaqquh Study Circles (Jalsa)';
+  const title = isAr ? 'جَلَسَات تَفَقُّه' : isFr ? 'Sessions Tafaqquh' : 'Tafaqquh Study Circles';
   const subtitle = isAr
     ? "حلقات المدارسة العلمية والتدبرية المنهجية، مصحوبة بالتسجيلات الصوتية في تيليجرام"
     : isFr
