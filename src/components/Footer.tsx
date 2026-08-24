@@ -124,13 +124,23 @@ export default function Footer({ lng }: { lng: string }) {
                 <ExternalLinkIcon className="w-4 h-4 text-gold group-hover:translate-x-[-2px] transition-transform" />
               </a>
 
-              <Link
-                href={`/${lng}/izkur`}
-                className="text-white/60 hover:text-gold transition-colors text-sm flex items-center gap-2"
+              {/* Izkur Featured Link */}
+              <a
+                href="https://izkur.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-2xl bg-gold/10 border border-gold/30 hover:border-gold hover:bg-gold/20 transition-all text-gold group flex items-center justify-between"
               >
-                <IslamicStarIcon className="w-3 h-3 text-gold/40" />
-                <span>{isAr ? 'تطبيق اذْكُرْ (Izkur)' : 'Izkur App'}</span>
-              </Link>
+                <div>
+                  <span className="font-bold text-sm block font-calligraphy text-gold group-hover:text-white transition-colors">
+                    {isAr ? 'منصة وتطبيق اذْكُرْ' : 'Izkur Platform'}
+                  </span>
+                  <span className="text-[11px] text-emerald-200/70 block">
+                    {isAr ? 'العداد الصوتي الذكي للأذكار والتسبيح' : 'Smart Voice Dhikr Counter'}
+                  </span>
+                </div>
+                <ExternalLinkIcon className="w-4 h-4 text-gold group-hover:translate-x-[-2px] transition-transform" />
+              </a>
 
               <Link
                 href={`/${lng}/khatmah`}

@@ -144,9 +144,11 @@ export default function Sidebar({ lng }: SidebarProps) {
             )}
           </Link>
 
-          {/* Izkur Counter */}
-          <Link
-            href={`/${lng}/izkur`}
+          {/* Izkur Platform */}
+          <a
+            href="https://izkur.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => setIsMobileSidebarOpen(false)}
             className={`w-full p-3 rounded-2xl flex items-center gap-3 transition-all border group ${
               theme === 'light'
@@ -167,7 +169,7 @@ export default function Sidebar({ lng }: SidebarProps) {
                 </span>
               </div>
             )}
-          </Link>
+          </a>
 
           {/* Mawiza Platform */}
           <a
