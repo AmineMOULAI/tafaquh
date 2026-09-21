@@ -62,7 +62,7 @@ export default function JalsaClientView({ lng }: JalsaClientViewProps) {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedFilter('all')}
-              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-1.5 font-tajawal ${
                 selectedFilter === 'all'
                   ? 'bg-gold text-primary shadow-[0_0_15px_rgba(212,175,55,0.4)]'
                   : theme === 'light'
@@ -78,7 +78,7 @@ export default function JalsaClientView({ lng }: JalsaClientViewProps) {
               <button
                 key={p.slug}
                 onClick={() => setSelectedFilter(p.slug)}
-                className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
+                className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all font-tajawal ${
                   selectedFilter === p.slug
                     ? 'bg-gold text-primary shadow-[0_0_15px_rgba(212,175,55,0.4)]'
                     : theme === 'light'
@@ -98,7 +98,7 @@ export default function JalsaClientView({ lng }: JalsaClientViewProps) {
               placeholder={isAr ? 'ابحث في المشاريع والمجالس...' : 'Search sessions...'}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full pl-9 pr-4 py-2.5 rounded-2xl border text-xs font-amiri focus:outline-none focus:border-gold transition-colors ${
+              className={`w-full pl-9 pr-4 py-2.5 rounded-2xl border text-xs font-tajawal focus:outline-none focus:border-gold transition-colors ${
                 theme === 'light'
                   ? 'bg-white border-gold/40 text-[#123326] placeholder-gray-400'
                   : 'bg-white/5 border-gold/30 text-white placeholder-white/40'
@@ -126,15 +126,15 @@ export default function JalsaClientView({ lng }: JalsaClientViewProps) {
           }`}
         >
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-bold">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-bold font-tajawal">
               <TelegramIcon className="w-3.5 h-3.5 text-gold" />
               <span>{isAr ? 'البث المباشر والمجالس الصوتية' : 'Live Voice Circles'}</span>
             </div>
-            <h3 className={`text-2xl md:text-3xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+            <h3 className="text-2xl md:text-3xl font-bold text-gold font-tajawal">
               {isAr ? 'انضم إلى مجموعة تفقه على تيليجرام' : 'Join Tafaqquh Telegram Group'}
             </h3>
             <p
-              className={`text-sm font-amiri max-w-xl leading-relaxed ${
+              className={`text-sm font-noto-naskh max-w-xl leading-relaxed ${
                 theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/90'
               }`}
             >

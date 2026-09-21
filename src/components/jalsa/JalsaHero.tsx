@@ -32,7 +32,7 @@ export default function JalsaHero({ lng, totalProjects, totalRecordings }: Jalsa
         className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full border border-gold/50 bg-gradient-to-r from-[#0B3B2C]/60 to-[#14532D]/60 backdrop-blur-md shadow-lg"
       >
         <StarGeometricIcon className="w-3.5 h-3.5 text-gold" />
-        <span className="text-xs font-bold font-calligraphy text-gold tracking-widest uppercase">
+        <span className="text-xs font-bold font-tajawal text-gold tracking-widest uppercase">
           {badge}
         </span>
       </motion.div>
@@ -42,9 +42,7 @@ export default function JalsaHero({ lng, totalProjects, totalRecordings }: Jalsa
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8 }}
-        className={`text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gold-radiant drop-shadow-2xl ${
-          isAr ? 'font-calligraphy' : 'font-display uppercase'
-        }`}
+        className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gold-radiant drop-shadow-2xl font-tajawal"
       >
         {title}
       </motion.h1>
@@ -54,7 +52,7 @@ export default function JalsaHero({ lng, totalProjects, totalRecordings }: Jalsa
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.8 }}
-        className="text-lg md:text-2xl text-emerald-100/90 font-amiri max-w-2xl mx-auto leading-relaxed"
+        className="text-lg md:text-2xl text-emerald-100/90 font-noto-naskh max-w-2xl mx-auto leading-relaxed"
       >
         {subtitle}
       </motion.p>
@@ -64,27 +62,27 @@ export default function JalsaHero({ lng, totalProjects, totalRecordings }: Jalsa
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.8 }}
-        className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-4"
+        className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-4 font-tajawal"
       >
         <div className="p-4 rounded-2xl bg-black/40 border border-gold/30 backdrop-blur-md flex flex-col items-center">
           <BookIcon className="w-5 h-5 text-gold mb-1" />
           <span className="block text-2xl md:text-3xl font-bold text-gold font-mono">{totalProjects}</span>
-          <span className="text-xs text-gray-300 font-amiri">{isAr ? 'مشاريع علمية جارية' : 'Active Projects'}</span>
+          <span className="text-xs text-gray-300 font-noto-naskh">{isAr ? 'مشاريع علمية جارية' : 'Active Projects'}</span>
         </div>
         <div className="p-4 rounded-2xl bg-black/40 border border-gold/30 backdrop-blur-md flex flex-col items-center">
           <MicrophoneIcon className="w-5 h-5 text-gold mb-1" />
           <span className="block text-2xl md:text-3xl font-bold text-gold font-mono">{totalRecordings}</span>
-          <span className="text-xs text-gray-300 font-amiri">{isAr ? 'تسجيلات صوتية رسمية' : 'Official Audio Records'}</span>
+          <span className="text-xs text-gray-300 font-noto-naskh">{isAr ? 'تسجيلات صوتية رسمية' : 'Official Audio Records'}</span>
         </div>
         <div className="p-4 rounded-2xl bg-black/40 border border-gold/30 backdrop-blur-md flex flex-col items-center">
           <ClockIcon className="w-5 h-5 text-gold mb-1" />
           <span className="block text-2xl md:text-3xl font-bold text-gold font-mono">55+</span>
-          <span className="text-xs text-gray-300 font-amiri">{isAr ? 'دقيقة مدارسة وتفصيل' : 'Minutes of Study'}</span>
+          <span className="text-xs text-gray-300 font-noto-naskh">{isAr ? 'دقيقة مدارسة وتفصيل' : 'Minutes of Study'}</span>
         </div>
         <div className="p-4 rounded-2xl bg-black/40 border border-gold/30 backdrop-blur-md flex flex-col items-center">
           <StarGeometricIcon className="w-5 h-5 text-gold mb-1" />
           <span className="block text-2xl md:text-3xl font-bold text-gold font-mono">100%</span>
-          <span className="text-xs text-gray-300 font-amiri">{isAr ? 'تأصيل وتدبر منهجي' : 'Authentic Sourcing'}</span>
+          <span className="text-xs text-gray-300 font-noto-naskh">{isAr ? 'تأصيل وتدبر منهجي' : 'Authentic Sourcing'}</span>
         </div>
       </motion.div>
     </div>

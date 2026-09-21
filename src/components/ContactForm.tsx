@@ -66,7 +66,7 @@ export default function ContactForm({ lng }: { lng: string }) {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={`text-5xl md:text-7xl font-bold text-primary mb-6 relative z-10 ${lng === 'ar' ? 'font-calligraphy' : 'font-display uppercase'}`}
+            className={`text-5xl md:text-7xl font-bold text-primary mb-6 relative z-10 ${lng === 'ar' ? 'font-tajawal' : 'font-display uppercase'}`}
           >
             {t('contact_title')}
           </motion.h2>
@@ -100,7 +100,7 @@ export default function ContactForm({ lng }: { lng: string }) {
                       />
                       <Image src="/images/logo-tafaquh.png" alt="Logo" width={80} height={80} className="object-contain relative z-10" />
                    </div>
-                   <h3 className={`text-3xl font-bold text-gold ${lng === 'ar' ? 'font-calligraphy' : 'font-display uppercase'}`}>
+                   <h3 className={`text-3xl font-bold text-gold ${lng === 'ar' ? 'font-tajawal' : 'font-display uppercase'}`}>
                       {t('project_name')}
                    </h3>
                    <p className="text-white/60 font-body text-lg leading-relaxed">
@@ -157,7 +157,7 @@ export default function ContactForm({ lng }: { lng: string }) {
             <form onSubmit={handleSubmit} className="space-y-10 relative z-10">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-4">
-                  <label className={`text-primary font-bold text-xs tracking-[0.3em] uppercase block mb-1 opacity-60 ${lng === 'ar' ? 'text-right' : 'text-left'}`}>
+                  <label className={`text-primary font-tajawal font-bold text-xs tracking-[0.2em] uppercase block mb-1 opacity-75 ${lng === 'ar' ? 'text-right' : 'text-left'}`}>
                     {t('name_label')}
                   </label>
                   <div className="relative group">
@@ -173,7 +173,7 @@ export default function ContactForm({ lng }: { lng: string }) {
                 </div>
                 
                 <div className="space-y-4">
-                  <label className={`text-primary font-bold text-xs tracking-[0.3em] uppercase block mb-1 opacity-60 ${lng === 'ar' ? 'text-right' : 'text-left'}`}>
+                  <label className={`text-primary font-tajawal font-bold text-xs tracking-[0.2em] uppercase block mb-1 opacity-75 ${lng === 'ar' ? 'text-right' : 'text-left'}`}>
                     {t('email_label')}
                   </label>
                   <div className="relative group">
@@ -190,7 +190,7 @@ export default function ContactForm({ lng }: { lng: string }) {
               </div>
               
               <div className="space-y-4">
-                <label className={`text-primary font-bold text-xs tracking-[0.3em] uppercase block mb-1 opacity-60 ${lng === 'ar' ? 'text-right' : 'text-left'}`}>
+                <label className={`text-primary font-tajawal font-bold text-xs tracking-[0.2em] uppercase block mb-1 opacity-75 ${lng === 'ar' ? 'text-right' : 'text-left'}`}>
                   {t('message_label')}
                 </label>
                 <div className="relative group">
@@ -210,7 +210,7 @@ export default function ContactForm({ lng }: { lng: string }) {
                 disabled={status === 'loading'}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
-                className={`w-full font-bold py-6 text-xl tracking-[0.2em] transition-all disabled:opacity-50 relative overflow-hidden group border-2 border-primary/10 ${
+                className={`w-full font-bold py-6 text-xl tracking-[0.2em] transition-all disabled:opacity-50 relative overflow-hidden group border-2 border-primary/10 font-tajawal ${
                   status === 'success' ? 'bg-green-600 text-white' : 
                   status === 'error' ? 'bg-red-600 text-white' : 
                   'bg-primary text-white hover:bg-white hover:text-primary hover:border-gold'
@@ -221,16 +221,16 @@ export default function ContactForm({ lng }: { lng: string }) {
                   {status === 'loading' ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      <span className={lng === 'ar' ? 'font-calligraphy' : ''}>
+                      <span className={lng === 'ar' ? 'font-tajawal font-bold' : ''}>
                         {lng === 'ar' ? 'جاري الإرسال...' : 'Sending...'}
                       </span>
                     </>
                   ) : status === 'success' ? (
-                    <span className={lng === 'ar' ? 'font-calligraphy' : ''}>{t('success_msg')}</span>
+                    <span className={lng === 'ar' ? 'font-tajawal font-bold' : ''}>{t('success_msg')}</span>
                   ) : status === 'error' ? (
-                    <span className={lng === 'ar' ? 'font-calligraphy' : ''}>{t('error_msg')}</span>
+                    <span className={lng === 'ar' ? 'font-tajawal font-bold' : ''}>{t('error_msg')}</span>
                   ) : (
-                    <span className={lng === 'ar' ? 'font-calligraphy text-2xl' : 'font-display uppercase'}>
+                    <span className={lng === 'ar' ? 'font-tajawal font-bold text-2xl' : 'font-display uppercase'}>
                       {t('submit_button')}
                     </span>
                   )}

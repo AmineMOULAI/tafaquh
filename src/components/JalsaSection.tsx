@@ -40,17 +40,17 @@ export default function JalsaSection({ lng }: { lng: string }) {
       <div className="container mx-auto px-4 max-w-6xl relative z-10 space-y-12">
         {/* Section Header */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/40 text-gold text-xs font-bold tracking-widest uppercase">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/40 text-gold text-xs font-bold tracking-widest uppercase font-tajawal">
             <MicrophoneIcon className="w-3.5 h-3.5 text-gold" />
             <span>{isAr ? 'المجالس العلمية والتسجيلات الرسمية' : 'Study Circles & Audio Records'}</span>
           </div>
 
-          <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold text-gold tracking-tight ${isAr ? 'font-calligraphy' : 'font-display uppercase'}`}>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gold tracking-tight font-tajawal">
             {sectionTitle}
           </h2>
 
           <p
-            className={`text-lg md:text-xl font-amiri leading-relaxed ${
+            className={`text-lg md:text-xl font-noto-naskh leading-relaxed ${
               theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/80'
             }`}
           >
@@ -69,7 +69,7 @@ export default function JalsaSection({ lng }: { lng: string }) {
         <div className="text-center pt-6">
           <Link
             href={`/${lng}/jalsa`}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-gold via-gold-light to-amber-400 text-primary font-bold text-base shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:scale-105 transition-all"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-gold via-gold-light to-amber-400 text-primary font-bold text-base font-tajawal shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:scale-105 transition-all"
           >
             <StarGeometricIcon className="w-4 h-4 text-primary" />
             <span>{isAr ? 'استكشف كافة مشاريع ومجالس تفقه' : 'Explore All Tafaqquh Majalis'}</span>

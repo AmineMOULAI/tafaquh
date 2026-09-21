@@ -109,7 +109,7 @@ export default function Hero({ lng }: { lng: string }) {
             transition={{ duration: 1.5, ease: "easeOut" }}
             className="relative mb-12"
           >
-            <h1 className={`font-bold tracking-tight select-none ${isAr ? 'text-8xl md:text-[14rem] lg:text-[18rem] font-calligraphy leading-[1.2] pt-12 pb-8' : 'text-5xl md:text-[8rem] lg:text-[10rem] font-display uppercase leading-[0.85]'}`}>
+            <h1 className={`font-bold tracking-tight select-none ${isAr ? 'text-7xl md:text-[12rem] lg:text-[15rem] font-tajawal font-bold leading-[1.1] pt-12 pb-8' : 'text-5xl md:text-[8rem] lg:text-[10rem] font-display uppercase leading-[0.85]'}`}>
               <span className="text-gold-radiant drop-shadow-2xl">
                 {t('project_name')}
               </span>
@@ -154,7 +154,7 @@ export default function Hero({ lng }: { lng: string }) {
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-gold-light/40 to-transparent skew-x-25 z-1"
               />
 
-              <span className={`relative z-10 text-gold-light font-black tracking-widest uppercase flex items-center gap-4 ${isAr ? 'font-amiri text-2xl' : 'text-sm'}`}>
+              <span className={`relative z-10 text-gold-light font-black tracking-widest uppercase flex items-center gap-4 ${isAr ? 'font-tajawal font-bold text-xl md:text-2xl' : 'text-sm'}`}>
                 <span className="drop-shadow-md">{t('hero.open_letter')}</span>
                 <motion.span
                   animate={{ x: isAr ? [-5, 5, -5] : [5, -5, 5] }}
@@ -207,11 +207,47 @@ export default function Hero({ lng }: { lng: string }) {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1.2, duration: 1.2 }}
-                        className={`w-full max-w-3xl text-center leading-[1.8] ${isAr ? 'font-calligraphy text-2xl md:text-4xl' : 'font-handwriting text-2xl md:text-3xl'} text-primary/95 drop-shadow-sm`}
+                        className={`w-full max-w-3xl text-center leading-relaxed ${isAr ? 'font-noto-naskh text-lg md:text-xl' : 'font-handwriting text-2xl md:text-3xl'} text-primary/95 drop-shadow-sm`}
                       >
-                        <p className="whitespace-pre-line">
-                          {t('hero.content')}
-                        </p>
+                        {isAr ? (
+                          <div className="space-y-5">
+                            {t('hero.content').split('\n\n').map((paragraph, pIdx) => {
+                              if (paragraph.includes('﴿') && paragraph.includes('﴾')) {
+                                const parts = paragraph.split(/(﴿[^﴾]+﴾)/g);
+                                return (
+                                  <div key={pIdx} className="space-y-3">
+                                    {parts.map((part, idx) => {
+                                      if (part.startsWith('﴿') && part.endsWith('﴾')) {
+                                        return (
+                                          <div
+                                            key={idx}
+                                            className="sacred-quote font-quran text-gold-muted font-normal block my-4 text-2xl md:text-3xl text-center leading-[2.4]"
+                                          >
+                                            {part}
+                                          </div>
+                                        );
+                                      }
+                                      return part ? (
+                                        <p key={idx} className="whitespace-pre-line leading-[2.1]">
+                                          {part}
+                                        </p>
+                                      ) : null;
+                                    })}
+                                  </div>
+                                );
+                              }
+                              return (
+                                <p key={pIdx} className="whitespace-pre-line leading-[2.1]">
+                                  {paragraph}
+                                </p>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <p className="whitespace-pre-line">
+                            {t('hero.content')}
+                          </p>
+                        )}
                       </motion.div>
                     </div>
 

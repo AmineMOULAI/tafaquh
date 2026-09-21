@@ -43,7 +43,7 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
 
       <main className="container mx-auto px-4 pt-32 pb-24 max-w-6xl flex-1 space-y-12">
         {/* Breadcrumb */}
-        <nav className="flex flex-wrap items-center gap-2 text-sm text-gold/80 font-amiri pb-2 border-b border-gold/20">
+        <nav className="flex flex-wrap items-center gap-2 text-sm text-gold/80 font-tajawal pb-2 border-b border-gold/20 font-bold">
           <Link href={`/${lng}`} className="hover:text-gold transition-colors font-bold">
             {isAr ? 'الرئيسية' : 'Home'}
           </Link>
@@ -74,10 +74,10 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-white">
-                <span className="px-3 py-1 rounded-full bg-gold text-primary font-bold text-[11px]">
+                <span className="px-3 py-1 rounded-full bg-gold text-primary font-bold text-[11px] font-tajawal">
                   {project.category}
                 </span>
-                <span className="px-3 py-1 rounded-full bg-black/70 text-gold font-mono text-[11px] border border-gold/30">
+                <span className="px-3 py-1 rounded-full bg-black/70 text-gold font-mono text-[11px] border border-gold/30 font-bold">
                   {project.completedMajalis} / {project.totalMajalis}
                 </span>
               </div>
@@ -86,25 +86,25 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
 
           {/* Project Details */}
           <div className="space-y-4 flex-1">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/20 text-gold border border-gold/40 font-bold text-xs">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/20 text-gold border border-gold/40 font-bold text-xs font-tajawal">
               <StarGeometricIcon className="w-3.5 h-3.5 text-gold" />
               <span>{getLocalized(project.badge)}</span>
             </div>
 
             <h1
-              className={`text-3xl md:text-5xl font-bold tracking-tight ${
+              className={`text-3xl md:text-5xl font-bold tracking-tight font-tajawal ${
                 theme === 'light' ? 'text-[#123326]' : 'text-white'
-              } ${isAr ? 'font-calligraphy' : 'font-display'}`}
+              }`}
             >
               {getLocalized(project.title)}
             </h1>
 
-            <p className="text-lg md:text-xl text-gold font-amiri leading-relaxed font-bold">
+            <p className="text-lg md:text-xl text-gold font-noto-naskh leading-relaxed font-medium">
               {getLocalized(project.subtitle)}
             </p>
 
             <p
-              className={`text-sm md:text-base font-amiri leading-relaxed ${
+              className={`text-sm md:text-base font-noto-naskh leading-relaxed ${
                 theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/90'
               }`}
             >
@@ -112,11 +112,11 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
             </p>
 
             <div className="pt-4 border-t border-gold/20 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-gold font-bold">
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5 font-tajawal">
                 <BookIcon className="w-4 h-4 text-gold" />
                 <span>{getLocalized(project.scholarlySource)}</span>
               </span>
-              <span>
+              <span className="font-tajawal">
                 {project.completedMajalis} / {project.totalMajalis} {isAr ? 'مجالس منجزة ومسجلة' : 'Sessions Completed'}
               </span>
             </div>
@@ -127,11 +127,11 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
         <div className="space-y-8">
           <div className="flex items-center justify-between pb-2 border-b border-gold/20">
             <div>
-              <h2 className={`text-2xl md:text-3xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+              <h2 className="text-2xl md:text-3xl font-bold text-gold font-tajawal">
                 {isAr ? 'شبكة مجالس ومدارسات المشروع' : 'Project Sessions Grid'}
               </h2>
               <p
-                className={`text-xs font-amiri mt-1 ${
+                className={`text-xs font-noto-naskh mt-1 ${
                   theme === 'light' ? 'text-gray-600' : 'text-gray-300'
                 }`}
               >
@@ -209,15 +209,15 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
                     {/* Title & Subtitle */}
                     <div className="space-y-1.5">
                       <h3
-                        className={`text-xl font-bold ${
+                        className={`text-xl font-bold font-tajawal ${
                           theme === 'light' ? 'text-[#123326]' : 'text-white'
-                        } ${isAr ? 'font-calligraphy' : 'font-display'}`}
+                        }`}
                       >
                         {getLocalized(m.title)}
                       </h3>
                       <p
-                        className={`text-xs font-amiri line-clamp-2 ${
-                          theme === 'light' ? 'text-gray-600 font-bold' : 'text-gold/80'
+                        className={`text-xs font-noto-naskh line-clamp-2 ${
+                          theme === 'light' ? 'text-gray-600 font-medium' : 'text-gold/80'
                         }`}
                       >
                         {getLocalized(m.subtitle)}
@@ -230,7 +230,7 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
                         <ClockIcon className="w-3.5 h-3.5" />
                         <span>{m.duration}</span>
                       </span>
-                      <span className="truncate max-w-[140px] text-right text-[11px]">
+                      <span className="truncate max-w-[140px] text-right text-[11px] font-tajawal">
                         {getLocalized(m.theme).split('،')[0]}
                       </span>
                     </div>
@@ -241,7 +241,7 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
                     {isAvailable ? (
                       <Link
                         href={`/${lng}/jalsa/${project.slug}/${m.slug}`}
-                        className="w-full py-3 px-4 rounded-xl bg-gold text-primary font-bold text-xs md:text-sm hover:bg-gold-light transition-all flex items-center justify-center gap-2 shadow-lg"
+                        className="w-full py-3 px-4 rounded-xl bg-gold text-primary font-bold font-tajawal text-xs md:text-sm hover:bg-gold-light transition-all flex items-center justify-center gap-2 shadow-lg"
                       >
                         <PlayIcon className="w-4 h-4" />
                         <span>{isAr ? 'دخول المجلس والاستماع' : 'Listen to Majlis'}</span>
@@ -249,7 +249,7 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
                     ) : (
                       <button
                         disabled
-                        className="w-full py-2.5 px-4 rounded-xl bg-white/5 text-gray-400 font-bold text-xs cursor-not-allowed border border-white/5 text-center"
+                        className="w-full py-2.5 px-4 rounded-xl bg-white/5 text-gray-400 font-bold text-xs cursor-not-allowed border border-white/5 text-center font-tajawal"
                       >
                         {isAr ? 'المجلس قيد الإعداد' : 'Scheduled Soon'}
                       </button>
@@ -270,11 +270,11 @@ export default function JalsaProjectClientView({ lng, project }: JalsaProjectCli
           }`}
         >
           <div className="space-y-2">
-            <h3 className={`text-2xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+            <h3 className="text-2xl font-bold text-gold font-tajawal">
               {isAr ? 'حلقات النقاش والتسجيلات الصوتية' : 'Voice Sessions & Discussion'}
             </h3>
             <p
-              className={`text-xs md:text-sm font-amiri max-w-xl leading-relaxed ${
+              className={`text-xs md:text-sm font-noto-naskh max-w-xl leading-relaxed ${
                 theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/90'
               }`}
             >

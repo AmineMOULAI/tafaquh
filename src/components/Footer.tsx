@@ -79,15 +79,15 @@ export default function Footer({ lng }: { lng: string }) {
                 </div>
               </div>
               <div className="flex flex-col text-right">
-                <span className={`text-3xl sm:text-4xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display uppercase'}`}>
+                <span className="text-3xl sm:text-4xl font-bold text-gold font-tajawal">
                   {t('project_name')}
                 </span>
-                <span className="text-xs text-gold/70 mt-1 font-amiri font-bold">
+                <span className="text-xs text-gold/70 mt-1 font-noto-naskh font-medium">
                   {isAr ? 'منصة التأصيل الشرعي والفكري' : 'Islamic Knowledge Foundation'}
                 </span>
               </div>
             </motion.div>
-            <p className="text-gold/70 font-body text-base lg:text-lg leading-relaxed italic">
+            <p className="text-gold/70 font-noto-naskh text-base lg:text-lg leading-relaxed">
               {t('footer_description')}
             </p>
           </div>
@@ -96,7 +96,7 @@ export default function Footer({ lng }: { lng: string }) {
           <div className="md:col-span-3 space-y-6">
             <div className="flex items-center gap-3 border-b border-gold/20 pb-3">
               <IslamicStarIcon className="w-4 h-4 text-gold/60" />
-              <h4 className="text-gold font-bold text-xs tracking-[0.3em] uppercase">
+              <h4 className="text-gold font-bold text-xs tracking-[0.3em] uppercase font-tajawal">
                 {isAr ? 'منصات ومشاريع تَفَقَّه' : 'Tafaqquh Platforms'}
               </h4>
             </div>
@@ -110,10 +110,10 @@ export default function Footer({ lng }: { lng: string }) {
                 className="p-3 rounded-2xl bg-gold/10 border border-gold/30 hover:border-gold hover:bg-gold/20 transition-all text-gold group flex items-center justify-between"
               >
                 <div>
-                  <span className="font-bold text-sm block font-calligraphy text-gold group-hover:text-white transition-colors">
+                  <span className="font-bold text-sm block font-tajawal text-gold group-hover:text-white transition-colors">
                     {isAr ? 'منصة مَوْعِظَة' : 'Maw’izah Platform'}
                   </span>
-                  <span className="text-[11px] text-emerald-200/70 block">
+                  <span className="text-[11px] text-emerald-200/70 block font-noto-naskh">
                     {isAr ? 'التدبر القرآني والمصحف الشريف' : 'Quranic Reflections & Mushaf'}
                   </span>
                 </div>
@@ -128,10 +128,10 @@ export default function Footer({ lng }: { lng: string }) {
                 className="p-3 rounded-2xl bg-gold/10 border border-gold/30 hover:border-gold hover:bg-gold/20 transition-all text-gold group flex items-center justify-between"
               >
                 <div>
-                  <span className="font-bold text-sm block font-calligraphy text-gold group-hover:text-white transition-colors">
+                  <span className="font-bold text-sm block font-tajawal text-gold group-hover:text-white transition-colors">
                     {isAr ? 'منصة وتطبيق اذْكُرْ' : 'Izkur Platform'}
                   </span>
-                  <span className="text-[11px] text-emerald-200/70 block">
+                  <span className="text-[11px] text-emerald-200/70 block font-noto-naskh">
                     {isAr ? 'العداد الصوتي الذكي للأذكار والتسبيح' : 'Smart Voice Dhikr Counter'}
                   </span>
                 </div>
@@ -160,24 +160,24 @@ export default function Footer({ lng }: { lng: string }) {
           <div className="md:col-span-2 space-y-6">
              <div className="flex items-center gap-3 border-b border-gold/20 pb-3">
                 <IslamicStarIcon className="w-4 h-4 text-gold/60" />
-                <h4 className="text-gold font-bold text-xs tracking-[0.3em] uppercase">
+                <h4 className="text-gold font-bold text-xs tracking-[0.3em] uppercase font-tajawal">
                   {t('footer.responsible')}
                 </h4>
              </div>
              <div className="flex flex-col gap-3">
-                <p className={`text-gold text-base font-bold ${isAr ? 'font-calligraphy' : ''}`}>
+                <p className="text-gold text-base font-bold font-tajawal">
                   {t('footer.responsible_name')}
                 </p>
                 <div className="flex flex-col gap-2.5">
-                   <a href={`mailto:${t('footer.email')}`} className="text-white/50 hover:text-gold transition-colors text-xs flex items-center gap-2">
+                   <a href={`mailto:${t('footer.email')}`} className="text-white/50 hover:text-gold transition-colors text-xs flex items-center gap-2 font-noto-naskh">
                       <IslamicStarIcon className="w-2.5 h-2.5 text-gold/40" />
                       {t('footer.email')}
                    </a>
-                   <a href={`tel:${t('footer.phone').replace(/\s/g, '')}`} className="text-white/50 hover:text-gold transition-colors text-xs flex items-center gap-2">
+                   <a href={`tel:${t('footer.phone').replace(/\s/g, '')}`} className="text-white/50 hover:text-gold transition-colors text-xs flex items-center gap-2 font-mono">
                       <IslamicStarIcon className="w-2.5 h-2.5 text-gold/40" />
                       {t('footer.phone')}
                    </a>
-                   <a href="https://t.me/center_tafaqquh" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-gold transition-colors text-xs flex items-center gap-2">
+                   <a href="https://t.me/center_tafaqquh" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-gold transition-colors text-xs flex items-center gap-2 font-tajawal">
                       <TelegramIcon className="w-2.5 h-2.5 text-gold/40" />
                       Telegram
                    </a>
@@ -188,24 +188,24 @@ export default function Footer({ lng }: { lng: string }) {
           {/* Sincerity & Legal Col */}
           <div className="md:col-span-3 space-y-6 md:text-right">
              <div className="space-y-3">
-                <h4 className="text-gold font-bold text-xs tracking-[0.3em] uppercase border-b border-gold/20 pb-3 inline-block md:ml-auto">
+                <h4 className="text-gold font-bold text-xs tracking-[0.3em] uppercase border-b border-gold/20 pb-3 inline-block md:ml-auto font-tajawal">
                   {t('footer.spirituality')}
                 </h4>
                 <motion.p 
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
-                  className={`text-gold text-xl leading-relaxed ${isAr ? 'font-calligraphy' : 'font-display italic'}`}
+                  className="text-gold text-xl leading-relaxed sacred-quote font-quran"
                 >
                   {t('sincerity_msg')}
                 </motion.p>
              </div>
              
              <div className="space-y-3 mt-8">
-                <p className="text-xs text-white/40 font-body">
+                <p className="text-xs text-white/40 font-noto-naskh">
                   © {new Date().getFullYear()} TAFAQUH.<br/>
                   {t('footer.all_rights_reserved')}.
                 </p>
-                <div className="flex gap-4 md:justify-end">
+                <div className="flex gap-4 md:justify-end font-tajawal">
                    <a href="#" className="text-xs text-gold/40 hover:text-gold transition-colors underline decoration-gold/20">
                      {t('legal_mentions')}
                    </a>
@@ -226,7 +226,7 @@ export default function Footer({ lng }: { lng: string }) {
               ))}
            </div>
            
-           <div className={`flex flex-wrap justify-center gap-8 uppercase text-white/30 font-bold ${isAr ? 'font-calligraphy text-2xl tracking-[0.4em]' : 'text-[11px] tracking-[0.6em]'}`}>
+           <div className={`flex flex-wrap justify-center gap-8 uppercase text-white/30 font-bold font-tajawal ${isAr ? 'text-lg tracking-[0.2em]' : 'text-[11px] tracking-[0.6em]'}`}>
               <span className="hover:text-gold/50 cursor-default">{t('footer.tradition')}</span>
               <span className="text-gold/20">•</span>
               <span className="hover:text-gold/50 cursor-default">{t('footer.innovation')}</span>

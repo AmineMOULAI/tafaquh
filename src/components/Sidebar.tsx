@@ -79,7 +79,7 @@ export default function Sidebar({ lng }: SidebarProps) {
 
             {!isSidebarCollapsed && (
               <div className="flex flex-col">
-                <span className={`font-bold text-gold text-2xl leading-none ${isAr ? 'font-calligraphy' : 'font-display tracking-wider'}`}>
+                <span className={`font-bold text-gold text-2xl leading-none ${isAr ? 'font-tajawal' : 'font-tajawal tracking-wider'}`}>
                   {t('project_name')}
                 </span>
                 <span className="text-[9px] text-gold/80 font-mono tracking-widest mt-1">
@@ -134,10 +134,10 @@ export default function Sidebar({ lng }: SidebarProps) {
             </div>
             {!isSidebarCollapsed && (
               <div className="flex flex-col text-right flex-1">
-                <span className="text-sm font-bold font-calligraphy text-gold">
+                <span className="text-sm font-bold font-tajawal text-gold">
                   {isAr ? 'جلسات تفقه' : 'Jalsa'}
                 </span>
-                <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-amiri">
+                <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-noto-naskh">
                   {isAr ? 'تسجيلات وشروحات صوتية' : 'Voice Study Sessions'}
                 </span>
               </div>
@@ -161,10 +161,10 @@ export default function Sidebar({ lng }: SidebarProps) {
             </div>
             {!isSidebarCollapsed && (
               <div className="flex flex-col text-right flex-1">
-                <span className="text-sm font-bold font-calligraphy text-gold">
+                <span className="text-sm font-bold font-tajawal text-gold">
                   {isAr ? 'اذْكُرْ (Izkur)' : 'Izkur'}
                 </span>
-                <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-amiri">
+                <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-noto-naskh">
                   {isAr ? 'العداد الصوتي الرقمي' : 'Voice Dhikr Companion'}
                 </span>
               </div>
@@ -188,10 +188,10 @@ export default function Sidebar({ lng }: SidebarProps) {
             </div>
             {!isSidebarCollapsed && (
               <div className="flex flex-col text-right flex-1">
-                <span className="text-sm font-bold font-calligraphy text-gold">
+                <span className="text-sm font-bold font-tajawal text-gold">
                   {isAr ? 'منصة موعظة' : 'Maw’izah Platform'}
                 </span>
-                <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-amiri">
+                <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-noto-naskh">
                   {isAr ? 'تأملات قرآنية وفكرية' : 'Quranic Reflections'}
                 </span>
               </div>
@@ -213,10 +213,10 @@ export default function Sidebar({ lng }: SidebarProps) {
             </div>
             {!isSidebarCollapsed && (
               <div className="flex flex-col text-right flex-1">
-                <span className="text-sm font-bold font-calligraphy text-gold">
+                <span className="text-sm font-bold font-tajawal text-gold">
                   {isAr ? 'تطبيق خَتْمَة' : 'Khatmah App'}
                 </span>
-                <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-amiri">
+                <span className="text-[10px] text-emerald-600 dark:text-emerald-300 font-noto-naskh">
                   {isAr ? 'تتبع الحفظ والمراجعة' : 'Hifz & Revision'}
                 </span>
               </div>
@@ -247,7 +247,7 @@ export default function Sidebar({ lng }: SidebarProps) {
               >
                 <Icon className="w-4 h-4 text-gold flex-shrink-0" />
                 {!isSidebarCollapsed && (
-                  <span className="text-sm font-display tracking-wide">{item.label}</span>
+                  <span className="text-sm font-tajawal tracking-wide">{item.label}</span>
                 )}
               </Link>
             );

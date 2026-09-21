@@ -50,7 +50,7 @@ export default function Axes({ lng }: { lng: string }) {
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className={`text-center text-4xl md:text-6xl font-bold text-gold mb-20 ${lng === 'ar' ? 'font-calligraphy' : 'font-display uppercase'}`}
+          className={`text-center text-4xl md:text-6xl font-bold text-gold mb-20 font-tajawal`}
         >
           {t('menu.axes')}
         </motion.h2>
@@ -106,11 +106,11 @@ export default function Axes({ lng }: { lng: string }) {
                   </div>
                 </div>
 
-                <h3 className={`text-2xl lg:text-4xl font-bold text-white mb-4 leading-tight ${lng === 'ar' ? 'font-calligraphy' : 'font-display uppercase tracking-tight'}`}>
+                <h3 className={`text-2xl lg:text-4xl font-bold text-white mb-4 leading-tight font-tajawal`}>
                   {t(`axes.${key}`).split('\n')[0]}
                 </h3>
                 
-                <p className="text-gold/60 text-lg font-body leading-relaxed mb-6">
+                <p className="text-gold/60 text-lg font-noto-naskh leading-relaxed mb-6">
                    {t(`axes.${key}`).split('\n')[1]}
                 </p>
 
@@ -126,7 +126,7 @@ export default function Axes({ lng }: { lng: string }) {
                       <motion.p 
                         initial={{ y: 20 }}
                         animate={{ y: 0 }}
-                        className={`text-white text-xl md:text-2xl leading-relaxed ${lng === 'ar' ? 'font-calligraphy text-right' : 'font-body'}`}
+                        className={`text-white text-xl md:text-2xl leading-relaxed font-noto-naskh ${lng === 'ar' ? 'text-right' : ''}`}
                       >
                         {t(`axes.details.${key}`)}
                       </motion.p>

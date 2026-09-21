@@ -8,6 +8,21 @@
   --color-bg-paper: var(--bg-paper);
   --color-text-main: var(--text-main);
   --color-text-soft: var(--text-soft);
+
+  /* Typography Variables */
+  --font-tajawal: var(--font-tajawal), sans-serif;
+  --font-noto-naskh: var(--font-noto-naskh), serif;
+  --font-amiri-quran: var(--font-amiri-quran), 'Amiri Quran', serif;
+
+  /* Semantic Font Roles */
+  --font-display: var(--font-tajawal), sans-serif;
+  --font-heading: var(--font-tajawal), sans-serif;
+  --font-ui: var(--font-tajawal), sans-serif;
+  --font-body: var(--font-noto-naskh), serif;
+  --font-quran: var(--font-amiri-quran), 'Amiri Quran', serif;
+  --font-calligraphy: var(--font-calligraphy), serif;
+  --font-garamond: var(--font-garamond), serif;
+  --font-handwriting: var(--font-handwriting), cursive;
 }
 
 :root {
@@ -43,32 +58,122 @@ html.light .text-primary {
   color: #0B3B2C !important;
 }
 
+/* ==========================================================================
+   1. POLICE GLOBALE PAR DÉFAUT : NOTO NASKH ARABIC (Regular / Medium / Bold)
+   Usage : Corps de texte principal, articles, descriptions et contenus de cours
+   ========================================================================== */
+html,
+body,
+[lang="ar"],
+[lang="ar"] body {
+  font-family: var(--font-noto-naskh), 'Noto Naskh Arabic', serif;
+}
+
 body {
   color: var(--text-main);
   background: var(--bg-paper);
-  font-family: var(--font-body), sans-serif;
+  font-family: var(--font-noto-naskh), 'Noto Naskh Arabic', serif;
   transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
 }
 
-[lang="ar"] {
-  font-family: var(--font-body), serif;
+p,
+article,
+.font-body,
+.font-noto,
+.font-noto-naskh,
+.font-amiri {
+  font-family: var(--font-noto-naskh), 'Noto Naskh Arabic', serif;
+  line-height: 1.85;
 }
 
-.font-display {
-  font-family: var(--font-display), serif;
+/* ==========================================================================
+   2. EN-TÊTES ET COMPOSANTS D'INTERFACE : TAJAWAL (Medium / Bold)
+   Usage : Titres, barres de navigation, boutons, cartes de cours et UI
+   ========================================================================== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-tajawal,
+.font-heading,
+.font-display,
+.font-title {
+  font-family: var(--font-tajawal), 'Tajawal', sans-serif;
+  letter-spacing: -0.01em;
 }
 
-.font-body {
-  font-family: var(--font-body), sans-serif;
+/* Composants d'interface (UI) : Navigation, Boutons, Cartes */
+nav,
+.nav-link,
+[role="navigation"],
+button,
+.btn,
+input[type="button"],
+input[type="submit"],
+.font-ui,
+.card-title,
+.course-card,
+.ui-element {
+  font-family: var(--font-tajawal), 'Tajawal', sans-serif;
+}
+
+.font-tajawal {
+  font-family: var(--font-tajawal), 'Tajawal', sans-serif;
+}
+
+.font-tajawal-medium {
+  font-family: var(--font-tajawal), 'Tajawal', sans-serif;
+  font-weight: 500;
+}
+
+.font-tajawal-bold {
+  font-family: var(--font-tajawal), 'Tajawal', sans-serif;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   3. BLOCS DE CITATIONS SACRÉES : AMIRI QURAN (Style : Regular)
+   Usage : Citations du Coran, Hadiths et extraits de textes juridiques classiques (fiqh)
+   Taille de police supérieure au texte standard (1.25rem - 1.35rem)
+   ========================================================================== */
+.sacred-quote,
+.quran-quote,
+.hadith-quote,
+.fiqh-quote,
+.font-quran,
+.font-amiri-quran,
+blockquote.sacred,
+blockquote.quran {
+  font-family: var(--font-amiri-quran), 'Amiri Quran', serif;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 2.3;
+  letter-spacing: 0.015em;
+  word-spacing: 0.12em;
+}
+
+/* Bloc d'encadrement majestueux pour les citations sacrées */
+.sacred-quote-box {
+  font-family: var(--font-amiri-quran), 'Amiri Quran', serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 2.35;
+  letter-spacing: 0.015em;
+  word-spacing: 0.12em;
+  padding: 1.75rem 2rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.08) 0%, rgba(11, 59, 44, 0.06) 100%);
+  position: relative;
+  text-align: center;
+  box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
 }
 
 .font-calligraphy {
   font-family: var(--font-calligraphy), serif;
-}
-
-.font-amiri {
-  font-family: var(--font-amiri), serif;
 }
 
 .font-garamond {

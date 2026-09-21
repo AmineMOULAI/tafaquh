@@ -177,7 +177,7 @@ export default function MajlisAudioPlayer({
                   {isPlaying ? (isAr ? 'جاري الاستماع...' : 'Playing...') : (isAr ? 'جاهز للاستماع' : 'Ready')}
                 </span>
               </div>
-              <h3 className={`text-lg md:text-xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+              <h3 className={`text-lg md:text-xl font-bold text-gold ${isAr ? 'font-tajawal' : 'font-display'}`}>
                 {title}
               </h3>
             </div>
@@ -313,7 +313,7 @@ export default function MajlisAudioPlayer({
 
         {/* Global Persistence Notice */}
         <div className="pt-2 text-center">
-          <span className="text-[11px] text-emerald-400/90 font-amiri font-bold flex items-center justify-center gap-1.5">
+          <span className="text-[11px] text-emerald-400/90 font-noto-naskh font-medium flex items-center justify-center gap-1.5">
             <StarGeometricIcon className="w-3.5 h-3.5 text-gold" />
             <span>يمكنك مواصلة الاستماع لهذا المجلس أثناء تصفحك للموقع أو العودة للصفحة الرئيسية دون انقطاع.</span>
           </span>

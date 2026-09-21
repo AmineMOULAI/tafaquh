@@ -64,7 +64,7 @@ export default function KhatmahClientView({ lng }: KhatmahClientViewProps) {
 
       <main className="container mx-auto px-4 pt-32 pb-24 max-w-5xl flex-1 space-y-16">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center gap-2 text-sm text-gold font-amiri pb-2 border-b border-gold/20 font-bold">
+        <nav className="flex items-center gap-2 text-sm text-gold font-tajawal pb-2 border-b border-gold/20 font-bold">
           <Link href={`/${lng}`} className="hover:text-gold-muted transition-colors">
             {isAr ? 'الرئيسية' : 'Home'}
           </Link>
@@ -78,25 +78,25 @@ export default function KhatmahClientView({ lng }: KhatmahClientViewProps) {
         <section className="flex flex-col lg:flex-row items-center gap-12">
           {/* Left / Main Text info */}
           <div className="space-y-6 flex-1 text-center lg:text-right">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/40 bg-gold/10 text-gold text-xs font-bold uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/40 bg-gold/10 text-gold text-xs font-bold uppercase tracking-widest font-tajawal">
               <StarGeometricIcon className="w-3.5 h-3.5 text-gold" />
               <span>{t('khatmah.badge')}</span>
             </div>
 
             <h1
               className={`text-4xl md:text-6xl font-bold tracking-tight text-gold ${
-                isAr ? 'font-calligraphy' : 'font-display'
+                isAr ? 'font-tajawal' : 'font-display'
               }`}
             >
               {t('khatmah.title')}
             </h1>
 
-            <p className="font-amiri text-xl md:text-2xl text-gold-muted font-bold leading-relaxed">
+            <p className="font-noto-naskh text-xl md:text-2xl text-gold-muted font-bold leading-relaxed">
               {t('khatmah.subtitle')}
             </p>
 
             <p
-              className={`text-base md:text-lg font-amiri leading-loose ${
+              className={`text-base md:text-lg font-noto-naskh leading-loose ${
                 theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/80'
               }`}
             >
@@ -169,16 +169,16 @@ export default function KhatmahClientView({ lng }: KhatmahClientViewProps) {
               <div className="w-28 h-4 bg-black rounded-full mx-auto mb-4 border border-gold/30" />
 
               {/* Mockup Screen Content */}
-              <div className="p-4 space-y-4 rounded-3xl bg-[#0A1812] border border-gold/30 text-white font-amiri">
+              <div className="p-4 space-y-4 rounded-3xl bg-[#0A1812] border border-gold/30 text-white font-noto-naskh">
                 {/* Header in Mockup */}
                 <div className="flex items-center justify-between pb-2 border-b border-gold/20">
-                  <span className="text-xs text-gold font-bold font-calligraphy">خَتْمَة • الورد اليومي</span>
+                  <span className="text-xs text-gold font-bold font-tajawal">خَتْمَة • الورد اليومي</span>
                   <span className="text-[10px] font-mono text-emerald-400">الجزء 15</span>
                 </div>
 
                 {/* Progress Circle Card */}
                 <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950 to-[#0B3B2C] border border-gold/40 text-center space-y-1">
-                  <span className="text-[11px] text-gold-muted font-bold">نسبة إنجاز الحفظ</span>
+                  <span className="text-[11px] text-gold-muted font-bold font-tajawal">نسبة إنجاز الحفظ</span>
                   <div className="text-3xl font-bold font-mono text-gold">68%</div>
                   <div className="w-full h-2 bg-black/40 rounded-full overflow-hidden border border-gold/30 mt-1">
                     <div className="w-[68%] h-full bg-gradient-to-r from-gold to-amber-400 rounded-full" />
@@ -188,7 +188,7 @@ export default function KhatmahClientView({ lng }: KhatmahClientViewProps) {
 
                 {/* Daily Revision Card */}
                 <div className="p-3 rounded-xl bg-black/40 border border-gold/20 space-y-2">
-                  <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center justify-between text-xs font-tajawal">
                     <span className="font-bold text-gold">خطة المراجعة لليوم</span>
                     <span className="text-[10px] text-gray-400 font-mono">سورة الكهف</span>
                   </div>
@@ -199,7 +199,7 @@ export default function KhatmahClientView({ lng }: KhatmahClientViewProps) {
                 </div>
 
                 {/* Streak Badge */}
-                <div className="p-2.5 rounded-xl bg-gold/15 border border-gold/40 flex items-center justify-between text-xs text-gold font-bold">
+                <div className="p-2.5 rounded-xl bg-gold/15 border border-gold/40 flex items-center justify-between text-xs text-gold font-bold font-tajawal">
                   <span>🔥 أيام الالتزام المتتالية:</span>
                   <span className="font-mono text-sm text-white">42 يوم</span>
                 </div>
@@ -213,7 +213,7 @@ export default function KhatmahClientView({ lng }: KhatmahClientViewProps) {
           <div className="text-center space-y-2">
             <h2
               className={`text-2xl md:text-4xl font-bold text-gold ${
-                isAr ? 'font-calligraphy' : 'font-display'
+                isAr ? 'font-tajawal' : 'font-display'
               }`}
             >
               {t('khatmah.features_title')}
@@ -247,7 +247,7 @@ export default function KhatmahClientView({ lng }: KhatmahClientViewProps) {
                       <div className="flex items-center justify-between">
                         <h3
                           className={`text-xl font-bold text-gold ${
-                            isAr ? 'font-calligraphy' : 'font-display'
+                            isAr ? 'font-tajawal' : 'font-display'
                           }`}
                         >
                           {item.title}
@@ -257,7 +257,7 @@ export default function KhatmahClientView({ lng }: KhatmahClientViewProps) {
                         </span>
                       </div>
                       <p
-                        className={`text-base font-amiri leading-relaxed ${
+                        className={`text-base font-noto-naskh leading-relaxed ${
                           theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/80'
                         }`}
                       >

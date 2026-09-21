@@ -125,7 +125,7 @@ export default function LoadingAnimation({ lng }: { lng?: string }) {
             transition={{ delay: 1 }}
             className="space-y-4"
           >
-            <h2 className={`text-6xl md:text-[6.5rem] font-bold text-gold leading-tight ${lng === 'ar' ? 'font-calligraphy' : 'font-display uppercase'}`}>
+            <h2 className={`text-6xl md:text-[6.5rem] font-bold text-gold leading-tight ${lng === 'ar' ? 'font-tajawal' : 'font-display uppercase'}`}>
               {t('preparation.title')}
             </h2>
             <motion.p 

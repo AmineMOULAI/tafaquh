@@ -67,7 +67,7 @@ export default function SettingsModal({ lng }: SettingsModalProps) {
                 <SettingsIcon className="w-5 h-5" />
               </div>
               <div>
-                <h3 className={`text-xl md:text-2xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+                <h3 className={`text-xl md:text-2xl font-bold text-gold ${isAr ? 'font-tajawal' : 'font-display'}`}>
                   {isAr ? 'إعدادات وتخصيص المنصة' : isFr ? 'Paramètres & Affichage' : 'Platform Settings'}
                 </h3>
                 <span className="text-xs text-gold/80 font-mono">
@@ -96,7 +96,7 @@ export default function SettingsModal({ lng }: SettingsModalProps) {
                 {/* Dark Emerald Mode */}
                 <button
                   onClick={() => setTheme('dark')}
-                  className={`p-4 rounded-2xl border-2 transition-all text-right flex flex-col justify-between h-28 relative overflow-hidden ${
+                  className={`p-4 rounded-2xl border-2 transition-all text-right flex flex-col justify-between h-28 relative overflow-hidden font-tajawal ${
                     theme === 'dark'
                       ? 'bg-[#0B3B2C] border-gold text-white shadow-[0_0_15px_rgba(212,175,55,0.4)]'
                       : 'bg-black/20 border-white/10 text-gray-400 hover:border-gold/40'
@@ -105,13 +105,13 @@ export default function SettingsModal({ lng }: SettingsModalProps) {
                   <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-2">
                       <MoonIcon className="w-4 h-4 text-gold" />
-                      <span className="text-base font-bold font-calligraphy text-gold">
+                      <span className="text-base font-bold font-tajawal text-gold">
                         {isAr ? 'الوضع الداكن' : 'Dark Emerald'}
                       </span>
                     </div>
                     {theme === 'dark' && <CheckmarkIcon className="w-4 h-4 text-gold" />}
                   </div>
-                  <span className="text-[11px] text-gray-300 font-amiri leading-tight">
+                  <span className="text-[11px] text-gray-300 font-noto-naskh leading-tight">
                     {isAr ? 'أخضر زمردي داكن مع إشعاع الذهب' : 'Midnight Emerald & Gold Accent'}
                   </span>
                 </button>
@@ -119,7 +119,7 @@ export default function SettingsModal({ lng }: SettingsModalProps) {
                 {/* Light Mode */}
                 <button
                   onClick={() => setTheme('light')}
-                  className={`p-4 rounded-2xl border-2 transition-all text-right flex flex-col justify-between h-28 relative overflow-hidden ${
+                  className={`p-4 rounded-2xl border-2 transition-all text-right flex flex-col justify-between h-28 relative overflow-hidden font-tajawal ${
                     theme === 'light'
                       ? 'bg-[#FFFDF9] border-gold text-[#123326] shadow-[0_0_15px_rgba(212,175,55,0.4)]'
                       : 'bg-white/10 border-white/10 text-gray-400 hover:border-gold/40'
@@ -128,13 +128,13 @@ export default function SettingsModal({ lng }: SettingsModalProps) {
                   <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-2">
                       <SunIcon className="w-4 h-4 text-gold" />
-                      <span className="text-base font-bold font-calligraphy text-gold">
+                      <span className="text-base font-bold font-tajawal text-gold">
                         {isAr ? 'الوضع الفاتح' : 'Clean White'}
                       </span>
                     </div>
                     {theme === 'light' && <CheckmarkIcon className="w-4 h-4 text-gold" />}
                   </div>
-                  <span className="text-[11px] text-gray-600 dark:text-gray-300 font-amiri leading-tight">
+                  <span className="text-[11px] text-gray-600 dark:text-gray-300 font-noto-naskh leading-tight">
                     {isAr ? 'أبيض ناصع وورق مخطوطات نقي' : 'Pure Ivory Parchment & Forest Green'}
                   </span>
                 </button>
@@ -151,7 +151,7 @@ export default function SettingsModal({ lng }: SettingsModalProps) {
                 {/* Top Bar Layout */}
                 <button
                   onClick={() => setNavLayout('top')}
-                  className={`p-4 rounded-2xl border-2 transition-all text-right flex flex-col justify-between h-28 ${
+                  className={`p-4 rounded-2xl border-2 transition-all text-right flex flex-col justify-between h-28 font-tajawal ${
                     navLayout === 'top'
                       ? 'bg-gold/20 border-gold text-gold font-bold shadow-md'
                       : 'bg-white/5 border-white/10 text-gray-400 hover:border-gold/40'
@@ -160,13 +160,13 @@ export default function SettingsModal({ lng }: SettingsModalProps) {
                   <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-2">
                       <TopbarLayoutIcon className="w-4 h-4 text-gold" />
-                      <span className="text-base font-bold font-calligraphy">
+                      <span className="text-base font-bold font-tajawal">
                         {isAr ? 'شريط علوي' : 'Top Navbar'}
                       </span>
                     </div>
                     {navLayout === 'top' && <CheckmarkIcon className="w-4 h-4 text-gold" />}
                   </div>
-                  <span className="text-[11px] text-gray-300 font-amiri leading-tight">
+                  <span className="text-[11px] text-gray-300 font-noto-naskh leading-tight">
                     {isAr ? 'الشريط العلوي المعتاد أعلى الموقع' : 'Classic horizontal header bar'}
                   </span>
                 </button>
@@ -174,7 +174,7 @@ export default function SettingsModal({ lng }: SettingsModalProps) {
                 {/* Sidebar Layout */}
                 <button
                   onClick={() => setNavLayout('sidebar')}
-                  className={`p-4 rounded-2xl border-2 transition-all text-right flex flex-col justify-between h-28 ${
+                  className={`p-4 rounded-2xl border-2 transition-all text-right flex flex-col justify-between h-28 font-tajawal ${
                     navLayout === 'sidebar'
                       ? 'bg-gold/20 border-gold text-gold font-bold shadow-md'
                       : 'bg-white/5 border-white/10 text-gray-400 hover:border-gold/40'
@@ -183,13 +183,13 @@ export default function SettingsModal({ lng }: SettingsModalProps) {
                   <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-2">
                       <SidebarLayoutIcon className="w-4 h-4 text-gold" />
-                      <span className="text-base font-bold font-calligraphy">
+                      <span className="text-base font-bold font-tajawal">
                         {isAr ? 'شريط جانبي' : 'Sidebar Only'}
                       </span>
                     </div>
                     {navLayout === 'sidebar' && <CheckmarkIcon className="w-4 h-4 text-gold" />}
                   </div>
-                  <span className="text-[11px] text-gray-300 font-amiri leading-tight">
+                  <span className="text-[11px] text-gray-300 font-noto-naskh leading-tight">
                     {isAr ? 'قائمة جانبية فقط دون الشريط العلوي' : 'Vertical side navigation exclusively'}
                   </span>
                 </button>
@@ -202,7 +202,7 @@ export default function SettingsModal({ lng }: SettingsModalProps) {
                 <span className="text-xs font-bold text-gold block font-mono">
                   {isAr ? 'لغة المنصة (Language)' : 'Language'}
                 </span>
-                <span className="text-[11px] text-gray-300 font-amiri">
+                <span className="text-[11px] text-gray-300 font-noto-naskh">
                   {isAr ? 'العربية • English • Français' : 'Select your preferred language'}
                 </span>
               </div>
@@ -214,7 +214,7 @@ export default function SettingsModal({ lng }: SettingsModalProps) {
           <div className="pt-4 border-t border-gold/30 flex justify-end">
             <button
               onClick={() => setIsSettingsOpen(false)}
-              className="px-6 py-2.5 rounded-xl bg-gold text-primary font-bold text-sm hover:bg-gold-light transition-all shadow-md flex items-center gap-2"
+              className="px-6 py-2.5 rounded-xl bg-gold text-primary font-bold font-tajawal text-sm hover:bg-gold-light transition-all shadow-md flex items-center gap-2"
             >
               <CheckmarkIcon className="w-4 h-4" />
               <span>{isAr ? 'حفظ وإغلاق' : isFr ? 'Enregistrer' : 'Done'}</span>

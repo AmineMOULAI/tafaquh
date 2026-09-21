@@ -48,25 +48,21 @@ export default function ExpertsSection({ lng }: { lng: string }) {
 
             {/* Content Info */}
             <div className="space-y-4 text-center md:text-right flex-1">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-widest">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-widest font-tajawal">
                 <StarGeometricIcon className="w-3.5 h-3.5 text-gold" />
                 <span>{t('experts.badge')}</span>
               </div>
 
-              <h3
-                className={`text-2xl md:text-4xl font-bold tracking-tight text-gold ${
-                  isAr ? 'font-calligraphy' : 'font-display'
-                }`}
-              >
+              <h3 className="text-2xl md:text-4xl font-bold tracking-tight text-gold font-tajawal">
                 {t('experts.title')}
               </h3>
 
-              <p className="font-amiri text-lg md:text-xl font-bold leading-relaxed text-emerald-800 dark:text-emerald-200">
+              <p className="font-noto-naskh text-lg md:text-xl font-medium leading-relaxed text-emerald-800 dark:text-emerald-200">
                 «{t('experts.invitation')}»
               </p>
 
               <p
-                className={`text-sm md:text-base leading-relaxed font-amiri ${
+                className={`text-sm md:text-base leading-relaxed font-noto-naskh ${
                   theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/75'
                 }`}
               >
@@ -76,7 +72,7 @@ export default function ExpertsSection({ lng }: { lng: string }) {
               <div className="pt-4 flex flex-wrap items-center justify-center md:justify-start gap-4">
                 <a
                   href={`/${lng}#contact`}
-                  className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-gold via-gold-light to-amber-500 text-primary font-bold text-sm shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:scale-105 transition-all flex items-center gap-2"
+                  className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-gold via-gold-light to-amber-500 text-primary font-bold text-sm shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:scale-105 transition-all flex items-center gap-2 font-tajawal"
                 >
                   <MailIcon className="w-4 h-4" />
                   <span>{t('experts.cta')}</span>

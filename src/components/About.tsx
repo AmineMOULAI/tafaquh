@@ -50,7 +50,7 @@ export default function About({ lng }: { lng: string }) {
                     <TafaqquhEmblem className="w-28 h-28 md:w-36 md:h-36 drop-shadow-2xl" />
                     <span className="block text-gold text-sm tracking-[0.3em] uppercase font-bold font-mono">{t('project_name')}</span>
                     <div className="h-0.5 w-16 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto" />
-                    <span className="text-xs text-emerald-200/80 font-amiri font-bold">{t('slogan_short')}</span>
+                    <span className="text-xs text-emerald-200/80 font-tajawal font-bold">{t('slogan_short')}</span>
                   </div>
                </div>
             </div>
@@ -60,7 +60,7 @@ export default function About({ lng }: { lng: string }) {
             style={{ y }}
             className={`w-full md:w-1/2 ${isAr ? 'text-right' : 'text-left'}`}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-bold uppercase tracking-widest mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-bold uppercase tracking-widest mb-4 font-tajawal">
               <StarGeometricIcon className="w-3.5 h-3.5 text-gold" />
               <span>{t('menu.about')}</span>
             </div>
@@ -69,9 +69,7 @@ export default function About({ lng }: { lng: string }) {
               initial={{ opacity: 0, x: isAr ? 30 : -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className={`text-3xl md:text-5xl lg:text-6xl font-bold text-gold mb-6 leading-tight ${
-                isAr ? 'font-calligraphy' : 'font-display'
-              }`}
+              className="text-3xl md:text-5xl lg:text-6xl font-bold text-gold mb-6 leading-tight font-tajawal"
             >
               {t('about_title')}
             </motion.h2>
@@ -81,7 +79,7 @@ export default function About({ lng }: { lng: string }) {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.8 }}
-              className="text-lg md:text-xl text-text-soft leading-loose font-amiri font-bold mb-8"
+              className="text-lg md:text-xl text-text-soft leading-loose font-noto-naskh mb-8"
             >
               {t('about_text')}
             </motion.p>

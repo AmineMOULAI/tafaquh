@@ -60,7 +60,7 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
             </div>
           </div>
 
-          <span className="px-3 py-1 rounded-full text-xs font-bold bg-gold/20 text-gold border border-gold/40 flex items-center gap-1.5 shadow-sm">
+          <span className="px-3 py-1 rounded-full text-xs font-bold bg-gold/20 text-gold border border-gold/40 flex items-center gap-1.5 shadow-sm font-tajawal">
             <StarGeometricIcon className="w-3 h-3 text-gold" />
             <span>{getLocalized(project.badge)}</span>
           </span>
@@ -77,7 +77,7 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-white">
-              <span className="px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-gold/30 font-bold">
+              <span className="px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-gold/30 font-bold font-tajawal">
                 {getLocalized(project.scholarlySource).split(' ')[0]}...
               </span>
               {firstMajlis && (
@@ -93,9 +93,9 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
         {/* Title and Description */}
         <div className="space-y-2">
           <h3
-            className={`text-2xl md:text-3xl font-bold group-hover:text-gold transition-colors ${
+            className={`text-2xl md:text-3xl font-bold font-tajawal group-hover:text-gold transition-colors ${
               theme === 'light' ? 'text-[#123326]' : 'text-white'
-            } ${isAr ? 'font-calligraphy' : 'font-display'}`}
+            }`}
           >
             {getLocalized(project.title)}
           </h3>
@@ -107,7 +107,7 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
         </div>
 
         <p
-          className={`text-sm md:text-base font-amiri leading-relaxed line-clamp-2 ${
+          className={`text-sm md:text-base font-noto-naskh leading-relaxed line-clamp-2 ${
             theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/80'
           }`}
         >
@@ -126,11 +126,11 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
             <div className="flex items-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
               <div>
-                <span className="text-xs font-bold text-gold block font-amiri">
+                <span className="text-xs font-bold text-gold block font-tajawal">
                   {getLocalized(firstMajlis.title)}
                 </span>
                 <span
-                  className={`text-[11px] font-amiri line-clamp-1 ${
+                  className={`text-[11px] font-noto-naskh line-clamp-1 ${
                     theme === 'light' ? 'text-gray-600' : 'text-gray-300'
                   }`}
                 >
@@ -150,7 +150,7 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
         {firstMajlis && (
           <Link
             href={`/${lng}/jalsa/${project.slug}/${firstMajlis.slug}`}
-            className="flex-1 px-4 py-3 rounded-xl bg-gold text-primary font-bold text-sm hover:bg-gold-light transition-all text-center shadow-lg flex items-center justify-center gap-2"
+            className="flex-1 px-4 py-3 rounded-xl bg-gold text-primary font-bold font-tajawal text-sm hover:bg-gold-light transition-all text-center shadow-lg flex items-center justify-center gap-2"
           >
             <PlayIcon className="w-4 h-4" />
             <span>{isAr ? 'استمع للمجلس الأول' : isFr ? 'Écouter le 1er Majlis' : 'Listen to Majlis 1'}</span>
@@ -159,7 +159,7 @@ export default function ProjectCard({ lng, project }: ProjectCardProps) {
 
         <Link
           href={`/${lng}/jalsa/${project.slug}`}
-          className={`px-4 py-3 rounded-xl font-bold text-sm border border-gold/40 transition-all text-center ${
+          className={`px-4 py-3 rounded-xl font-bold font-tajawal text-sm border border-gold/40 transition-all text-center ${
             theme === 'light'
               ? 'bg-white hover:bg-gold/15 text-gold-muted'
               : 'bg-white/5 hover:bg-white/10 text-gold'

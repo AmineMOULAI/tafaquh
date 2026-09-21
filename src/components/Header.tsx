@@ -52,7 +52,7 @@ export default function Header({ lng }: { lng: string }) {
               }`}
             >
               <MenuIcon className="w-5 h-5 text-gold" />
-              <span className="text-xs font-bold font-calligraphy">{t('project_name')}</span>
+              <span className="text-xs font-bold font-tajawal">{t('project_name')}</span>
             </button>
           </div>
 
@@ -151,7 +151,7 @@ export default function Header({ lng }: { lng: string }) {
               <div className="flex flex-col">
                 <span
                   className={`font-bold text-gold tracking-tight leading-none ${
-                    isAr ? 'text-2xl md:text-3xl font-calligraphy' : 'text-lg md:text-xl font-display uppercase tracking-widest'
+                    isAr ? 'text-2xl md:text-3xl font-tajawal' : 'text-lg md:text-xl font-tajawal uppercase tracking-widest'
                   }`}
                 >
                   {t('project_name')}
@@ -168,7 +168,7 @@ export default function Header({ lng }: { lng: string }) {
                 <Link
                   key={item}
                   href={`/${lng}#${item}`}
-                  className={`relative font-bold text-sm lg:text-base font-display hover:text-gold transition-colors py-1 group/nav ${
+                  className={`relative font-bold text-sm lg:text-base font-tajawal hover:text-gold transition-colors py-1 group/nav ${
                     theme === 'light' ? 'text-[#123326]' : 'text-white/90'
                   }`}
                 >
@@ -184,7 +184,7 @@ export default function Header({ lng }: { lng: string }) {
               {/* Jalsa / Majalis Islamic Pill Button */}
               <Link
                 href={`/${lng}/jalsa`}
-                className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/jalsa"
+                className="relative text-gold font-bold text-xs lg:text-sm font-tajawal hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/jalsa"
               >
                 <MicrophoneIcon className="w-3.5 h-3.5 text-gold group-hover/jalsa:scale-110 transition-transform" />
                 <span>{isAr ? 'جلسات' : 'Jalsa'}</span>
@@ -195,7 +195,7 @@ export default function Header({ lng }: { lng: string }) {
                 href="https://izkur.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/izkur"
+                className="relative text-gold font-bold text-xs lg:text-sm font-tajawal hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/izkur"
                 title={isAr ? 'منصة وتطبيق اذْكُرْ للعداد الصوتي والتسبيح' : 'Izkur Smart Voice Counter'}
               >
                 <StarGeometricIcon className="w-3.5 h-3.5 text-gold group-hover/izkur:rotate-45 transition-transform duration-300" />
@@ -207,7 +207,7 @@ export default function Header({ lng }: { lng: string }) {
                 href="https://mawiza.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/mawiza"
+                className="relative text-gold font-bold text-xs lg:text-sm font-tajawal hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/mawiza"
                 title={isAr ? 'منصة مَوْعِظَة للتدبر القرآني والفكر الإسلامي' : 'Mawiza Platform'}
               >
                 <CompassIcon className="w-3.5 h-3.5 text-gold group-hover/mawiza:scale-110 transition-transform" />
@@ -217,7 +217,7 @@ export default function Header({ lng }: { lng: string }) {
               {/* Khatmah Pill Button */}
               <Link
                 href={`/${lng}/khatmah`}
-                className="relative text-gold font-bold text-xs lg:text-sm font-calligraphy hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/khatmah"
+                className="relative text-gold font-bold text-xs lg:text-sm font-tajawal hover:text-white transition-all py-1.5 px-3 border border-gold/50 rounded-xl bg-gradient-to-r from-gold/15 to-[#0B3B2C]/80 hover:bg-gold/25 flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,175,55,0.25)] group/khatmah"
               >
                 <StarGeometricIcon className="w-3.5 h-3.5 text-gold group-hover/khatmah:scale-110 transition-transform" />
                 <span>{isAr ? 'ختمة' : 'Khatmah'}</span>
@@ -297,7 +297,7 @@ export default function Header({ lng }: { lng: string }) {
                     <Link
                       href={`/${lng}/jalsa`}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
+                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-tajawal border border-gold/40 flex items-center justify-center gap-1.5"
                     >
                       <MicrophoneIcon className="w-4 h-4 text-gold" />
                       <span>{isAr ? 'جلسات' : 'Jalsa'}</span>
@@ -308,7 +308,7 @@ export default function Header({ lng }: { lng: string }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
+                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-tajawal border border-gold/40 flex items-center justify-center gap-1.5"
                     >
                       <StarGeometricIcon className="w-4 h-4 text-gold" />
                       <span>{isAr ? 'اذْكُرْ' : 'Izkur'}</span>
@@ -319,7 +319,7 @@ export default function Header({ lng }: { lng: string }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
+                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-tajawal border border-gold/40 flex items-center justify-center gap-1.5"
                     >
                       <CompassIcon className="w-4 h-4 text-gold" />
                       <span>{isAr ? 'موعظة' : 'Mawiza'}</span>
@@ -328,7 +328,7 @@ export default function Header({ lng }: { lng: string }) {
                     <Link
                       href={`/${lng}/khatmah`}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-calligraphy border border-gold/40 flex items-center justify-center gap-1.5"
+                      className="py-2.5 px-3 rounded-xl bg-gold/20 text-gold font-bold text-sm font-tajawal border border-gold/40 flex items-center justify-center gap-1.5"
                     >
                       <StarGeometricIcon className="w-4 h-4 text-gold" />
                       <span>{isAr ? 'ختمة' : 'Khatmah'}</span>
@@ -338,7 +338,7 @@ export default function Header({ lng }: { lng: string }) {
                   <Link
                     href={`/${lng}#experts`}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="py-2.5 px-3 mt-1 rounded-xl bg-gradient-to-r from-gold/30 to-gold/10 text-gold font-bold text-sm font-calligraphy border border-gold/50 flex items-center justify-center gap-2"
+                    className="py-2.5 px-3 mt-1 rounded-xl bg-gradient-to-r from-gold/30 to-gold/10 text-gold font-bold text-sm font-tajawal border border-gold/50 flex items-center justify-center gap-2"
                   >
                     <span>{t('experts.badge')}</span>
                   </Link>

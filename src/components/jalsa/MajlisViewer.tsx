@@ -102,7 +102,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
   return (
     <div className="w-full max-w-5xl mx-auto space-y-10">
       {/* Breadcrumb Navigation */}
-      <nav className="flex flex-wrap items-center gap-2 text-sm text-gold font-amiri pb-2 border-b border-gold/20 font-bold">
+      <nav className="flex flex-wrap items-center gap-2 text-sm text-gold font-tajawal pb-2 border-b border-gold/20 font-bold">
         <Link href={`/${lng}`} className="hover:text-gold-muted transition-colors">
           {isAr ? 'الرئيسية' : isFr ? 'Accueil' : 'Home'}
         </Link>
@@ -141,7 +141,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between text-[11px] text-white">
-              <span className="px-2 py-0.5 rounded bg-black/60 backdrop-blur-md border border-gold/30 font-bold">
+              <span className="px-2 py-0.5 rounded bg-black/60 backdrop-blur-md border border-gold/30 font-bold font-tajawal">
                 {isAr ? `المجلس ${majlis.sessionNumber}` : `Majlis ${majlis.sessionNumber}`}
               </span>
               <span className="bg-black/60 px-2 py-0.5 rounded border border-gold/20 font-mono text-gold font-bold">
@@ -153,7 +153,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
 
         {/* Text Header Info */}
         <div className="space-y-4 flex-1 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-widest">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-bold uppercase tracking-widest font-tajawal">
             <StarGeometricIcon className="w-3.5 h-3.5 text-gold" />
             <span>{getLocalized(project.title)}</span>
             <span>•</span>
@@ -161,14 +161,14 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
           </div>
 
           <h1
-            className={`text-3xl md:text-5xl font-bold tracking-tight ${
+            className={`text-3xl md:text-5xl font-bold tracking-tight font-tajawal ${
               theme === 'light' ? 'text-[#123326]' : 'text-white'
-            } ${isAr ? 'font-calligraphy' : 'font-display'}`}
+            }`}
           >
             {getLocalized(majlis.title)}
           </h1>
 
-          <p className="text-base md:text-lg text-gold font-amiri leading-relaxed font-bold">
+          <p className="text-base md:text-lg text-gold font-noto-naskh leading-relaxed font-medium">
             {getLocalized(majlis.subtitle)}
           </p>
 
@@ -235,7 +235,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
             <button
               key={idx}
               onClick={() => setCurrentSeekTimestamp(ch.timestampSeconds || 0)}
-              className="px-3 py-1.5 rounded-xl bg-gold/15 hover:bg-gold hover:text-primary text-gold text-xs font-amiri border border-gold/30 transition-all flex items-center gap-1.5 shadow-sm font-bold"
+              className="px-3 py-1.5 rounded-xl bg-gold/15 hover:bg-gold hover:text-primary text-gold text-xs font-tajawal border border-gold/30 transition-all flex items-center gap-1.5 shadow-sm font-bold"
             >
               <PlayIcon className="w-3 h-3" />
               <span>{getLocalized(ch.title).split('.')[1] || getLocalized(ch.title)}</span>
@@ -245,7 +245,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
       )}
 
       {/* Interactive Tabs Header with Animation */}
-      <div className="flex flex-wrap gap-2 border-b border-gold/30 pb-3 relative">
+      <div className="flex flex-wrap gap-2 border-b border-gold/30 pb-3 relative font-tajawal">
         {tabs.map((tab) => {
           const IconC = tab.icon;
           const isActive = activeTab === tab.id;
@@ -253,7 +253,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as typeof activeTab)}
-              className={`px-4 py-2.5 rounded-2xl font-bold text-sm transition-all relative flex items-center gap-2 ${
+              className={`px-4 py-2.5 rounded-2xl font-bold font-tajawal text-sm transition-all relative flex items-center gap-2 ${
                 isActive
                   ? 'bg-gold text-primary shadow-[0_0_20px_rgba(212,175,55,0.4)]'
                   : theme === 'light'
@@ -332,7 +332,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                       {/* Copy Matn Button */}
                       <button
                         onClick={handleCopyMatn}
-                        className="px-3.5 py-1.5 rounded-xl bg-primary text-gold hover:bg-primary/90 text-xs font-amiri font-bold flex items-center gap-1.5 transition-all shadow-sm"
+                        className="px-3.5 py-1.5 rounded-xl bg-primary text-gold hover:bg-primary/90 text-xs font-tajawal font-bold flex items-center gap-1.5 transition-all shadow-sm"
                       >
                         <CheckmarkIcon className="w-3.5 h-3.5" />
                         <span>{copiedMatn ? (isAr ? 'تم النسخ!' : 'Copied!') : (isAr ? 'نسخ النص' : 'Copy')}</span>
@@ -340,20 +340,22 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                     </div>
                   </div>
 
-                  {/* Vocalized Matn Arabic Text */}
-                  <p
-                    className={`font-amiri text-primary font-bold text-center whitespace-pre-line tracking-wide drop-shadow-sm select-text ${
-                      fontScale === 'normal'
-                        ? 'text-2xl md:text-4xl leading-[2.3]'
-                        : fontScale === 'large'
-                        ? 'text-3xl md:text-5xl leading-[2.5]'
-                        : 'text-4xl md:text-6xl leading-[2.7]'
-                    }`}
-                  >
-                    {majlis.matn.arabic}
-                  </p>
+                  {/* Sacred Vocalized Matn Arabic Text (Amiri Quran) */}
+                  <div className="py-4">
+                    <p
+                      className={`sacred-quote font-quran text-primary font-normal text-center whitespace-pre-line tracking-wide drop-shadow-sm select-text ${
+                        fontScale === 'normal'
+                          ? 'text-2xl md:text-4xl leading-[2.4]'
+                          : fontScale === 'large'
+                          ? 'text-3xl md:text-5xl leading-[2.6]'
+                          : 'text-4xl md:text-6xl leading-[2.8]'
+                      }`}
+                    >
+                      {majlis.matn.arabic}
+                    </p>
+                  </div>
 
-                  <div className="pt-6 border-t border-primary/20 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-amiri text-primary/80">
+                  <div className="pt-6 border-t border-primary/20 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-noto-naskh text-primary/80">
                     <span className="font-bold">
                       {isAr ? 'المصدر والتخريج: ' : 'Source: '}
                       {getLocalized(majlis.matn.source)}
@@ -377,12 +379,12 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                       : 'bg-black/40 border-gold/30 text-white/90'
                   }`}
                 >
-                  <h4 className="text-gold font-bold text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
+                  <h4 className="text-gold font-bold text-sm uppercase tracking-wider mb-2 flex items-center gap-2 font-tajawal">
                     <BookIcon className="w-4 h-4 text-gold" />
                     <span>{isAr ? 'البيان والترجمة' : 'Translation & Context'}</span>
                   </h4>
                   <p
-                    className={`text-base leading-relaxed font-amiri ${
+                    className={`text-base leading-relaxed font-noto-naskh ${
                       theme === 'light' ? 'text-[#2D5A46]' : 'text-gray-200'
                     }`}
                   >
@@ -404,7 +406,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
               className="space-y-6"
             >
               <div className="flex items-center justify-between pb-2 border-b border-gold/20">
-                <h3 className={`text-2xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+                <h3 className="text-2xl font-bold text-gold font-tajawal">
                   {isAr ? 'تفصيل الشرح والمسائل المستفادة' : 'Detailed Scholarly Breakdown'}
                 </h3>
                 <span className="text-xs text-gold/70 font-mono font-bold">
@@ -424,13 +426,13 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                   >
                     <IslamicWatermark className="opacity-[0.02]" />
                     <div className="flex items-center justify-between relative z-10">
-                      <h4 className={`text-xl md:text-2xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+                      <h4 className="text-xl md:text-2xl font-bold text-gold font-tajawal">
                         {getLocalized(ch.title)}
                       </h4>
                       {typeof ch.timestampSeconds === 'number' && (
                         <button
                           onClick={() => setCurrentSeekTimestamp(ch.timestampSeconds)}
-                          className="px-3 py-1 rounded-xl bg-gold/15 hover:bg-gold hover:text-primary text-gold text-xs font-mono border border-gold/30 transition-all flex items-center gap-1.5 font-bold shadow-sm"
+                          className="px-3 py-1 rounded-xl bg-gold/15 hover:bg-gold hover:text-primary text-gold text-xs font-mono border border-gold/30 transition-all flex items-center gap-1.5 font-bold shadow-sm font-tajawal"
                         >
                           <PlayIcon className="w-3 h-3" />
                           <span>{Math.floor(ch.timestampSeconds / 60)}:00</span>
@@ -439,7 +441,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                     </div>
 
                     <p
-                      className={`text-lg leading-[2.1] font-amiri whitespace-pre-line text-justify relative z-10 ${
+                      className={`text-lg leading-[2.1] font-noto-naskh whitespace-pre-line text-justify relative z-10 ${
                         theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/90'
                       }`}
                     >
@@ -473,14 +475,14 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                   >
                     <IslamicWatermark className="opacity-[0.03]" />
                     <div className="flex items-center justify-between border-b border-gold/20 pb-3 relative z-10">
-                      <span className="text-2xl font-bold text-gold font-amiri">{v.term}</span>
+                      <span className="text-2xl font-bold text-gold font-tajawal">{v.term}</span>
                       <span className="w-8 h-8 rounded-full bg-gold/20 border border-gold/30 flex items-center justify-center text-xs text-gold font-bold font-mono">
                         {idx + 1}
                       </span>
                     </div>
 
                     <p
-                      className={`text-base font-amiri leading-relaxed relative z-10 ${
+                      className={`text-base font-noto-naskh leading-relaxed relative z-10 ${
                         theme === 'light' ? 'text-[#2D5A46]' : 'text-gray-200'
                       }`}
                     >
@@ -488,7 +490,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                     </p>
 
                     {v.etymology && (
-                      <div className="pt-2 text-xs text-gold font-mono flex items-center gap-2 font-bold relative z-10">
+                      <div className="pt-2 text-xs text-gold font-mono flex items-center gap-2 font-bold relative z-10 font-tajawal">
                         <StarGeometricIcon className="w-3 h-3 text-gold" />
                         <span>{getLocalized(v.etymology)}</span>
                       </div>
@@ -511,7 +513,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
             >
               {majlis.fawaid.map((f, fIdx) => (
                 <div key={fIdx} className="space-y-4">
-                  <h3 className={`text-2xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+                  <h3 className="text-2xl font-bold text-gold font-tajawal">
                     {getLocalized(f.title)}
                   </h3>
 
@@ -530,7 +532,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                           {pIdx + 1}
                         </div>
                         <p
-                          className={`text-lg font-amiri leading-relaxed relative z-10 ${
+                          className={`text-lg font-noto-naskh leading-relaxed relative z-10 ${
                             theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-100/90'
                           }`}
                         >
@@ -562,11 +564,11 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                 }`}
               >
                 <div>
-                  <h3 className={`text-2xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+                  <h3 className="text-2xl font-bold text-gold font-tajawal">
                     {isAr ? 'اختبر استيعابك لمسائل المجلس' : 'Self-Assessment Quiz'}
                   </h3>
                   <p
-                    className={`text-xs font-amiri mt-1 ${
+                    className={`text-xs font-noto-naskh mt-1 ${
                       theme === 'light' ? 'text-[#2D5A46]' : 'text-emerald-200/80'
                     }`}
                   >
@@ -577,7 +579,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                 </div>
 
                 {submittedQuiz && (
-                  <div className="px-6 py-3 rounded-2xl bg-gold text-primary font-bold text-lg shadow-lg flex items-center gap-2">
+                  <div className="px-6 py-3 rounded-2xl bg-gold text-primary font-bold text-lg shadow-lg flex items-center gap-2 font-tajawal">
                     <StarGeometricIcon className="w-5 h-5 text-primary" />
                     <span>
                       {calculateScore()} / {majlis.quizQuestions.length}
@@ -606,7 +608,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                       }`}
                     >
                       <h4
-                        className={`text-xl font-bold font-amiri mb-4 flex items-center gap-3 ${
+                        className={`text-xl font-bold font-noto-naskh mb-4 flex items-center gap-3 ${
                           theme === 'light' ? 'text-[#123326]' : 'text-white'
                         }`}
                       >
@@ -625,7 +627,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                             <button
                               key={oIdx}
                               onClick={() => handleSelectQuizOption(qIdx, oIdx)}
-                              className={`w-full p-4 rounded-2xl text-right font-amiri text-base transition-all flex items-center justify-between border ${
+                              className={`w-full p-4 rounded-2xl text-right font-tajawal text-base transition-all flex items-center justify-between border ${
                                 isOptionCorrect
                                   ? 'bg-emerald-600/25 text-emerald-800 dark:text-emerald-200 border-emerald-500 font-bold'
                                   : isOptionSelected && !submittedQuiz
@@ -637,24 +639,25 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                                   : 'bg-white/5 text-gray-200 border-white/10 hover:bg-white/10'
                               }`}
                             >
-                              <span>{getLocalized(opt)}</span>
-                              {submittedQuiz && isOptionCorrect && <CheckmarkIcon className="w-5 h-5 text-emerald-500" />}
-                              {submittedQuiz && isOptionSelected && !isOptionCorrect && <CrossIcon className="w-5 h-5 text-red-500" />}
+                              <span className="font-tajawal font-medium">{getLocalized(opt)}</span>
+                              {isOptionCorrect && <CheckmarkIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />}
+                              {isOptionSelected && isWrong && <CrossIcon className="w-5 h-5 text-red-600 dark:text-red-400" />}
                             </button>
                           );
                         })}
                       </div>
 
+                      {/* Explanation Box */}
                       {submittedQuiz && (
                         <div
-                          className={`mt-4 p-4 rounded-2xl border text-xs font-amiri space-y-1 ${
-                            theme === 'light'
-                              ? 'bg-gold/10 border-gold/30 text-[#123326]'
-                              : 'bg-black/60 border-gold/20 text-gold/90'
+                          className={`mt-4 p-4 rounded-2xl border text-xs font-noto-naskh space-y-1 ${
+                            isCorrect
+                              ? 'bg-emerald-600/10 border-emerald-500/40 text-emerald-800 dark:text-emerald-200'
+                              : 'bg-gold/10 border-gold/30 text-gold-muted dark:text-gold-light'
                           }`}
                         >
-                          <span className="font-bold text-gold block">
-                            {isAr ? 'التعليل والتوضيح العلمي:' : 'Scholarly Explanation:'}
+                          <span className="font-bold text-gold block font-tajawal">
+                            {isAr ? 'الإيضاح والتعليل العلمي:' : 'Scholarly Rationale:'}
                           </span>
                           <p>{getLocalized(q.explanation)}</p>
                         </div>
@@ -664,13 +667,15 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                 })}
               </div>
 
-              <div className="flex justify-center pt-4">
+              {/* Submit / Reset Quiz Action */}
+              <div className="pt-4 flex justify-center gap-4">
                 {!submittedQuiz ? (
                   <button
                     onClick={() => setSubmittedQuiz(true)}
-                    className="px-8 py-3.5 rounded-2xl bg-gold text-primary font-bold text-base hover:bg-gold-light transition-all shadow-[0_0_25px_rgba(212,175,55,0.4)]"
+                    disabled={Object.keys(quizAnswers).length < majlis.quizQuestions.length}
+                    className="px-8 py-3.5 rounded-2xl bg-gold text-primary font-bold text-base hover:bg-gold-light transition-all shadow-[0_0_25px_rgba(212,175,55,0.4)] disabled:opacity-40 disabled:cursor-not-allowed font-tajawal"
                   >
-                    {isAr ? 'اعتماد الإجابات ورؤية النتيجة' : 'Submit & Check Answers'}
+                    {isAr ? 'إرسال الإجابات وعرض النتيجة' : 'Submit Answers'}
                   </button>
                 ) : (
                   <button
@@ -678,16 +683,16 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                       setSubmittedQuiz(false);
                       setQuizAnswers({});
                     }}
-                    className="px-6 py-2.5 rounded-xl bg-gold/20 hover:bg-gold/30 text-gold font-bold text-sm border border-gold/40 transition-all"
+                    className="px-6 py-2.5 rounded-xl bg-gold/20 hover:bg-gold/30 text-gold font-bold text-sm border border-gold/40 transition-all font-tajawal"
                   >
-                    {isAr ? 'إعادة الاختبار' : 'Retry Quiz'}
+                    {isAr ? 'إعادة الاختبار' : 'Retake Quiz'}
                   </button>
                 )}
               </div>
             </motion.div>
           )}
 
-          {/* TAB 6: REFLECTION & PERSONAL NOTES */}
+          {/* TAB 6: REFLECTION */}
           {activeTab === 'reflection' && (
             <motion.div
               key="reflection"
@@ -708,28 +713,29 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                 <IslamicWatermark className="opacity-[0.04]" />
                 <div className="flex items-center gap-3 relative z-10">
                   <StarGeometricIcon className="w-7 h-7 text-gold" />
-                  <h3 className={`text-2xl md:text-3xl font-bold text-gold ${isAr ? 'font-calligraphy' : 'font-display'}`}>
+                  <h3 className="text-2xl md:text-3xl font-bold text-gold font-tajawal">
                     {isAr ? 'وقفة تدبرية وعملية للمجلس' : 'Contemplative Reflection'}
                   </h3>
                 </div>
 
-                <p
-                  className={`text-xl md:text-2xl font-amiri leading-[2.2] italic border-r-4 border-gold pr-6 relative z-10 ${
+                {/* Sacred Quote Style for Reflection Text with Amiri Quran */}
+                <blockquote
+                  className={`sacred-quote font-quran text-xl md:text-2xl leading-[2.3] border-r-4 border-gold pr-6 relative z-10 ${
                     theme === 'light' ? 'text-[#123326]' : 'text-emerald-100'
                   }`}
                 >
                   {getLocalized(majlis.reflectionPrompt)}
-                </p>
+                </blockquote>
 
                 {/* Personal Reflection Notebook */}
                 <div className="pt-4 space-y-3 relative z-10">
                   <div className="flex items-center justify-between">
-                    <label className="text-sm font-bold text-gold font-amiri flex items-center gap-2">
+                    <label className="text-sm font-bold text-gold font-tajawal flex items-center gap-2">
                       <BookIcon className="w-4 h-4" />
                       <span>{isAr ? 'دفتر الملاحظات والتدبر الشخصي:' : 'Personal Reflection Notebook:'}</span>
                     </label>
                     {noteSavedFeedback && (
-                      <span className="text-xs text-emerald-400 font-bold font-amiri animate-bounce">
+                      <span className="text-xs text-emerald-400 font-bold font-tajawal animate-bounce">
                         {isAr ? '✓ تم حفظ الملاحظة' : '✓ Saved!'}
                       </span>
                     )}
@@ -744,17 +750,17 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                         ? 'دوّن هنا فائدتك الشخصية، عزمك العملي، أو أثر الحديث في حياتك...'
                         : 'Write down your personal reflections, practical resolutions, or notes...'
                     }
-                    className={`w-full p-4 rounded-2xl border text-base font-amiri leading-relaxed focus:outline-none focus:border-gold transition-colors ${
+                    className={`w-full p-4 rounded-2xl border text-base font-noto-naskh leading-relaxed focus:outline-none focus:border-gold transition-colors ${
                       theme === 'light'
-                        ? 'bg-white border-gold/30 text-[#123326]'
-                        : 'bg-black/40 border-gold/30 text-white placeholder-gray-400'
+                        ? 'bg-white border-gold/40 text-[#123326]'
+                        : 'bg-black/50 border-gold/30 text-white'
                     }`}
                   />
 
                   <div className="flex justify-end">
                     <button
                       onClick={handleSaveNote}
-                      className="px-6 py-2 rounded-xl bg-gold text-primary font-bold text-xs hover:bg-gold-light transition-all shadow-md"
+                      className="px-6 py-2 rounded-xl bg-gold text-primary font-bold text-xs hover:bg-gold-light transition-all shadow-md font-tajawal"
                     >
                       {isAr ? 'حفظ الملاحظة' : 'Save Note'}
                     </button>
@@ -770,11 +776,11 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                   }`}
                 >
                   <div>
-                    <h4 className="text-gold font-bold text-base font-amiri">
+                    <h4 className="text-gold font-bold text-base font-tajawal">
                       {isAr ? 'شارك تأملاتك الصوتية في تفقه' : 'Share your voice reflection in Tafaqquh'}
                     </h4>
                     <p
-                      className={`text-xs font-amiri mt-1 ${
+                      className={`text-xs font-noto-naskh mt-1 ${
                         theme === 'light' ? 'text-gray-600' : 'text-gray-300'
                       }`}
                     >
@@ -787,7 +793,7 @@ export default function MajlisViewer({ lng, project, majlis }: MajlisViewerProps
                     href="https://t.me/center_tafaqquh"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-6 py-3 rounded-xl bg-gold text-primary font-bold text-sm hover:bg-gold-light transition-all flex items-center gap-2 flex-shrink-0 shadow-lg"
+                    className="px-6 py-3 rounded-xl bg-gold text-primary font-bold text-sm hover:bg-gold-light transition-all flex items-center gap-2 flex-shrink-0 shadow-lg font-tajawal"
                   >
                     <TelegramIcon className="w-4 h-4 text-primary" />
                     <span>{isAr ? 'مجموعة تيليجرام تفقه' : 'Tafaqquh Telegram Group'}</span>
